@@ -1,0 +1,55 @@
+
+ModUser_Model_Group:
+    tableName: groups
+    columns:
+        group_id:
+            type:           integer(4)
+            primary:        true
+            autoincrement:  true
+
+        name:
+            type:           string(255)
+            notnull:        true
+            unique:         true
+
+        num_users:
+            type:           integer(4)
+            notnull:        true
+            default:        0
+    relations:
+        Users:
+            class:          ModTest_Model_User
+            refClass:       ModUser_Model_GroupUser
+
+    options:
+        type: INNODB
+        collate: utf8_unicode_ci
+        charset: utf8
+
+
+ModUser_Model_GroupUser:
+    tableName: group_users
+    columns:
+        group_id:
+            type:           integer(4)
+            primary:        true
+            notnull:        true
+        user_id:
+            type:           integer(4)
+            primary:        true
+            notnull:        true
+
+    relations:
+        Group:
+            class:          ModUser_Model_Group
+            local:          group_id
+            foreign:        group_id
+        User:
+            class:          ModTest_Model_User
+            local:          user_id
+            foreign:        user_id
+
+    options:
+        type: INNODB
+        collate: utf8_unicode_ci
+        charset: utf8

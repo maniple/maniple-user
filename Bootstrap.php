@@ -13,8 +13,8 @@ class ModUser_Bootstrap extends Maniple_Application_Module_Bootstrap
         $security->addSuperUserId(40);
 
         return array(
-            'security' => $security,
-            'user.user_manager' => array(
+            'user.sessionManager' => $security,
+            'user.userManager' => array(
                 'class' => 'ModUser_Model_UserManager',
                 'options' => array(
                     'tableManager' => 'resource:tableManager',

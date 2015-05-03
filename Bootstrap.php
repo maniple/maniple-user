@@ -4,20 +4,12 @@ class ModUser_Bootstrap extends Maniple_Application_Module_Bootstrap
 {
     public function getResourcesConfig()
     {
-        $security = new ModUser_Service_Security();
-        $security->addSuperUserId(1);
-        $security->addSuperUserId(2);
-        $security->addSuperUserId(15);
-        $security->addSuperUserId(6);
-        $security->addSuperUserId(21);
-        $security->addSuperUserId(40);
-
         return array(
-            'user.sessionManager' => $security,
+            'user.sessionManager' => new ModUser_Service_Security(),
             'user.userManager' => array(
                 'class' => 'ModUser_Model_UserManager',
-                'options' => array(
-                    'tableManager' => 'resource:tableManager',
+                'args' => array(
+                    'db' => 'resource:ZeframDb',
                 ),
             ),
         );

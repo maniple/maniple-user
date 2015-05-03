@@ -44,10 +44,12 @@ ModUser_Model_GroupUser:
             class:          ModUser_Model_Group
             local:          group_id
             foreign:        group_id
+            foreignType:    many
         User:
             class:          ModTest_Model_User
             local:          user_id
             foreign:        user_id
+            foreignType:    many
 
     options:
         type: INNODB

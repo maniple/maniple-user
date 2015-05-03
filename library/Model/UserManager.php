@@ -11,6 +11,11 @@
 class ModUser_Model_UserManager implements ModUser_Model_UserManagerInterface
 {
     /**
+     * @var Zefram_Db
+     */
+    protected $_db;
+
+    /**
      * @var string
      */
     protected $_userClass = 'ModUser_Model_User';
@@ -26,7 +31,7 @@ class ModUser_Model_UserManager implements ModUser_Model_UserManagerInterface
     protected $_userMapper;
 
     /**
-     * @var Zefram_Db_TableProvider
+     * @var Zefram_Db_Table_Factory
      */
     protected $_tableManager;
 
@@ -34,6 +39,12 @@ class ModUser_Model_UserManager implements ModUser_Model_UserManagerInterface
      * @var Zend_Cache_Core
      */
     protected $_cache;
+
+    public function __construct(Zefram_Db $db)
+    {
+        $this->_db = $db;
+        $this->setTableManager($db->getTableFactory());
+    }
 
     /**
      * @param  string $userClass
@@ -73,10 +84,10 @@ class ModUser_Model_UserManager implements ModUser_Model_UserManagerInterface
     }
 
     /**
-     * @param  Zefram_Db_TableProvider $tableProvider OPTIONAL
+     * @param  Zefram_Db_Table_Factory $tableProvider OPTIONAL
      * @return ModUser_Model_UserManager
      */
-    public function setTableManager(Zefram_Db_TableProvider $tableManager = null)
+    public function setTableManager(Zefram_Db_Table_Factory $tableManager = null)
     {
         $this->_tableManager = $tableManager;
         return $this;
@@ -84,7 +95,7 @@ class ModUser_Model_UserManager implements ModUser_Model_UserManagerInterface
 
     public function getTableManager()
     {
-        if (!$this->_tableManager instanceof Zefram_Db_TableProvider) {
+        if (!$this->_tableManager instanceof Zefram_Db_Table_Factory) {
             throw new Exception('Table manager is not initialized');
         }
         return $this->_tableManager;
@@ -166,7 +177,8 @@ class ModUser_Model_UserManager implements ModUser_Model_UserManagerInterface
 
         $rows = $this->_getUsersTable()->fetchAll($where);
         foreach ($rows as $row) {
-            $users[$user->getId()] = $this->createUser($row->toArray());
+            $user = $this->createUser($row->toArray());
+            $users[$user->getId()] = $user;
         }
 
         return $users;

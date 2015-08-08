@@ -5,18 +5,29 @@ class ModUser_PasswordController_UpdateAction
 {
     protected $_ajaxFormHtml = true;
 
+    /**
+     * @return ModUser_Model_UserManager
+     */
+    public function getUserManager()
+    {
+        /** @var ModUser_Model_UserManager $userManager */
+        $userManager = $this->getResource('user.userManager');
+        return $userManager;
+    }
+
     protected function _prepare()
     {
         if (!$this->getSecurity()->isAuthenticated()) {
             throw new Exception('Musisz być zalogowany aby zmienić hasło');
         }
 
-        $user = $this->getResource('user.user_manager')->getUser(
+        $user = $this->getUserManager()->getUser(
             $this->getSecurity()->getUser()->getId()
         );
 
         if (empty($user)) {
-            throw new Exception('User was not found'); // unlikely to happen
+            // unlikely to happen if user is authenticated
+            throw new Exception('User was not found');
         }
 
         $this->_form = new ModUser_Form_Password($user);
@@ -24,11 +35,13 @@ class ModUser_PasswordController_UpdateAction
 
     protected function _process()
     {
-        $password = password_hash($this->_form->getValue('password'), PASSWORD_BCRYPT);
+        $userManager = $this->getUserManager();
+        $password = $userManager->getPasswordHash($this->_form->getValue('password'));
+
         $user = $this->_form->getUser();
         $user->setPassword($password);
 
-        $this->getResource('user.user_manager')->saveUser($user);
+        $userManager->saveUser($user);
 
         if ($this->isAjax()) {
             $this->view->success = 'Hasło zostało zmienione';

@@ -286,4 +286,25 @@ class ModUser_Model_UserManager implements ModUser_Model_UserManagerInterface
         }
         return $this->_userMapper;
     }
+
+    /**
+     * @TODO this should not be in repository, but in service
+     * @param ModUser_Model_UserInterface $user
+     * @param $password
+     */
+    public function getPasswordHash($password)
+    {
+        return password_hash($password, PASSWORD_BCRYPT);
+    }
+
+    /**
+     * @TODO this should not be in repository, but in service
+     * @param string $password
+     * @param string $hash
+     * @return bool
+     */
+    public function verifyPasswordHash($password, $hash)
+    {
+        return password_verify($password, $hash);
+    }
 }

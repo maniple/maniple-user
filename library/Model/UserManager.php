@@ -11,94 +11,35 @@
 class ModUser_Model_UserManager implements ModUser_Model_UserManagerInterface
 {
     /**
-     * @var Zefram_Db
-     */
-    protected $_db;
-
-    /**
-     * @var string
-     */
-    protected $_userClass = 'ModUser_Model_User';
-
-    /**
-     * @var string
-     */
-    protected $_userMapperClass = 'ModUser_Model_UserMapper';
-
-    /**
-     * @var ModUser_Model_UserMapper
+     * @var ModUser_Model_UserMapperInterface
      */
     protected $_userMapper;
-
-    /**
-     * @var Zefram_Db_Table_Factory
-     */
-    protected $_tableManager;
 
     /**
      * @var Zend_Cache_Core
      */
     protected $_cache;
 
-    public function __construct(Zefram_Db $db)
-    {
-        $this->_db = $db;
-        $this->setTableManager($db->getTableFactory());
-    }
-
     /**
-     * @param  string $userClass
-     * @return ModUser_Model_UserManager
-     * @throws InvalidArgumentException
+     * @param ModUser_Model_UserMapperInterface $userMapper
+     * @return $this
      */
-    public function setUserClass($userClass)
+    public function setUserMapper(ModUser_Model_UserMapperInterface $userMapper)
     {
-        $userClass = (string) $userClass;
-
-        // can't use is_subclass_of as prior to PHP 5.3.7 it does not
-        // check interfaces
-        if (!in_array('ModUser_Model_UserInterface', class_implements($userClass))) {
-            throw new InvalidArgumentException('User class must implement ModUser_Model_UserInterface interface');
-        }
-
-        $this->_userClass = $userClass;
-
+        $this->_userMapper = $userMapper;
         return $this;
     }
 
     /**
-     * @param  string $userMapperClass
-     * @return ModUser_Model_UserManager
-     * @throws InvalidArgumentException
+     * @return ModUser_Model_UserMapperInterface
+     * @throws Exception
      */
-    public function setUserMapperClass($userMapperClass)
+    public function getUserMapper()
     {
-        $userMapperClass = (string) $userMapperClass;
-
-        if (!in_array('ModUser_Model_UserMapper', class_implements($userMapperClass))) {
-            throw new InvalidArgumentException('User mapper class must inherit from ModUser_Model_UserMapper class');
+        if (!$this->_userMapper) {
+            throw new Exception('UserMapper property is not configured');
         }
-
-        $this->_userMapperClass = $userMapperClass;
-        return $this;
-    }
-
-    /**
-     * @param  Zefram_Db_Table_Factory $tableProvider OPTIONAL
-     * @return ModUser_Model_UserManager
-     */
-    public function setTableManager(Zefram_Db_Table_Factory $tableManager = null)
-    {
-        $this->_tableManager = $tableManager;
-        return $this;
-    }
-
-    public function getTableManager()
-    {
-        if (!$this->_tableManager instanceof Zefram_Db_Table_Factory) {
-            throw new Exception('Table manager is not initialized');
-        }
-        return $this->_tableManager;
+        return $this->_userMapper;
     }
 
     /**
@@ -118,12 +59,7 @@ class ModUser_Model_UserManager implements ModUser_Model_UserManagerInterface
      */
     public function getUser($userId)
     {
-        $userId = (int) $userId;
-        $row = $this->_getUsersTable()->findRow($userId);
-        if ($row) {
-            return $this->createUser($row->toArray());
-        }
-        return null;
+        return $this->getUserMapper()->getUser($userId);
     }
 
     /**
@@ -132,8 +68,7 @@ class ModUser_Model_UserManager implements ModUser_Model_UserManagerInterface
      */
     public function getUserByUsername($username)
     {
-        $username = (string) $username;
-        return $this->_getUserBy(array('username = LOWER(?)' => $username));
+        return $this->getUserMapper()->getUserByUsername($username);
     }
 
     /**
@@ -142,8 +77,7 @@ class ModUser_Model_UserManager implements ModUser_Model_UserManagerInterface
      */
     public function getUserByEmail($email)
     {
-        $email = (string) $email;
-        return $this->_getUserBy(array('email = LOWER(?)' => $email));
+        return $this->getUserMapper()->getUserByEmail($email);
     }
 
     /**
@@ -152,12 +86,7 @@ class ModUser_Model_UserManager implements ModUser_Model_UserManagerInterface
      */
     public function getUserByUsernameOrEmail($usernameOrEmail)
     {
-        $usernameOrEmail = (string) $usernameOrEmail;
-
-        // usernames and emails are required to be stored lowercase only
-        return $this->_getUserBy(array(
-            'username = LOWER(?) OR email = LOWER(?)' => $usernameOrEmail,
-        ));
+        return $this->getUserMapper()->getUserByUsernameOrEmail($usernameOrEmail);
     }
 
     /**
@@ -166,22 +95,7 @@ class ModUser_Model_UserManager implements ModUser_Model_UserManagerInterface
      */
     public function getUsers(array $userIds = null)
     {
-        $users = array();
-
-        if ($userIds) {
-            $userIds = array_map('intval', $userIds);
-            $where = array('user_id IN (?)' => $userIds);
-        } else {
-            $where = null;
-        }
-
-        $rows = $this->_getUsersTable()->fetchAll($where);
-        foreach ($rows as $row) {
-            $user = $this->createUser($row->toArray());
-            $users[$user->getId()] = $user;
-        }
-
-        return $users;
+        return $this->getUserMapper()->getUsers($userIds);
     }
 
     /**
@@ -193,58 +107,16 @@ class ModUser_Model_UserManager implements ModUser_Model_UserManagerInterface
      */
     public function saveUser(ModUser_Model_UserInterface $user)
     {
-        $userId = $user->getId();
-
-        if ($userId) {
-            $row = $this->_getUsersTable()->findRow((int) $userId);
-        }
-
-        if (empty($row)) {
-            $row = $this->_getUsersTable()->createRow();
-            $isCreate = true;
-        } else {
-            $isCreate = false;
-        }
-
-        if (!$this->validateUser($user)) {
-            throw new Exception('User model contains invalid data');
-        }
-
-        $data = $this->_getUserMapper()->getAsArray($user);
-
-        if ($isCreate) {
-            // disallow explicitly setting value on auto increment column, as
-            // in some DBMS write may fail if sequence reaches value that is
-            // already present in the table
-            $sequence = $row->getTable()->info(Zend_Db_Table_Abstract::SEQUENCE);
-            foreach ($row->getPrimaryKey() as $column => $value) {
-                if ($sequence === true || $sequence === $column) {
-                    unset($data[$column]);
-                }
-            }
-        }
-
-        $row->setFromArray($data);
-        $row->save();
-
-        $this->_getUserMapper()->setFromArray($user, $row->toArray());
-        return $user;
+        return $this->getUserMapper()->saveUser($user);
     }
 
     /**
-     * Creates a new instance of user entity.
-     *
-     * @param  array $data OPTIONAL
+     * @param array $data
      * @return ModUser_Model_UserInterface
      */
     public function createUser(array $data = null)
     {
-        $userClass = $this->_userClass;
-        $user = new $userClass();
-        if ($data) {
-            $this->_getUserMapper()->setFromArray($user, $data);
-        }
-        return $user;
+        return $this->getUserMapper()->createUser($data);
     }
 
     public function validateUser(ModUser_Model_UserInterface $user)
@@ -254,43 +126,10 @@ class ModUser_Model_UserManager implements ModUser_Model_UserManagerInterface
     }
 
     /**
-     * @param  string|array|Zend_Db_Expr $where
-     * @return ModUser_Model_UserInterface|null
-     */
-    protected function _getUserBy($where)
-    {
-        $row = $this->_getUsersTable()->fetchRow($where);
-        if ($row) {
-            return $this->createUser($row->toArray());
-        }
-        return null;
-    }
-
-    /**
-     * @return ModUser_Model_DbTable_Users
-     * @internal
-     */
-    protected function _getUsersTable()
-    {
-        return $this->getTableManager()->getTable('ModUser_Model_DbTable_Users');
-    }
-
-    /**
-     * @return ModUser_Model_UserMapper
-     * @internal
-     */
-    protected function _getUserMapper()
-    {
-        if (!$this->_userMapper instanceof ModUser_Model_UserMapper) {
-            $this->_userMapper = new ModUser_Model_UserMapper();
-        }
-        return $this->_userMapper;
-    }
-
-    /**
      * @TODO this should not be in repository, but in service
      * @param ModUser_Model_UserInterface $user
-     * @param $password
+     * @param string $password
+     * @return string
      */
     public function getPasswordHash($password)
     {

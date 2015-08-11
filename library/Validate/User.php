@@ -116,7 +116,7 @@ abstract class ModUser_Validate_User extends Zend_Validate_Abstract
      */
     protected function _getUserByValue($value)
     {
-	$user = null;
+	    $user = null;
 
         switch ($this->_matchBy) {
             case self::MATCH_ID:
@@ -139,8 +139,8 @@ abstract class ModUser_Validate_User extends Zend_Validate_Abstract
                 throw new RuntimeException(sprintf(
                     "Unsupported matchBy option value: '%s'", $this->_matchBy
                 ));
-	}
+        }
 
-	return $user;
+        return $user;
     }
 }

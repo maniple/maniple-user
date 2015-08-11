@@ -4,14 +4,29 @@ class ModUser_Model_User implements ModUser_Model_UserInterface
 {
     protected $_id;
 
+    /**
+     * @var string
+     */
     protected $_username;
 
+    /**
+     * @var string
+     */
     protected $_password;
 
+    /**
+     * @var string
+     */
     protected $_email;
 
+    /**
+     * @var bool
+     */
     protected $_isActive;
 
+    /**
+     * @var DateTime
+     */
     protected $_createdAt;
 
     public function getId()

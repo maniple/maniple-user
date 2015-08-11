@@ -4,15 +4,7 @@ class ModUser_Bootstrap extends Maniple_Application_Module_Bootstrap
 {
     public function getResourcesConfig()
     {
-        return array(
-            'user.sessionManager' => new ModUser_Service_Security(),
-            'user.userManager' => array(
-                'class' => 'ModUser_Model_UserManager',
-                'args' => array(
-                    'db' => 'resource:ZeframDb',
-                ),
-            ),
-        );
+        return require dirname(__FILE__) . '/configs/resources.config.php';
     }
 
     public function getRoutesConfig()

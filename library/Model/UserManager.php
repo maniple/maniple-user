@@ -113,6 +113,7 @@ class ModUser_Model_UserManager implements ModUser_Model_UserManagerInterface
     /**
      * @param array $data
      * @return ModUser_Model_UserInterface
+     * @deprecated
      */
     public function createUser(array $data = null)
     {

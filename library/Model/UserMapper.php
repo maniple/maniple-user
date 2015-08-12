@@ -46,7 +46,8 @@ class ModUser_Model_UserMapper implements ModUser_Model_UserMapperInterface
         $userId = (int) $userId;
         $row = $this->_getUsersTable()->findRow($userId);
         if ($row) {
-            return $this->createUser($row->toArray());
+            $user = $this->createUser($row->toArray());
+            return $user;
         }
         return null;
     }
@@ -166,6 +167,20 @@ class ModUser_Model_UserMapper implements ModUser_Model_UserMapperInterface
             $this->setFromArray($user, $data);
         }
         return $user;
+    }
+
+    /**
+     * @param string|array|Zend_Db_Expr $where
+     * @return ModUser_Model_UserInterface|null
+     */
+    protected function _getUserBy($where)
+    {
+        $row = $this->_getUsersTable()->fetchRow($where);
+        if ($row) {
+            $user = $this->createUser($row->toArray());
+            return $user;
+        }
+        return null;
     }
 
     /**

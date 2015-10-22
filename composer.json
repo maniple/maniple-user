@@ -1,7 +1,7 @@
 {
     "name": "maniple/mod-user",
+    "description": "User support for maniple",
     "type": "zefram-module",
-    "description": "",
     "license": "MIT",
     "authors": [
         {
@@ -9,14 +9,7 @@
             "email": "xemlock@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/xemlock/zefram-composer-installer.git"
-        }
-    ],
     "require": {
-        "xemlock/zefram-composer-installer": "dev-master"
+        "xemlock/zefram-composer-installer": "*"
     }
 }

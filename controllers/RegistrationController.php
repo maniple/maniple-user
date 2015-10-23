@@ -158,7 +158,7 @@ class ModUser_RegistrationController extends Zefram_Controller_Action
                 try {
                     $message->send();
                 } catch (Exception $e) {
-                    $this->_helper->resource('log')->err($e->getMessage());
+                    $this->getResource('log')->err($e->getMessage());
                 }
             } */
 

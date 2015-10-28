@@ -20,7 +20,9 @@ class Module
     public function getConfig()
     {
         return array_merge(
-            require __DIR__ . '/configs/resources.config.php',
+            array_change_key_case(
+                require __DIR__ . '/configs/resources.config.php'
+            ),
             array(
                 'router' => array(
                     'routes' => require __DIR__ . '/configs/routes.config.php',

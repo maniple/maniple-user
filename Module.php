@@ -22,6 +22,11 @@ class Module
         return array_merge(
             require __DIR__ . '/configs/resources.config.php',
             array(
+                'front_controller' => array(
+                    'controllerDirectory' => array(
+                        'mod-user' => __DIR__ . '/controllers',
+                    ),
+                ),
                 'router' => array(
                     'routes' => require __DIR__ . '/configs/routes.config.php',
                 ),
@@ -31,6 +36,16 @@ class Module
                     ),
                 ),
             )
+        );
+    }
+
+    public function getServiceConfig()
+    {
+        return array(
+            'factories' => array(
+                'user.model.userMapper' => 'ModUser_Service_UserMapperFactory',
+                'user.userManager'      => 'ModUser_Service_UserManagerFactory',
+            ),
         );
     }
 

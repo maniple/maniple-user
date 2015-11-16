@@ -53,15 +53,16 @@ class Module
 
     public function onBootstrap(MvcEvent $e)
     {
-        $sm = $e->getApplication()->getServiceManager();
+        /** @var $bootstrap \Zend_Application_Bootstrap_BootstrapAbstract */
+        $bootstrap = $e->getApplication()->getServiceManager()->get('Bootstrap');
 
         // If log resource is present register plugin which adds user-related
         // variables to extra data of a log event
-        $log = $sm->get('Log');
+        if ($bootstrap->hasResource('Log')) {
+            $log = $bootstrap->getResource('Log');
 
-        if ($log) {
             /** @var $frontController \Zend_Controller_Front */
-            $frontController = $sm->get('FrontController');
+            $frontController = $bootstrap->getResource('FrontController');
             $frontController->registerPlugin(new \ModUser_Plugin_LogExtras($log, $frontController));
         }
     }

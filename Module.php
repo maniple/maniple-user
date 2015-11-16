@@ -22,17 +22,19 @@ class Module
         return array_merge(
             require __DIR__ . '/configs/resources.config.php',
             array(
-                'front_controller' => array(
-                    'controllerDirectory' => array(
-                        'mod-user' => __DIR__ . '/controllers',
+                'resources' => array(
+                    'front_controller' => array(
+                        'controllerDirectory' => array(
+                            'mod-user' => __DIR__ . '/controllers',
+                        ),
                     ),
-                ),
-                'router' => array(
-                    'routes' => require __DIR__ . '/configs/routes.config.php',
-                ),
-                'view' => array(
-                    'scriptPath' => array(
-                        __DIR__ . '/views/scripts',
+                    'router' => array(
+                        'routes' => require __DIR__ . '/configs/routes.config.php',
+                    ),
+                    'view' => array(
+                        'scriptPath' => array(
+                            __DIR__ . '/views/scripts',
+                        ),
                     ),
                 ),
             )

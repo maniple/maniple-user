@@ -20,23 +20,19 @@ class Module
     public function getConfig()
     {
         return array_merge(
-            array_change_key_case(
-                require __DIR__ . '/configs/resources.config.php'
-            ),
+            require __DIR__ . '/configs/resources.config.php',
             array(
-                'resources' => array(
-                    'frontController' => array(
-                        'controllerDirectory' => array(
-                            'mod-user' => __DIR__ . '/controllers',
-                        ),
+                'front_controller' => array(
+                    'controllerDirectory' => array(
+                        'mod-user' => __DIR__ . '/controllers',
                     ),
-                    'router' => array(
-                        'routes' => require __DIR__ . '/configs/routes.config.php',
-                    ),
-                    'view' => array(
-                        'scriptPath' => array(
-                            __DIR__ . '/views/scripts',
-                        ),
+                ),
+                'router' => array(
+                    'routes' => require __DIR__ . '/configs/routes.config.php',
+                ),
+                'view' => array(
+                    'scriptPath' => array(
+                        __DIR__ . '/views/scripts',
                     ),
                 ),
             )
@@ -55,16 +51,15 @@ class Module
 
     public function onBootstrap(MvcEvent $e)
     {
-        /** @var $bootstrap \Zend_Application_Bootstrap_Bootstrap */
-        $bootstrap = $e->getApplication()->getServiceManager()->get('Bootstrap');
+        $sm = $e->getApplication()->getServiceManager();
 
         // If log resource is present register plugin which adds user-related
         // variables to extra data of a log event
-        $log = $bootstrap->getResource('Log');
+        $log = $sm->get('Log');
 
         if ($log) {
             /** @var $frontController \Zend_Controller_Front */
-            $frontController = $bootstrap->getResource('FrontController');
+            $frontController = $sm->get('FrontController');
             $frontController->registerPlugin(new \ModUser_Plugin_LogExtras($log, $frontController));
         }
     }

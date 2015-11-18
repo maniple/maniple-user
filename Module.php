@@ -23,7 +23,7 @@ class Module
             require __DIR__ . '/configs/resources.config.php',
             array(
                 'resources' => array(
-                    'front_controller' => array(
+                    'frontController' => array(
                         'controllerDirectory' => array(
                             'mod-user' => __DIR__ . '/controllers',
                         ),

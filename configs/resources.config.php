@@ -7,7 +7,7 @@
     ),
 
     'user.sessionManager' => array(
-        'class' => 'ModUser_Service_Security',
+        'callback' => 'ModUser_Service_Security::factory',
     ),
 
     'user.userManager' => array(

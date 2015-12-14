@@ -113,6 +113,7 @@ abstract class ModUser_Validate_User extends Zend_Validate_Abstract
      *
      * @param  mixed $value
      * @return ModUser_Model_UserInterface
+     * @throws RuntimeException
      */
     protected function _getUserByValue($value)
     {

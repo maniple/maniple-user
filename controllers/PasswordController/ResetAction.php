@@ -57,7 +57,7 @@ class ModUser_PasswordController_ResetAction
 
         $this->getUserManager()->saveUser($user);
 
-        $this->getResource('tableManager')->getTable('ModUser_Model_DbTable_PasswordResets')->delete(array(
+        $this->getTableManager()->getTable('ModUser_Model_DbTable_PasswordResets')->delete(array(
             'user_id = ?' => (int) $user->getId(),
         ));
 

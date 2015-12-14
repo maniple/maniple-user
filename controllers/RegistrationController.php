@@ -38,7 +38,7 @@ class ModUser_RegistrationController extends ModUser_Controller_Action
     public function confirmAction()
     {
         $reg_id = (string) $this->getScalarParam('reg_id');
-        $reg = $this->getResource('tableManager')->getTable('ModUser_Model_DbTable_Registrations')->fetchRow(array(
+        $reg = $this->getTableManager()->getTable('ModUser_Model_DbTable_Registrations')->fetchRow(array(
             'reg_id = ?' => $reg_id,
             'status = ?' => 'PENDING',
         ));
@@ -57,7 +57,7 @@ class ModUser_RegistrationController extends ModUser_Controller_Action
                 } catch (Exception $e) {
                 }
                 $this->view->already_registered = true;
-                $this->view->error = 'Użytkownik o tym adresie e-mail jest już zarejestrowany';
+                $this->view->error = true;
             }
         }
 
@@ -69,7 +69,7 @@ class ModUser_RegistrationController extends ModUser_Controller_Action
             //$domain = substr($data['email'], strrpos($data['email'], '@') + 1);
             //$auto_accept = in_array($domain, $auto_accept_domains);
 
-            $db = $this->getResource('tableManager')->getAdapter();
+            $db = $this->getTableManager()->getAdapter();
             $db->beginTransaction();
 
             try {
@@ -117,13 +117,11 @@ class ModUser_RegistrationController extends ModUser_Controller_Action
                 throw $e;
             }
 
-            $appName = 'app';
-
             // Notify user about account activation
             $message = new Zefram_Mail;
             $message->setType(Zend_Mime::MULTIPART_RELATED);
-            $message->setSubject(sprintf('[%s] Twoje konto zostało aktywowane', $appName));
-	    $message->addTo($user->getEmail());
+            $message->setSubject($this->view->translate('Your account has been activated'));
+            $message->addTo($user->getEmail());
 
             $this->view->message = $message;
             $this->view->user = $user;
@@ -162,7 +160,7 @@ class ModUser_RegistrationController extends ModUser_Controller_Action
                 }
             } */
 
-	    $this->view->accepted = true;
+            $this->view->accepted = true;
             $this->view->email = $reg->email;
 
             // prepare login form

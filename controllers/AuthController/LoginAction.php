@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Class ModUser_AuthController_LoginAction
+ *
+ * @method string getContinueParam()
+ * @method ModUser_Service_Security getSecurityContext()
+ * @method ModUser_Model_UserManagerInterface getUserManager()
+ */
 class ModUser_AuthController_LoginAction
     extends Zefram_Controller_Action_StandaloneForm
 {
@@ -85,7 +92,7 @@ class ModUser_AuthController_LoginAction
         $user = $this->_user;
 
         // remove all password resets for user
-        $this->getResource('tableManager')->getTable('ModUser_Model_DbTable_PasswordResets')->delete(array(
+        $this->getTableManager()->getTable('ModUser_Model_DbTable_PasswordResets')->delete(array(
             'user_id = ?' => (int) $user->getId(),
         ));
 

@@ -5,18 +5,27 @@
 </head>
 <body>
 
-<p>Witaj <strong>{{ name }}</strong>,</p>
+<p>Welcome <strong>{{ name }}</strong>,</p>
 
-<p>Dziękujemy za zarejestrowanie się na naszej stronie.</p>
+<p>To activate your account please click the link below:</p>
 
-<p>Aby dokończyć proces rejestracji proszę kliknąć poniższy link:<br/>
-<a href="{{ url_confirm }}">{{ url_confirm }}</a>
+<p><a href="{{ url_confirm }}">{{ url_confirm }}</a></p>
+
+<p>If this link does not work, simply copy and paste it into your browser's address field and hit enter.</p>
+
+{% if expires_at %}
+    <p>
+        The above link will be active until {{ dateFormat(expires_at, 'medium', 'medium') }}.
+        If you do not confirm your email address within this time you will have to re-register.
+    </p>
+{% endif %}
+
+<p>
+    Do not reply to this message, as no recipient has been designated.
+    Replying to this message will not confirm your registration.
 </p>
 
-<p>Potwierdzenie adresu e-mail za pomocą powyższego linku jest niezbędne
-do aktywacji Twojego konta.</p>
-
-<p>Pozdrawiamy</p>
+<p>Thank you for registering.</p>
 
 </body>
 </html>

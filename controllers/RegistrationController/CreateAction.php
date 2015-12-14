@@ -40,7 +40,7 @@ class ModUser_RegistrationController_CreateAction
         // hash password
         $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
 
-        $reg = $this->getResource('tableManager')->getTable('ModUser_Model_DbTable_Registrations')->createRow(array(
+        $reg = $this->getTableManager()->getTable('ModUser_Model_DbTable_Registrations')->createRow(array(
             'reg_id'     => Zefram_Math_Rand::getString(64, Zefram_Math_Rand::BASE64URL),
             'created_at' => time(),
             'expires_at' => null, // TODO registration.lifetime setting

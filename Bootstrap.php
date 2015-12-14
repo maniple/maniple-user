@@ -22,11 +22,15 @@ class ModUser_Bootstrap extends Maniple_Application_Module_Bootstrap
      */
     protected function _initLogExtras()
     {
-        // If log resource is present register plugin which adds user-related
-        // variables to extra data of a log event
-        $log = $this->getResource('Log');
+        /** @var $bootstrap Zend_Application_Bootstrap_BootstrapAbstract */
+        $bootstrap = $this->getApplication();
 
-        if ($log) {
+        // If log resource is present, register plugin which adds user-related
+        // variables to extra data of a log event
+        if ($bootstrap->hasPluginResource('Log')) {
+            $bootstrap->bootstrap('Log');
+            $log = $bootstrap->getResource('Log');
+
             $front = $this->getResource('FrontController');
             $front->registerPlugin(new ModUser_Plugin_LogExtras($log, $front));
         }

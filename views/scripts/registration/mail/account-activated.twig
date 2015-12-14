@@ -4,30 +4,29 @@
 <title>{{ message.getSubject() }}</title>
 </head>
 <body>
-<p>Witaj <strong>{{ name }}</strong>,</p>
-<p>Twoje konto zostało aktywowane.</p>
+
+<p>Welcome <strong>{{ name }}</strong>,</p>
+
+<p>You account has been activated.</p>
 
 {% if custom_message %}
 <p>{{ custom_message }}</p>
 {% endif %}
 
-<p>Dane potrzebne do logowania:</p>
+<p>For your reference, here are your account details:</p>
 
-<p>Nazwa użytkownika: <strong>{{ user.username }}</strong></p>
-<p>Hasło: (podane podczas rejestracji)</p>
+<p>Username <strong>{{ user.username }}</strong></p>
+<p>Password: (set upon registration)</p>
 
 <p>
-    Adres strony:<br/>
+    Website address:<br/>
     <a href="{{ site_url }}">{{ site_url }}</a>
 </p>
 
 <p>
-    Jeżeli nie pamiętasz hasła możesz skorzystać z
-    awaryjnej zmiany hasła dostępnej pod adresem:<br/>
+    Should you forgot your password, you may reset it by visiting the following link:<br/>
     <a href="{{ url_forgot_password }}">{{ url_forgot_password }}</a>
 </p>
-
-<p>pozdrawiamy</p>
 
 </body>
 </html>

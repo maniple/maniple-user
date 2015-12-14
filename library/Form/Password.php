@@ -21,7 +21,7 @@ class ModUser_Form_Password extends Zefram_Form
             $elements['password_current'] = array(
                 'type' => 'password',
                 'options' => array(
-                    'label' => 'Obecne hasło', // 'Current password',
+                    'label' => 'Current password',
                     'required' => true,
                     'validators' => array(
                         array(
@@ -37,7 +37,7 @@ class ModUser_Form_Password extends Zefram_Form
         $elements['password'] = array(
             'type' => 'password',
             'options' => array(
-                'label' => 'Nowe hasło', // 'New password',
+                'label' => 'New password',
                 'required' => true,
                 'validators' => array(
                     array(
@@ -59,7 +59,7 @@ class ModUser_Form_Password extends Zefram_Form
         $elements['password_confirm'] = array(
             'type' => 'password',
             'options' => array(
-                'label' => 'Potwierdź nowe hasło', // 'Confirm new password',
+                'label' => 'Confirm new password',
                 'validators' => array(
                     array(
                         'Identical',
@@ -78,7 +78,7 @@ class ModUser_Form_Password extends Zefram_Form
         $elements['__submit'] = array(
             'type' => 'submit',
             'options' => array(
-                'label' => 'Zapisz zmiany',
+                'label' => 'Save changes',
             ),
         );
 

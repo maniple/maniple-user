@@ -8,7 +8,7 @@ class ModUser_Form_Login extends Zend_Form
             'username' => array(
                 'type' => 'text',
                 'options' => array(
-                    'label' => 'Nazwa użytkownika / e-mail',
+                    'label' => 'Username or Email',
                     'required' => true,
                     'filters' => array(
                         'StringToLower',
@@ -19,7 +19,7 @@ class ModUser_Form_Login extends Zend_Form
             'password' => array(
                 'type' => 'password',
                 'options' => array(
-                    'label' => 'Hasło',
+                    'label' => 'Password',
                     'required' => true,
                 ),
             ),
@@ -30,7 +30,7 @@ class ModUser_Form_Login extends Zend_Form
                 'type' => 'button',
                 'options' => array(
                     'type' => 'submit',
-                    'label' => 'Zaloguj',
+                    'label' => 'Sign in',
                 ),
             ),
         );

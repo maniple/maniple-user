@@ -1,53 +1,54 @@
 {% if error %}
 
-{% if already_registered %}
-<h3>Houston, mamy problem...</h3>
+    {% if already_registered %}
+        <h3>Houston, we have a problem...</h3>
 
-<p>Użytkownik o tym adresie e-mail jest już zarejestrowany.</p>
+        <p>User with the same email address is already registered.</p>
 
-<p>Jeżeli nie pamiętasz swojego hasła skorzystaj z możliwości awaryjnej
-zmiany hasła odwiedzając poniższy link:</p>
+        <p>If you do not remember your password please use the password reset procedure
+        by clicking on the following link:</p>
 
-<p><a href="{{ url('user.password.forgot') }}">{{ url('user.password.forgot') }}</a></p>
+        <p><a href="{{ url('user.password.forgot') }}">{{ url('user.password.forgot') }}</a></p>
 
-<p>Jeżeli jesteś tu przez przypadek, możesz
-wrócić do <a href="{{ baseUrl('/') }}">strony głównej</a>.</p>
+        <p>If you're here by accident, you can <a href="{{ baseUrl('/') }}">return to home page</a>.</p>
 
-{% else %}
+    {% else %}
 
-<h3 class="page-title">I co ja robię tu? Uu...</h3>
+        <h3 class="page-title">I co ja robię tu? Uu...</h3>
 
-<p>Sytuacja taka jak ta może się zdarzyć, gdy:</p>
-<ul>
-    <li>odświeżysz stronę z informacją o pomyślnej aktywacji konta
-    <li>odwiedzisz niniejszą stronę wpisując jej adres do paska adresu w przeglądarce.
-</ul>
+        <p>Sytuacja taka jak ta może się zdarzyć, gdy:</p>
+        <ul>
+            <li>odświeżysz stronę z informacją o pomyślnej aktywacji konta
+            <li>odwiedzisz niniejszą stronę wpisując jej adres do paska adresu w przeglądarce.
+        </ul>
 
-<p>Tak czy siak nie ma się czym przejmować. Możesz spokojnie
-wrócić do <a href="{{ baseUrl('/') }}">strony głównej</a>.</p>
-{% endif %}
-
-{% else %}
-
-{% if accepted %}
-<h3 class="page-title">Aktywacja konta</h3>
-
-<p style="margin-bottom:2em">Twoje konto zostało pomyślnie aktywowane. Teraz
-możesz się zalogować korzystając z poniższego formularza.</p>
-
-{% include 'forms/login.twig' %}
+        <p>Tak czy siak nie ma się czym przejmować. Możesz spokojnie
+        wrócić do <a href="{{ baseUrl('/') }}">strony głównej</a>.</p>
+    {% endif %}
 
 {% else %}
-<h3 class="page-title">Potwierdzenie adresu e-mail</h3>
 
-<p>Adres e-mail (<strong>{{ email }}</strong>) został właśnie
-potwierdzony.</p>
+    {% if accepted %}
+        <h3 class="page-title">Account activation</h3>
 
-<p>Twoje zgłoszenie rejestracyjne zostanie teraz poddane weryfikacji.
-O jej wyniku zostaniesz powiadomiony pocztą elektroniczną.</p>
+        <p style="margin-bottom:2em">
+            Your account has been successfully activated. You can now sign in using the form below.
+        </p>
 
-<p><a href="{{ baseUrl('/') }}">Powrót do strony głównej</a></p>
+        {% include 'forms/login.twig' %}
 
-{% endif %}
+    {% else %}
+        <h3 class="page-title">Email address confirmation</h3>
+
+        <p>
+            Your email address (<strong>{{ email }}</strong>) has just been confirmed.
+        </p>
+
+        <p>Your registraion will be now verified. You will be notified
+            about the outcome by email.</p>
+
+        <p><a href="{{ baseUrl('/') }}">Return to home page</a></p>
+
+    {% endif %}
 
 {% endif %}

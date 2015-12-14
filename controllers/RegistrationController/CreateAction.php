@@ -5,12 +5,13 @@ class ModUser_RegistrationController_CreateAction
 {
     protected function _prepare()
     {
-        if ($this->getResource('security')->isAuthenticated()) {
+        if ($this->getSecurityContext()->isAuthenticated()) {
             $this->_helper->redirector->gotoUrl('/');
             return;
         }
 
-        $registrationClosed = true;
+        $config = $this->getResource('config');
+        $registrationClosed = @$config['mod-user']['registration']['closed'];
         if ($registrationClosed) {
             $this->_helper->flashMessenger->addErrorMessage('Rejestracja nowych użytkowników jest zamknięta');
             $this->_helper->redirector->gotoRoute('user.auth.login');

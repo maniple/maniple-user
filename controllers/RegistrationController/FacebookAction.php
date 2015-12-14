@@ -93,7 +93,7 @@ class ModUser_RegistrationController_FacebookAction
             fclose($fh);
         }
 
-        $this->getResource('security')->getUserStorage()->setUser($user);
+        $this->getSecurityContext()->getUserStorage()->setUser($user);
         $this->_helper->redirector->gotoUrl($this->view->baseUrl('/'));
 
         // find preference where facebook.id = ...

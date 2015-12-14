@@ -1,0 +1,11 @@
+{{ form | raw }}
+
+<script>window.jQuery(function ($) {
+    var elem = $('input[name="continue"]'),
+        cont = $.trim(elem.val()),
+        hash = String(document.location.hash);
+    if (cont.length && hash.length && cont.indexOf('#') === -1) {
+        elem.val(cont + hash);
+    }
+});</script>
+

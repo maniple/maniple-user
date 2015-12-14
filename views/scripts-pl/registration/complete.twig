@@ -1,0 +1,23 @@
+{% if complete %}
+    <h2>Dziękujemy za rejestrację</h2>
+
+    <p>Na adres <strong>{{ email }}</strong> została wysłana wiadomość
+    z linkiem weryfikującym. Aby aktywować konto prosimy o kliknięcie w link
+    przesłany w tej wiadomości.</p>
+
+    <p>Jeżeli nie otrzymałeś wiadomości w przeciągu najbliższych kilku minut
+    proszę sprawdzić ustawienia antyspamowe swojego konta e-mail.</p>
+
+{% else %}
+    <h2>Ojoj, coś chyba nie działa...</h2>
+
+    <p>Taka sytuacja może się wydarzyć gdy:</p>
+    <ul>
+      <li>odświeżysz stronę z informacją o pomyśnej rejestracji</li>
+      <li>odwiedzisz niniejszą stronę wpisując jej adres URL bezpośrednio do przeglądarki</li>
+    </ul>
+
+    <p>Tak czy siak nie ma się czym przejmować. Możesz spokojnie wrócić do
+       <a href="{{ baseUrl('/') }}">strony głównej</a>.</p>
+
+{% endif %}

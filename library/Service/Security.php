@@ -50,10 +50,7 @@ class ModUser_Service_Security extends Maniple_Security_ContextAbstract
     public static function factory($serviceLocator)
     {
         $config = $serviceLocator['config'];
-        $securityConfig = isset($config['security']) ? $config['security'] : null;
-        if ($securityConfig instanceof Zend_Config) {
-            $securityConfig = $securityConfig->toArray();
-        }
-        return new self($securityConfig);
+        $options = isset($config['mod-user']['security']) ? $config['mod-user']['security'] : null;
+        return new self($options);
     }
 }

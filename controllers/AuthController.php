@@ -26,7 +26,7 @@ class ModUser_AuthController extends ModUser_Controller_Action
 
     public function indexAction()
     {
-        $this->_forward('login');
+        $this->forward('login');
     }
 
     public function logoutAction() // {{{
@@ -40,7 +40,7 @@ class ModUser_AuthController extends ModUser_Controller_Action
             $security->getUserStorage()->clearUser();
         }
 
-        $this->_redirect(empty($returnUrl) ? '/' : $returnUrl);
+        $this->redirect(empty($returnUrl) ? '/' : $returnUrl);
     } // }}}
 
     public function impersonateAction() // {{{

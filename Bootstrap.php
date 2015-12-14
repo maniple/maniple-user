@@ -12,6 +12,7 @@ class ModUser_Bootstrap extends Maniple_Application_Module_Bootstrap
      */
     protected function _initRoutes()
     {
+        /** @var Zend_Controller_Router_Rewrite $router */
         $router = $this->getResource('FrontController')->getRouter();
         $router->addConfig(new Zend_Config(require dirname(__FILE__) . '/configs/routes.config.php'));
     }

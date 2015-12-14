@@ -7,27 +7,29 @@ class ModUser_Bootstrap extends Maniple_Application_Module_Bootstrap
         return require dirname(__FILE__) . '/configs/resources.config.php';
     }
 
-    public function getRoutesConfig()
+    /**
+     * Initializes module routes
+     */
+    protected function _initRoutes()
     {
-        return require dirname(__FILE__) . '/configs/routes.config.php';
+        $router = $this->getResource('FrontController')->getRouter();
+        $router->addConfig(new Zend_Config(require dirname(__FILE__) . '/configs/routes.config.php'));
     }
-    
+
     /**
      * Initializes LogExtras controller plugin
-     *
-     * @return void
      */
-    protected function _initLogExtras() // {{{
+    protected function _initLogExtras()
     {
         // If log resource is present register plugin which adds user-related
         // variables to extra data of a log event
-        $log = $this->getResource('log');
+        $log = $this->getResource('Log');
 
         if ($log) {
-            $frontController = $this->getResource('frontController');
-            $frontController->registerPlugin(new ModUser_Plugin_LogExtras($log, $frontController));
+            $front = $this->getResource('FrontController');
+            $front->registerPlugin(new ModUser_Plugin_LogExtras($log, $front));
         }
 
-        // if nothing is returned resource is not added to the container
-    } // }}}
+        // if nothing is returned, resource is not added to the container
+    }
 }

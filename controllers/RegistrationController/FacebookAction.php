@@ -11,7 +11,7 @@ class ModUser_RegistrationController_FacebookAction
 {
     public function run()
     {
-        if ($this->getResource('security')->isAuthenticated()) {
+        if ($this->getSecurityContext()->isAuthenticated()) {
             $this->_helper->redirector->gotoUrl($this->view->baseUrl('/'));
             return;
         }
@@ -70,7 +70,7 @@ class ModUser_RegistrationController_FacebookAction
         }
 
         // TODO identify user by ID rather than email...
-        $userManager = $this->getResource('user.user_manager');
+        $userManager = $this->getUserManager();
         $user = $userManager->getUserByEmail($info['email']);
 
         if (!$user) {

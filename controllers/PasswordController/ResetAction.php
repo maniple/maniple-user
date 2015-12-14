@@ -32,7 +32,7 @@ class ModUser_PasswordController_ResetAction
                 // 'Invalid password reset token');
         }
 
-        $user = $this->getResource('user.user_manager')->getUser($reset->user_id);
+        $user = $this->getUserManager()->getUser($reset->user_id);
         if (empty($user)) {
             throw new Exception('Corrupted registration token');
         }
@@ -55,14 +55,14 @@ class ModUser_PasswordController_ResetAction
         $user = $this->_form->getUser();
         $user->setPassword($password);
 
-        $this->getResource('user.user_manager')->saveUser($user);
+        $this->getUserManager()->saveUser($user);
 
         $this->getResource('tableManager')->getTable('ModUser_Model_DbTable_PasswordResets')->delete(array(
             'user_id = ?' => (int) $user->getId(),
         ));
 
-	$sessionNamespace = $this->getSessionNamespace('reset');
-	$sessionNamespace->complete = true;
+        $sessionNamespace = $this->getSessionNamespace('reset');
+        $sessionNamespace->complete = true;
 
         $appName = 'app';
 

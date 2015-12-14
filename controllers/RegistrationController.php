@@ -1,6 +1,6 @@
 <?php
 
-class ModUser_RegistrationController extends Zefram_Controller_Action
+class ModUser_RegistrationController extends ModUser_Controller_Action
 {
     /**
      * @return Zend_Session_Namespace
@@ -44,7 +44,7 @@ class ModUser_RegistrationController extends Zefram_Controller_Action
         ));
 
         // check if user with the same registration email already exists in the database
-        $userRepository = $this->getResource('user.user_manager');
+        $userRepository = $this->getUserManager();
 
         if ($reg) {
             // TODO check for expiration

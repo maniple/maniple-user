@@ -1,17 +1,7 @@
 <?php
 
-class ModUser_AuthController extends Zefram_Controller_Action
+class ModUser_AuthController extends ModUser_Controller_Action
 {
-    public function getSecurity()
-    {
-        return $this->getResource('security');    
-    }
-
-    public function getSecurityContext()
-    {
-        return $this->getSecurity();
-    }
-
     public function getContinueParam() // {{{
     {
         $continue = trim($this->getScalarParam('continue'));
@@ -56,7 +46,7 @@ class ModUser_AuthController extends Zefram_Controller_Action
     public function impersonateAction() // {{{
     {
         $user_id = $this->getScalarParam('user_id', 0);
-        $user = $this->getResource('user.user_manager')->getUser($user_id);
+        $user = $this->getUserManager()->getUser($user_id);
         if (empty($user)) {
             throw new Exception('Niepoprawny ID użytkownika');
         }

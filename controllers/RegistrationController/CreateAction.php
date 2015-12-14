@@ -19,7 +19,7 @@ class ModUser_RegistrationController_CreateAction
 
         $this->getSessionNamespace()->unsetAll();
 
-        $this->_form = new ModUser_Form_Registration($this->getResource('user.user_manager'));
+        $this->_form = new ModUser_Form_Registration($this->getUserManager());
 
         $this->view->form_template = 'forms/registration';
     }

@@ -1,13 +1,8 @@
 <?php
 
 // controller with password reset/recovery
-class ModUser_PasswordController extends Zefram_Controller_Action
+class ModUser_PasswordController extends ModUser_Controller_Action
 {
-    public function getSecurity()
-    {
-        return $this->getResource('security');
-    }
-
     public function getSessionNamespace($name)
     {
         return new Zend_Session_Namespace('user.password.' . $name);

@@ -65,7 +65,7 @@ class ModUser_AuthController_LoginAction
         $username = $this->_form->getValue('username');
         $password = $this->_form->getValue('password');
 
-        $userRepository = $this->getResource('user.user_manager');
+        $userRepository = $this->getUserManager();
         $user = $userRepository->getUserByUsernameOrEmail($username);
 
         if ($user && password_verify($password, $user->getPassword())) {

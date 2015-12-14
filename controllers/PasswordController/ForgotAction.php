@@ -17,7 +17,7 @@ class ModUser_PasswordController_ForgotAction
             return $this->_helper->redirector->gotoUrlAndExit('/');
         }
 
-        $this->_form = new ModUser_Form_PasswordForgot($this->getResource('user.user_manager'));
+        $this->_form = new ModUser_Form_PasswordForgot($this->getUserManager());
         $this->getSessionNamespace('forgot')->unsetAll();
     }
 

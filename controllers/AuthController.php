@@ -5,10 +5,8 @@ class ModUser_AuthController extends ModUser_Controller_Action
     public function getContinueParam() // {{{
     {
         $continue = trim($this->getScalarParam('continue'));
-        $continue = str_replace('://', '', $continue);
-        $continue = '/' . ltrim($continue, '/');
 
-        if ('/' === $continue) {
+        if (substr($continue, 0, 1) !== '/') {
             return false;
         }
 
@@ -23,6 +21,23 @@ class ModUser_AuthController extends ModUser_Controller_Action
 
         return $continue;
     } // }}}
+
+    public function getContinueAfterLogin($continue = null)
+    {
+        $continue = trim($continue);
+        if (substr($continue, 0, 1) !== '/') {
+            $continue = null;
+        }
+        if (empty($continue)) {
+            $config = $this->getResource('config');
+            if (isset($config['ModUser']['afterLoginRoute'])) {
+                $continue = $this->view->url($config['ModUser']['afterLoginRoute']);
+            } else {
+                $continue = $this->view->baseUrl('/');
+            }
+        }
+        return $continue;
+    }
 
     public function indexAction()
     {
@@ -64,11 +79,7 @@ class ModUser_AuthController extends ModUser_Controller_Action
         }
 
         $security->getUserStorage()->set('returnUrl', $returnUrl);
-
-        // TODO get homeRoute from config
-        // module->config->homeRoute
-        // $this->_redirect('/');
-        $this->_helper->redirector->gotoRoute('main.workshops.my_meetings');
+        $this->redirect($this->getContinueAfterLogin());
     } // }}}
 
     /**

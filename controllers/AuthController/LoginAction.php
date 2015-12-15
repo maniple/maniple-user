@@ -17,17 +17,16 @@ class ModUser_AuthController_LoginAction
     protected function _prepare() // {{{
     {
         if ($this->getSecurityContext()->isAuthenticated()) {
-            $continue = $this->getContinueParam();
+            $continue = $this->getContinueAfterLogin($this->getContinueParam());
+
             if ($this->_request->isXmlHttpRequest()) {
                 $response = $this->_helper->ajaxResponse();
                 $response->setMessage('You are already authenticated');
-                $response->setData(array(
-                    'redirect' => $continue ? $continue : $this->view->baseUrl('/'),
-                ));
+                $response->setData(array('redirect' => $continue));
                 $response->sendAndExit();
 
             } else {
-                $this->_redirect($continue ? $continue : '/');
+                $this->_redirect($continue);
                 return;
             }
         }
@@ -37,14 +36,13 @@ class ModUser_AuthController_LoginAction
         // boolean auth_required value is set only via Auth plugin
         $this->view->auth_required = true === $this->getParam('auth_required');
         $this->view->is_ajax = $this->_request->isXmlHttpRequest();
-        $this->view->title = 'Logowanie';
     } // }}}
 
     protected function _populate() // {{{
     {
         // form is not submitted, set continue value
         $continue = $this->getContinueParam();
-        $this->_form->continue->setValue($continue);
+        $this->_form->getElement('continue')->setValue($continue);
 
         // set cookie
         setcookie('cookie_check', 1, 0, $this->view->baseUrl('/'));
@@ -59,7 +57,8 @@ class ModUser_AuthController_LoginAction
 
         if (!$this->_request->getCookie('cookie_check')) {
             $this->_form->getElement('password')->addError(
-                'Logowanie wymaga włączonej obsługi cookies w przeglądarce'
+                'User authentication requires that cookies are enabled in your browser'
+                // 'Logowanie wymaga włączonej obsługi cookies w przeglądarce'
             );
             $this->_form->markAsError();
             return false;
@@ -81,7 +80,8 @@ class ModUser_AuthController_LoginAction
         }
 
         $this->_form->getElement('password')->addError(
-            'Nieprawidłowa nazwa użytkownika lub hasło, albo konto nie zostało jeszcze aktywowane'
+            'Invalid username or password, or your account has not yet been activated'
+            // 'Nieprawidłowa nazwa użytkownika lub hasło, albo konto nie zostało jeszcze aktywowane'
         );
         $this->_form->markAsError();
         return false;
@@ -98,22 +98,16 @@ class ModUser_AuthController_LoginAction
 
         $this->getSecurityContext()->getUserStorage()->setUser($user);
 
-        $continue = $this->_form->continue->getValue();
+        $continue = $this->getContinueAfterLogin($this->_form->getElement('continue')->getValue());
 
         if ($this->_request->isXmlHttpRequest()) {
             $response = $this->_helper->ajaxResponse();
-            $response->setData(array(
-                'redirect' => $continue ? $continue : '/',
-            ));
+            $response->setData(array('redirect' => $continue));
             $response->sendAndExit();
             return;
         }
 
-        if ($continue) {
-            $this->_helper->redirector->gotoUrl($continue);
-        } else {
-            $this->_helper->redirector->gotoUrl('/');
-        }
+        $this->_helper->redirector->gotoUrl($continue);
 
         return false;
     } // }}}

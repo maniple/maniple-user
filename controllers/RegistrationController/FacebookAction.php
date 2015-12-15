@@ -5,6 +5,8 @@
  * This only works directly when registration verification is off. If it is
  * on, this feature is unavailable. External account can be connected via
  * settings.
+ *
+ * @deprecated
  */
 class ModUser_RegistrationController_FacebookAction
     extends Zefram_Controller_Action_Standalone

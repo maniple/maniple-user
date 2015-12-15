@@ -22,7 +22,7 @@ class ModUser_RegistrationController_CreateAction
 
         $this->_form = new ModUser_Form_Registration($this->getUserManager());
 
-        $this->view->form_template = 'forms/registration';
+        $this->view->form_template = 'mod-user/forms/registration';
     }
 
     protected function _process()
@@ -111,7 +111,7 @@ class ModUser_RegistrationController_CreateAction
         $this->view->name = $name;
         $this->view->message = $message;
 
-        $message->setBodyHtml($this->view->render('registration/mail/confirm.twig'));
+        $message->setBodyHtml($this->view->render('mod-user/registration/mail/confirm.twig'));
 
         try {
             $message->send();
@@ -125,7 +125,7 @@ class ModUser_RegistrationController_CreateAction
 
             $response = Zefram_Json::encode(array(
                 'status' => 'success',
-                'data' => $this->view->render('registration/complete.twig'),
+                'data' => $this->view->render('mod-user/registration/complete.twig'),
             ));
 
             $this->_helper->json($response);

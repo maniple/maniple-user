@@ -74,7 +74,7 @@ class ModUser_PasswordController_ResetAction
         $this->view->user = $user;
         $this->view->message = $message;
 
-        $message->setBodyHtml($this->view->render('mail/password-reset.twig'));
+        $message->setBodyHtml($this->view->render('mod-user/mail/password-reset.twig'));
         $message->send();
 
         return $this->view->url('user.password.reset_complete');

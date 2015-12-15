@@ -22,13 +22,17 @@ class ModUser_Bootstrap extends Maniple_Application_Module_Bootstrap
      */
     protected function _initView()
     {
-        /** @var $bootstrap Zend_Application_Bootstrap_BootstrapAbstract */
+        /** @var Zend_Application_Bootstrap_BootstrapAbstract $bootstrap */
         $bootstrap = $this->getApplication();
         $bootstrap->bootstrap('View');
 
-        /** @var $view Zend_View_Abstract */
+        /** @var Zend_View_Abstract $view */
         $view = $bootstrap->getResource('View');
         $view->addHelperPath(dirname(__FILE__) . '/library/View/Helper/', 'ModUser_View_Helper_');
+
+        /** @var Zefram_Controller_Action_Helper_ViewRenderer $viewRenderer */
+        $viewRenderer = Zend_Controller_Action_HelperBroker::getStaticHelper('ViewRenderer');
+        $viewRenderer->setViewScriptPathSpec(':module/:controller/:action.:suffix', 'mod-user');
     }
 
     /**
@@ -36,7 +40,7 @@ class ModUser_Bootstrap extends Maniple_Application_Module_Bootstrap
      */
     protected function _initPlugins()
     {
-        /** @var $bootstrap Zend_Application_Bootstrap_BootstrapAbstract */
+        /** @var Zend_Application_Bootstrap_BootstrapAbstract $bootstrap */
         $bootstrap = $this->getApplication();
 
         // If log resource is present, register plugin which adds user-related
@@ -45,7 +49,7 @@ class ModUser_Bootstrap extends Maniple_Application_Module_Bootstrap
             $bootstrap->bootstrap('Log');
             $log = $bootstrap->getResource('Log');
 
-            /** @var $front Zend_Controller_Front */
+            /** @var Zend_Controller_Front $front */
             $front = $this->getResource('FrontController');
             $front->registerPlugin(new ModUser_Plugin_LogExtras($log, $front));
         }

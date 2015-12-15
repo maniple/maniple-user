@@ -2,6 +2,9 @@
 
 class ModUser_Model_User implements ModUser_Model_UserInterface
 {
+    /**
+     * @var mixed
+     */
     protected $_id;
 
     /**
@@ -28,6 +31,16 @@ class ModUser_Model_User implements ModUser_Model_UserInterface
      * @var DateTime
      */
     protected $_createdAt;
+
+    /**
+     * @var string
+     */
+    protected $_firstName;
+
+    /**
+     * @var string
+     */
+    protected $_lastName;
 
     public function getId()
     {
@@ -92,6 +105,28 @@ class ModUser_Model_User implements ModUser_Model_UserInterface
     public function setCreatedAt($createdAt)
     {
         $this->_createdAt = $createdAt;
+        return $this;
+    }
+
+    public function getFirstName()
+    {
+        return $this->_firstName;
+    }
+
+    public function setFirstName($firstName)
+    {
+        $this->_firstName = $firstName;
+        return $this;
+    }
+
+    public function getLastName()
+    {
+        return $this->_lastName;
+    }
+
+    public function setLastName($lastName)
+    {
+        $this->_lastName = $lastName;
         return $this;
     }
 }

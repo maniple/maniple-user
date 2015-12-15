@@ -8,7 +8,7 @@ class ModUser_Form_Registration extends Zefram_Form
             'first_name' => array(
                 'type' => 'text',
                 'options' => array(
-                    'label' => 'Imię',
+                    'label' => 'First name',
                     'required' => true,
                     'validators' => array(
                         array('StringLength', true, array('max' => 128)),
@@ -21,7 +21,7 @@ class ModUser_Form_Registration extends Zefram_Form
             'last_name' => array(
                 'type' => 'text',
                 'options' => array(
-                    'label' => 'Nazwisko',
+                    'label' => 'Surname',
                     'required' => true,
                     'validators' => array(
                         array('StringLength', true, array('max' => 128)),
@@ -34,7 +34,7 @@ class ModUser_Form_Registration extends Zefram_Form
             'email' => array(
                 'type' => 'text',
                 'options' => array(
-                    'label' => 'Adres e-mail',
+                    'label' => 'Email address',
                     'required' => true,
                     'validators' => array(
                         array('StringLength', true, array('max' => 128)),
@@ -43,7 +43,7 @@ class ModUser_Form_Registration extends Zefram_Form
                             'userRepository' => $userManager,
                             'matchBy' => ModUser_Validate_User::MATCH_EMAIL,
                             'messages' => array(
-                                ModUser_Validate_User::USER_EXISTS => 'Ten adres e-mail jest już używany',
+                                ModUser_Validate_User::USER_EXISTS => 'This email address is already in use',
                             ),
                         )), true),
                     ),
@@ -55,7 +55,7 @@ class ModUser_Form_Registration extends Zefram_Form
             'email_verify' => array(
                 'type' => 'text',
                 'options' => array(
-                    'label' => 'Adres e-mail',
+                    'label' => 'Confirm email address',
                     'required' => true,
                     'validators' => array(
                         array('StringLength', true, array('max' => 128)),
@@ -63,7 +63,7 @@ class ModUser_Form_Registration extends Zefram_Form
                         array('Identical',    true, array(
                             'token' => 'email',
                             'messages' => array(
-                                Zend_Validate_Identical::NOT_SAME => 'Podane adresy e-mail są różne',
+                                Zend_Validate_Identical::NOT_SAME => 'Email address mismatch',
                             ),
                         )),
                     ),
@@ -75,7 +75,7 @@ class ModUser_Form_Registration extends Zefram_Form
             'password' => array(
                 'type' => 'password',
                 'options' => array(
-                    'label' => 'Hasło',
+                    'label' => 'Password',
                     'required' => true,
                     'validators' => array(
                         array(new Zefram_Validate_NotEqual(array(
@@ -88,7 +88,7 @@ class ModUser_Form_Registration extends Zefram_Form
             '__submit' => array(
                 'type' => 'button',
                 'options' => array(
-                    'label' => 'Zarejestruj się',
+                    'label' => 'Sign up',
                     'attribs' => array(
                         'type' => 'submit',
                     ),

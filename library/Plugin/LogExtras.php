@@ -3,13 +3,13 @@
 class ModUser_Plugin_LogExtras extends Zend_Controller_Plugin_Abstract
 {
     /**
-     * @var Zend_Log
+     * @var Zefram_Log
      */
     protected $_log;
 
     protected $_frontController;
 
-    public function __construct(Zend_Log $log, Zend_Controller_Front $frontController)
+    public function __construct(Zefram_Log $log, Zend_Controller_Front $frontController)
     {
         $this->_log = $log;
         $this->_frontController = $frontController;
@@ -26,7 +26,9 @@ class ModUser_Plugin_LogExtras extends Zend_Controller_Plugin_Abstract
         $this->_log->setEventItem('ip', $request->getClientIp());
 
         $bootstrap = $this->_frontController->getParam('bootstrap');
-        $security = $bootstrap->getResource('security');
+
+        /** @var ModUser_Service_Security $security */
+        $security = $bootstrap->getResource('user.sessionManager');
 
         if ($security->isAuthenticated()) {
             $user     = $security->getUser();

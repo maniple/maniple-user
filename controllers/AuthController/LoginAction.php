@@ -55,7 +55,7 @@ class ModUser_AuthController_LoginAction
         //    return false;
         //}
 
-        if (!$this->_request->getCookie('cookie_check')) {
+        if (false && !$this->_request->getCookie('cookie_check')) {
             $this->_form->getElement('password')->addError(
                 'User authentication requires that cookies are enabled in your browser'
                 // 'Logowanie wymaga włączonej obsługi cookies w przeglądarce'

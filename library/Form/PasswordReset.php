@@ -16,7 +16,8 @@ class ModUser_Form_PasswordReset extends Zefram_Form
                         array(new Zefram_Validate_NotEqual(array(
                             'useContext' => false,
                             'messages' => array(
-                                Zefram_Validate_NotEqual::IS_EQUAL => 'Hasło musi być różne od nazwy użytkownika / adresu e-mail', // 'Password must be different from username / email',
+                                Zefram_Validate_NotEqual::IS_EQUAL => 'Password must be different from username / email',
+                                // 'Hasło musi być różne od nazwy użytkownika / adresu e-mail', // 'Password must be different from username / email',
                             ),
                         )), true),
                         new ModUser_Validate_Password(),
@@ -32,7 +33,7 @@ class ModUser_Form_PasswordReset extends Zefram_Form
                         array('Identical', true, array(
                             'token' => 'password',
                             'messages' => array(
-                                Zend_Validate_Identical::NOT_SAME => 'Podane hasła są różne',
+                                Zend_Validate_Identical::NOT_SAME => 'Password mismatch', // 'Podane hasła są różne',
                             ),
                         )),
                     ),

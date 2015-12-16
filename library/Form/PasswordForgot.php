@@ -8,7 +8,7 @@ class ModUser_Form_PasswordForgot extends Zefram_Form
             'username' => array(
                 'type' => 'text',
                 'options' => array(
-                    'label' => 'Nazwa użytkownika / e-mail',
+                    'label' => 'Username or email', // 'Nazwa użytkownika / e-mail',
                     'required' => true,
                     'validators' => array(
                         new ModUser_Validate_UserExists(array(

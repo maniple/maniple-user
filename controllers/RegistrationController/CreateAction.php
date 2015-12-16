@@ -94,11 +94,9 @@ class ModUser_RegistrationController_CreateAction
         session_write_close();
          */
 
-        $appName = 'app';
-
         $message = new Zefram_Mail;
         $message->setType(Zend_Mime::MULTIPART_RELATED);
-        $message->setSubject(sprintf('[%s] Weryfikacja rejestracji', $appName));
+        $message->setSubject('Confirm your email address');
         $message->addTo($reg->email);
 
         $name = isset($data['username']) ? $data['username'] : $data['email'];
@@ -116,7 +114,7 @@ class ModUser_RegistrationController_CreateAction
         try {
             $message->send();
         } catch (Exception $e) {
-            echo '<div class="alert alert-danger">Wysyłanie wiadomości nie powiodło się</div>';
+            echo '<div class="alert alert-danger">', $this->view->translate('Sending message failed'), '</div>';
             return false;
         }
 

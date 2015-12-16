@@ -33,11 +33,10 @@ class ModUser_PasswordController_ForgotAction
         $reset->save();
 
         // nofity user about password reset
-        $appName = 'app';
 
         $message = new Zefram_Mail;
         $message->setType(Zend_Mime::MULTIPART_RELATED);
-        $message->setSubject(sprintf('[%s] Resetowanie hasła', $appName));
+        $message->setSubject($this->view->translate('Your password has been changed'));
         $message->addTo($user->getEmail());
 
         $this->view->url_password_reset = $this->view->serverUrl() . $this->view->url('user.password.reset', array('reset_id' => $reset->reset_id));
@@ -50,7 +49,7 @@ class ModUser_PasswordController_ForgotAction
         if ($this->_request->isXmlHttpRequest()) {
             $this->_helper->json(array(
                 'success' => true,
-                'message' => 'Hasło zostało pomyślnie zmienione',
+                'message' => $this->view->translate('Password has been successfully changed'),
             ));
             return false;
         }

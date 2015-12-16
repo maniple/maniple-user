@@ -12,8 +12,12 @@ class ModUser_Bootstrap extends Maniple_Application_Module_Bootstrap
      */
     protected function _initRouter()
     {
+        /** @var Zend_Application_Bootstrap_BootstrapAbstract $bootstrap */
+        $bootstrap = $this->getApplication();
+        $bootstrap->bootstrap('FrontController');
+
         /** @var Zend_Controller_Router_Rewrite $router */
-        $router = $this->getResource('FrontController')->getRouter();
+        $router = $bootstrap->getResource('FrontController')->getRouter();
         $router->addConfig(new Zend_Config(require dirname(__FILE__) . '/configs/routes.config.php'));
     }
 
@@ -33,6 +37,7 @@ class ModUser_Bootstrap extends Maniple_Application_Module_Bootstrap
         /** @var Zefram_Controller_Action_Helper_ViewRenderer $viewRenderer */
         $viewRenderer = Zend_Controller_Action_HelperBroker::getStaticHelper('ViewRenderer');
         $viewRenderer->setViewScriptPathSpec(':module/:controller/:action.:suffix', 'mod-user');
+        $viewRenderer->setViewSuffix('twig', 'mod-user');
     }
 
     /**
@@ -50,7 +55,7 @@ class ModUser_Bootstrap extends Maniple_Application_Module_Bootstrap
             $log = $bootstrap->getResource('Log');
 
             /** @var Zend_Controller_Front $front */
-            $front = $this->getResource('FrontController');
+            $front = $bootstrap->getResource('FrontController');
             $front->registerPlugin(new ModUser_Plugin_LogExtras($log, $front));
         }
 

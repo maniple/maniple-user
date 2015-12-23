@@ -30,6 +30,10 @@ class ModUser_Service_Security extends Maniple_Security_ContextAbstract
 
     public function isAllowed($permission)
     {
+        if ($this->isSuperUser()) {
+            return true;
+        }
+
         // TODO generalize this
         switch ($permission) {
             case 'enroll':

@@ -61,4 +61,13 @@ class ModUser_Bootstrap extends Maniple_Application_Module_Bootstrap
 
         // if nothing is returned, resource is not added to the container
     }
+
+    protected function _initEntityManager()
+    {
+        $bootstrap = $this->getApplication();
+
+        /** @var ManipleCore\Doctrine\Config $config */
+        $config = $bootstrap->getResource('EntityManager.config');
+        $config->addPath(__DIR__ . '/library/Entity');
+    }
 }

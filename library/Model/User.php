@@ -1,3 +1,3 @@
 <?php
 
-class_alias('ModUser\Entity\User', 'ModUser_Model_User');
+class_alias('Maniple\ModUser\Entity\User', 'ModUser_Model_User');

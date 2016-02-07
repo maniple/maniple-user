@@ -1,5 +1,7 @@
 <?php
 
+use Maniple\ModUser\Entity\UserInterface;
+
 abstract class ModUser_Validate_User extends Zend_Validate_Abstract
 {
     const MATCH_ID                = 'id';
@@ -16,7 +18,7 @@ abstract class ModUser_Validate_User extends Zend_Validate_Abstract
     protected $_userRepository;
 
     /**
-     * @var ModUser_Model_UserInterface
+     * @var UserInterface
      */
     protected $_user;
 
@@ -112,7 +114,7 @@ abstract class ModUser_Validate_User extends Zend_Validate_Abstract
      * according to current matchBy setting.
      *
      * @param  mixed $value
-     * @return ModUser_Model_UserInterface
+     * @return UserInterface
      * @throws RuntimeException
      */
     protected function _getUserByValue($value)

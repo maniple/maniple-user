@@ -1,19 +1,21 @@
 <?php
 
+use Maniple\ModUser\Entity\UserInterface;
+
 class ModUser_Form_Password extends Zefram_Form
 {
     /**
-     * @var ModUser_Model_UserInterface
+     * @var UserInterface
      */
     protected $_user;
 
     /**
      * Constructor.
      *
-     * @param  ModUser_Model_UserInterface $user
+     * @param  UserInterface $user
      * @return void
      */
-    public function __construct(ModUser_Model_UserInterface $user) // {{{
+    public function __construct(UserInterface $user) // {{{
     {
         $elements = array();
 
@@ -90,7 +92,7 @@ class ModUser_Form_Password extends Zefram_Form
     /**
      * Retrieve user entity attached to this form.
      *
-     * @return ModUser_Model_UserInterface
+     * @return UserInterface
      */
     public function getUser() // {{{
     {

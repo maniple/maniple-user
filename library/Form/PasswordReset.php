@@ -1,10 +1,12 @@
 <?php
 
+use Maniple\ModUser\Entity\UserInterface;
+
 class ModUser_Form_PasswordReset extends Zefram_Form
 {
     protected $_user;
 
-    public function __construct(ModUser_Model_UserInterface $user = null)
+    public function __construct(UserInterface $user = null)
     {
         $elements = array(
             'password' => array(
@@ -48,7 +50,7 @@ class ModUser_Form_PasswordReset extends Zefram_Form
         }
     }
 
-    public function setUser(ModUser_Model_UserInterface $user)
+    public function setUser(UserInterface $user)
     {
         $this->_user = $user;
         $this->getElement('password')->getValidator('NotEqual')->setToken($user->getUsername());

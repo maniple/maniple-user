@@ -1,5 +1,7 @@
 <?php
 
+use Maniple\ModUser\Entity\UserInterface;
+
 /**
  * Zend_Db_Table based user repository.
  *
@@ -55,7 +57,7 @@ class ModUser_Model_UserManager implements ModUser_Model_UserManagerInterface
 
     /**
      * @param  int $userId
-     * @return ModUser_Model_UserInterface|null
+     * @return UserInterface|null
      */
     public function getUser($userId)
     {
@@ -64,7 +66,7 @@ class ModUser_Model_UserManager implements ModUser_Model_UserManagerInterface
 
     /**
      * @param  string $username
-     * @return ModUser_Model_UserInterface|null
+     * @return UserInterface|null
      */
     public function getUserByUsername($username)
     {
@@ -73,7 +75,7 @@ class ModUser_Model_UserManager implements ModUser_Model_UserManagerInterface
 
     /**
      * @param  string $email
-     * @return ModUser_Model_UserInterface|null
+     * @return UserInterface|null
      */
     public function getUserByEmail($email)
     {
@@ -82,7 +84,7 @@ class ModUser_Model_UserManager implements ModUser_Model_UserManagerInterface
 
     /**
      * @param  string $usernameOrEmail
-     * @return ModUser_Model_UserInterface|null
+     * @return UserInterface|null
      */
     public function getUserByUsernameOrEmail($usernameOrEmail)
     {
@@ -91,7 +93,7 @@ class ModUser_Model_UserManager implements ModUser_Model_UserManagerInterface
 
     /**
      * @param  array $userIds
-     * @return ModUser_Model_UserInterface[]
+     * @return UserInterface[]
      */
     public function getUsers(array $userIds = null)
     {
@@ -101,18 +103,18 @@ class ModUser_Model_UserManager implements ModUser_Model_UserManagerInterface
     /**
      * Saves user entity to the storage.
      *
-     * @param  ModUser_Model_UserInterface $user
-     * @return ModUser_Model_UserInterface
+     * @param  UserInterface $user
+     * @return UserInterface
      * @throws Exception
      */
-    public function saveUser(ModUser_Model_UserInterface $user)
+    public function saveUser(UserInterface $user)
     {
         return $this->getUserMapper()->saveUser($user);
     }
 
     /**
      * @param array $data
-     * @return ModUser_Model_UserInterface
+     * @return UserInterface
      * @deprecated
      */
     public function createUser(array $data = null)
@@ -120,7 +122,7 @@ class ModUser_Model_UserManager implements ModUser_Model_UserManagerInterface
         return $this->getUserMapper()->createUser($data);
     }
 
-    public function validateUser(ModUser_Model_UserInterface $user)
+    public function validateUser(UserInterface $user)
     {
         // TODO not sure if this should be here
         return true;
@@ -128,7 +130,7 @@ class ModUser_Model_UserManager implements ModUser_Model_UserManagerInterface
 
     /**
      * @TODO this should not be in repository, but in service
-     * @param ModUser_Model_UserInterface $user
+     * @param UserInterface $user
      * @param string $password
      * @return string
      */

@@ -53,7 +53,7 @@ class User implements UserInterface
     protected $_lastName;
 
     /**
-     * @Column(name="mid_name", type="string", length=255, nullable=true)
+     * @Column(name="middle_name", type="string", length=255, nullable=true)
      */
     protected $_middleName;
 

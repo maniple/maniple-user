@@ -2,47 +2,60 @@
 
 namespace Maniple\ModUser\Entity;
 
+// use Doctrine\Common\Collections\ArrayCollection;
+
+/**
+ * @Entity(repositoryClass="Maniple\ModUser\Repository\UserRepository")
+ * @Table(name="users")
+ */
 class User implements UserInterface
 {
     /**
-     * @var mixed
+     * @Id
+     * @Column(name="user_id", type="integer")
+     * @GeneratedValue(strategy="AUTO")
      */
     protected $_id;
 
     /**
-     * @var string
+     * @Column(name="active", type="boolean", nullable=false)
      */
-    protected $_username;
+    protected $_active = true;
 
     /**
-     * @var string
-     */
-    protected $_password;
-
-    /**
-     * @var string
-     */
-    protected $_email;
-
-    /**
-     * @var bool
-     */
-    protected $_isActive;
-
-    /**
-     * @var DateTime
+     * @Column(name="created_at", type="epoch")
      */
     protected $_createdAt;
 
     /**
-     * @var string
+     * @Column(name="username", type="string", length=255, unique=true)
+     */
+    protected $_username;
+
+    /**
+     * @Column(name="email", type="string", length=255, unique=true)
+     */
+    protected $_email;
+
+    /**
+     * @Column(name="password", type="string", length=255)
+     */
+    protected $_password;
+
+    /**
+     * @Column(name="first_name", type="string", length=255)
      */
     protected $_firstName;
 
     /**
-     * @var string
+     * @Column(name="last_name", type="string", length=255)
      */
     protected $_lastName;
+
+    /**
+     * @Column(name="mid_name", type="string", length=255, nullable=true)
+     */
+    protected $_middleName;
 
     public function getId()
     {
@@ -90,12 +103,12 @@ class User implements UserInterface
 
     public function getIsActive()
     {
-        return $this->_isActive;
+        return $this->_active;
     }
 
     public function setIsActive($isActive)
     {
-        $this->_isActive = (bool) $isActive;
+        $this->_active = (bool) $isActive;
         return $this;
     }
 
@@ -130,5 +143,16 @@ class User implements UserInterface
     {
         $this->_lastName = $lastName;
         return $this;
+    }
+
+    public function setMiddleName($middleName)
+    {
+        $this->_middleName = $middleName;
+        return $this;
+    }
+
+    public function getMiddleName()
+    {
+        return $this->_middleName;
     }
 }

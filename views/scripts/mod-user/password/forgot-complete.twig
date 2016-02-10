@@ -1,34 +1,25 @@
+<h1>Forgot your password?</h1>
+
 {% if complete %}
 
-    <h2 class="page-title">Nie pamiętasz hasła?</h2>
-
-    <p>Na adres e-mail powiązany z Twoim kontem wysłana została wiadomość
-    z instrukcją resetowania hasła.</p>
-
-    <p>Jeżeli nie otrzymasz wiadomości w ciągu najbliższych kilku minut,
-    proszę sprawdź zawartość katalogu ze spamem oraz ustawienia filtrów
-    antyspamowych.</p>
-
-{#
     <p>We've sent password reset instructions to your email address.</p>
 
     <p>If you don't receive the email within a few minutes, please check
     your mailbox's spam folder and filters.</p>
-#}
 
 {% else %}
 
-    <h2 class="page-title">I co ja robię tu, uuu...</h2>
+    <div class="alert alert-error alert-danger">
+      Ooops... I don't know what am I doing here
+    </div>
 
-    <p>Znalazłeś się w jednej z następujących sytuacji:</p>
+    <p>Such a situation occurs typically when:</p>
     <ul>
-        <li>odświeżyłeś stronę z potwierdzeniem wysłania wiadomości z instrukcją
-        resetowania hasła</li>
-        <li>odwiedziłeś tę stronę wpisując jej adres URL bezpośrednio do
-        paska adresu przeglądarki</li>
+      <li>you refresh the password reset confirmation page</li>
+      <li>you visit this page by typing its URL directly into browser</li>
     </ul>
 
-    <p>W każdym razie nie ma się czym przejmować. Możesz spokojnie
-       wrócić do <a href="{{ baseUrl('/') }}">strony głównej</a>.</p>
+    <p>Either way there is nothing to worry about. You can safely
+       <a href="{{ baseUrl('/') }}">return to main page</a>.</p>
 
 {% endif %}

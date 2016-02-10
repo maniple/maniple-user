@@ -41,6 +41,12 @@ class ModUser_Form_PasswordReset extends Zefram_Form
                     ),
                 ),
             ),
+            '__submit' => array(
+                'type' => 'submit',
+                'options' => array(
+                    'label' => 'Change password',
+                ),
+            ),
         );
 
         parent::__construct(compact('elements'));

@@ -18,6 +18,12 @@ class ModUser_Form_PasswordForgot extends Zefram_Form
                     ),
                 ),
             ),
+            '__submit' => array(
+                'type' => 'submit',
+                'options' => array(
+                    'label' => 'Submit',
+                ),
+            ),
         );
 
         parent::__construct(compact('elements'));

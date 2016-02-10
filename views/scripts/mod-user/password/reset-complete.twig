@@ -1,25 +1,26 @@
 {% if complete %}
 
-    <h2 class="page-title">Hasło zostało zmienione</h2>
+    <h1>Password reset successfully</h1>
 
-    <p>Twoje hasło zostało pomyślnie zmienione.</p>
-    <p>Teraz możesz się <a href="{{ url('user.auth.login') }}">zalogować</a>
-       korzystając z nowego hasła.</p>
+    <p>Your password has been reset successfully.</p>
+    <p>You can now <a href="{{ url('user.auth.login') }}">login</a> with
+       the new one.</p>
 
 {% else %}
 
-    <h2 class="page-title">I co ja robię tu, uuu...</h2>
+    <h1>Reset your password</h1>
 
-    <p>Znalazłeś się w jednej z następujących sytuacji:</p>
+    <div class="alert alert-error alert-danger">
+      Ooops... I don't know what am I doing here
+    </div>
+
+    <p>Such a situation occurs typically when:</p>
     <ul>
-        <li>odświeżyłeś stronę z informacją o pomyślnym zresetowaniu hasła</li>
-        <li>odwiedziłeś tę stronę wpisując jej adres URL bezpośrednio do
-        paska adresu przeglądarki</li>
+      <li>you refresh this page after successfully resetting your password</li>
+      <li>you visit this page by typing its URL directly into browser</li>
     </ul>
 
-    <p>W każdym razie nie ma się czym przejmować. Możesz spokojnie
-       <a href="{{ baseUrl('/') }}">wrócić do strony głównej</a>.</p>
+    <p>Either way there is nothing to worry about. You can safely
+       <a href="{{ baseUrl('/') }}">return to main page</a>.</p>
 
 {% endif %}
-
-

@@ -64,17 +64,15 @@ class ModUser_PasswordController_ResetAction
         $sessionNamespace = $this->getSessionNamespace('reset');
         $sessionNamespace->complete = true;
 
-        $appName = 'app';
-
         $message = new Zefram_Mail;
         $message->setType(Zend_Mime::MULTIPART_RELATED);
-        $message->setSubject(sprintf('[%s] Powiadomienie o zmianie hasła', $appName));
+        $message->setSubject($this->view->translate('Your password has been changed'));
         $message->addTo($user->getEmail());
 
         $this->view->user = $user;
         $this->view->message = $message;
 
-        $message->setBodyHtml($this->view->render('mod-user/mail/password-reset.twig'));
+        $message->setBodyHtml($this->view->render('mod-user/password/password-reset-mail.twig'));
         $message->send();
 
         return $this->view->url('user.password.reset_complete');

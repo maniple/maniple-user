@@ -15,144 +15,144 @@ class User implements UserInterface
      * @Column(name="user_id", type="integer")
      * @GeneratedValue(strategy="AUTO")
      */
-    protected $_id;
+    protected $id;
 
     /**
      * @Column(name="active", type="boolean", nullable=false)
      */
-    protected $_active = true;
+    protected $active = true;
 
     /**
      * @Column(name="created_at", type="epoch")
      */
-    protected $_createdAt;
+    protected $createdAt;
 
     /**
      * @Column(name="username", type="string", length=255, unique=true)
      */
-    protected $_username;
+    protected $username;
 
     /**
      * @Column(name="email", type="string", length=255, unique=true)
      */
-    protected $_email;
+    protected $email;
 
     /**
      * @Column(name="password", type="string", length=255)
      */
-    protected $_password;
+    protected $password;
 
     /**
      * @Column(name="first_name", type="string", length=255)
      */
-    protected $_firstName;
+    protected $firstName;
 
     /**
      * @Column(name="last_name", type="string", length=255)
      */
-    protected $_lastName;
+    protected $lastName;
 
     /**
      * @Column(name="middle_name", type="string", length=255, nullable=true)
      */
-    protected $_middleName;
+    protected $middleName;
 
     public function getId()
     {
-        return $this->_id;
+        return $this->id;
     }
 
     public function setId($id)
     {
-        $this->_id = $id;
+        $this->id = $id;
         return $this;
     }
 
     public function getUsername()
     {
-        return $this->_username;
+        return $this->username;
     }
 
     public function setUsername($username)
     {
-        $this->_username = $username;
+        $this->username = $username;
         return $this;
     }
 
     public function getPassword()
     {
-        return $this->_password;
+        return $this->password;
     }
 
     public function setPassword($password)
     {
-        $this->_password = $password;
+        $this->password = $password;
         return $this;
     }
 
     public function getEmail()
     {
-        return $this->_email;
+        return $this->email;
     }
 
     public function setEmail($email)
     {
-        $this->_email = $email;
+        $this->email = $email;
         return $this;
     }
 
     public function getIsActive()
     {
-        return $this->_active;
+        return $this->active;
     }
 
     public function setIsActive($isActive)
     {
-        $this->_active = (bool) $isActive;
+        $this->active = (bool) $isActive;
         return $this;
     }
 
     public function getCreatedAt()
     {
-        return $this->_createdAt;
+        return $this->createdAt;
     }
 
     public function setCreatedAt($createdAt)
     {
-        $this->_createdAt = $createdAt;
+        $this->createdAt = $createdAt;
         return $this;
     }
 
     public function getFirstName()
     {
-        return $this->_firstName;
+        return $this->firstName;
     }
 
     public function setFirstName($firstName)
     {
-        $this->_firstName = $firstName;
+        $this->firstName = $firstName;
         return $this;
     }
 
     public function getLastName()
     {
-        return $this->_lastName;
+        return $this->lastName;
     }
 
     public function setLastName($lastName)
     {
-        $this->_lastName = $lastName;
+        $this->lastName = $lastName;
         return $this;
     }
 
     public function setMiddleName($middleName)
     {
-        $this->_middleName = $middleName;
+        $this->middleName = $middleName;
         return $this;
     }
 
     public function getMiddleName()
     {
-        return $this->_middleName;
+        return $this->middleName;
     }
 }

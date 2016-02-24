@@ -18,9 +18,9 @@ class User implements UserInterface
     protected $id;
 
     /**
-     * @Column(name="active", type="boolean", nullable=false)
+     * @Column(name="is_active", type="boolean", nullable=false)
      */
-    protected $active = true;
+    protected $isActive = true;
 
     /**
      * @Column(name="created_at", type="epoch")
@@ -103,12 +103,12 @@ class User implements UserInterface
 
     public function getIsActive()
     {
-        return $this->active;
+        return $this->isActive;
     }
 
     public function setIsActive($isActive)
     {
-        $this->active = (bool) $isActive;
+        $this->isActive = (bool) $isActive;
         return $this;
     }
 

@@ -18,7 +18,7 @@ class User implements UserInterface
     protected $id;
 
     /**
-     * @Column(name="is_active", type="boolean", nullable=false)
+     * @Column(name="is_active", type="boolint", nullable=false)
      */
     protected $isActive = true;
 

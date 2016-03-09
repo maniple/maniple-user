@@ -54,7 +54,12 @@ class ModUser_Service_Security extends Maniple_Security_ContextAbstract
     public static function factory($serviceLocator)
     {
         $config = $serviceLocator['config'];
-        $options = isset($config['mod-user']['security']) ? $config['mod-user']['security'] : null;
+        if (is_array($config)) {
+            $options = isset($config['mod-user']['security']) ? $config['mod-user']['security'] : null;
+        } else {
+            $options = isset($config->{'mod-user'}->{'security'}) ? $config->{'mod-user'}->{'security'} : null;
+        }
+
         return new self($options);
     }
 }

@@ -68,6 +68,8 @@ class ModUser_Bootstrap extends Maniple_Application_Module_Bootstrap
 
         /** @var ManipleCore\Doctrine\Config $config */
         $config = $bootstrap->getResource('EntityManager.config');
-        $config->addPath(__DIR__ . '/library/Entity');
+        if ($config) {
+            $config->addPath(__DIR__ . '/library/Entity');
+        }
     }
 }

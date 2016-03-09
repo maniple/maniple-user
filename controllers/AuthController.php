@@ -30,6 +30,9 @@ class ModUser_AuthController extends ModUser_Controller_Action
         }
         if (empty($continue)) {
             $config = $this->getResource('config');
+            if (!is_array($config)) {
+                $config = $config->toArray();
+            }
             if (isset($config['ModUser']['afterLoginRoute'])) {
                 $continue = $this->view->url($config['ModUser']['afterLoginRoute']);
             } else {

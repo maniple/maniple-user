@@ -26,16 +26,4 @@ class ModUser_Controller_Action extends Zefram_Controller_Action
         $db = $this->getResource('ZeframDb');
         return $db->getTableFactory();
     }
-
-    public function preDispatch()
-    {
-        $config = $this->getResource('config');
-        $scriptPath = @$config['ModUser']['scriptPath'];
-
-        if (strpos($scriptPath, ':locale') !== false) {
-            $scriptPath = str_replace(':locale', $this->getResource('locale'), $scriptPath);
-        }
-
-        $this->getResource('view')->addScriptPath($scriptPath);
-    }
 }

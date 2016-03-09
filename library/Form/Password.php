@@ -62,6 +62,7 @@ class ModUser_Form_Password extends Zefram_Form
             'type' => 'password',
             'options' => array(
                 'label' => 'Confirm new password',
+                'required' => true,
                 'validators' => array(
                     array(
                         'Identical',

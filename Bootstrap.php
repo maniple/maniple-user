@@ -62,6 +62,25 @@ class ModUser_Bootstrap extends Maniple_Application_Module_Bootstrap
         // if nothing is returned, resource is not added to the container
     }
 
+    protected function _initTranslate()
+    {
+        $bootstrap = $this->getApplication();
+        $bootstrap->bootstrap('Translate');
+
+        /** @var Zend_Translate $translate */
+        $translate = $bootstrap->getResource('Translate');
+        $locale = $translate->getLocale();
+
+        $translationsDir = dirname(__FILE__) . '/languages/' . $locale;
+
+        if (is_dir($translationsDir)) {
+            $translate->addTranslation(array(
+                'content' => $translationsDir,
+                'locale'  => $locale,
+            ));
+        }
+    }
+
     protected function _initEntityManager()
     {
         $bootstrap = $this->getApplication();

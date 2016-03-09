@@ -11,6 +11,9 @@ class ModUser_RegistrationController_CreateAction
         }
 
         $config = $this->getResource('config');
+        if (!is_array($config)) {
+            $config = $config->toArray();
+        }
         $registrationClosed = @$config['mod-user']['registration']['closed'];
         if ($registrationClosed) {
             $this->_helper->flashMessenger->addErrorMessage('Rejestracja nowych użytkowników jest zamknięta');

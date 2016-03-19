@@ -26,7 +26,8 @@ class ModUser_Validate_Password extends Zend_Validate_StringLength
         }
 
         // validate characters
-        // disallow ~ as in Windows it depends on previous char pushed
+        // disallow tilde as in Windows it depends on previous char pushed
+        // and language specific characters (diacritics)
         $rx = '/^[-+=_.:;!?@#$%&*<>^"\'\\\\\\/\\(\\)\\[\\]\\{\\}a-z0-9]+$/i';
         if (!preg_match($rx, $value)) {
             $this->_error(self::INVALID_CHARS);

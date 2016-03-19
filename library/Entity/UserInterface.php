@@ -20,9 +20,9 @@ interface UserInterface extends \Maniple_Security_UserInterface
 
     public function setEmail($email);
 
-    public function getIsActive();
+    public function isActive();
 
-    public function setIsActive($isActive);
+    public function setActive($active);
 
     public function getCreatedAt();
 

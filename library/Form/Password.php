@@ -13,7 +13,6 @@ class ModUser_Form_Password extends Zefram_Form
      * Constructor.
      *
      * @param  UserInterface $user
-     * @return void
      */
     public function __construct(UserInterface $user) // {{{
     {

@@ -43,12 +43,12 @@ class User implements UserInterface
     protected $password;
 
     /**
-     * @Column(name="first_name", type="string", length=255)
+     * @Column(name="first_name", type="string", length=255, nullable=true)
      */
     protected $firstName;
 
     /**
-     * @Column(name="last_name", type="string", length=255)
+     * @Column(name="last_name", type="string", length=255, nullable=true)
      */
     protected $lastName;
 

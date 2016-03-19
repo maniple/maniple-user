@@ -235,6 +235,10 @@ class ModUser_Model_UserMapper implements ModUser_Model_UserMapperInterface
                 $key = strtolower($filter->filter(substr($method, 3)));
                 $data[$key] = $user->{$method}();
             }
+            if (!strncasecmp($method, 'is', 2)) {
+                $key = strtolower($filter->filter(substr($method, 2)));
+                $data[$key] = $user->{$method}();
+            }
         }
 
         $data['user_id'] = $user->getId();

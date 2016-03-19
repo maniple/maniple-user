@@ -99,7 +99,6 @@ class ModUser_RegistrationController extends ModUser_Controller_Action
                         }
                     }
 
-                    $user->setIsActive(true);
                     $user->setCreatedAt(time());
                     $user->setId(null); // enforce auto-generation
                     $userRepository->saveUser($user);

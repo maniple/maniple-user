@@ -35,7 +35,7 @@ class ModUser_Form_PasswordReset extends Zefram_Form
                         array('Identical', true, array(
                             'token' => 'password',
                             'messages' => array(
-                                Zend_Validate_Identical::NOT_SAME => 'Password mismatch', // 'Podane hasła są różne',
+                                Zend_Validate_Identical::NOT_SAME => 'Passwords do not match',
                             ),
                         )),
                     ),

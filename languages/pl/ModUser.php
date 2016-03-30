@@ -10,6 +10,10 @@
 
     'Passwords do not match' => 'Hasła różnią się od siebie',
 
+    'Confirm password' => 'Potwiedź hasło',
+    'Change password' => 'Zmień hasło',
+    'Password must be different from username / email' => 'Hasło musi być różne od nazwy użytkownika / adresu e-mail',
+
     'First name' => 'Imię',
     'Surname' => 'Nazwisko',
     'Email address' => 'Adres e-mail',

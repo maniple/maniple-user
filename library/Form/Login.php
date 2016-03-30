@@ -8,7 +8,7 @@ class ModUser_Form_Login extends Zend_Form
             'username' => array(
                 'type' => 'text',
                 'options' => array(
-                    'label' => 'Username or Email',
+                    'label' => 'Username or email',
                     'required' => true,
                     'filters' => array(
                         'StringToLower',

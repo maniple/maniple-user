@@ -1,5 +1,5 @@
 <?php return array(
-    'Username or Email' => 'Nazwa użytkownika / e-mail',
+    'Username or email' => 'Nazwa użytkownika / e-mail',
     'Password' => 'Hasło',
     'Sign in' => 'Zaloguj',
 
@@ -18,4 +18,6 @@
 
     'Email address mismatch' => 'Adresy e-mail różnią się od siebie',
     'This email address is already in use' => 'Ten adres e-mail jest już używany',
+
+    'Submit' => 'Prześlij',
 );

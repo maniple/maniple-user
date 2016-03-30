@@ -36,7 +36,7 @@ class ModUser_PasswordController_ForgotAction
 
         $message = new Zefram_Mail;
         $message->setType(Zend_Mime::MULTIPART_RELATED);
-        $message->setSubject($this->view->translate('Your password has been changed'));
+        $message->setSubject($this->view->translate('Password change'));
         $message->addTo($user->getEmail());
 
         $this->view->url_password_reset = $this->view->serverUrl() . $this->view->url('user.password.reset', array('reset_id' => $reset->reset_id));

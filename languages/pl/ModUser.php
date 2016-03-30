@@ -14,6 +14,8 @@
     'Change password' => 'Zmień hasło',
     'Password must be different from username / email' => 'Hasło musi być różne od nazwy użytkownika / adresu e-mail',
 
+    'Password change' => 'Zmiana hasła',
+
     'First name' => 'Imię',
     'Surname' => 'Nazwisko',
     'Email address' => 'Adres e-mail',

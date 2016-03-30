@@ -35,4 +35,11 @@
     'You are already authenticated' => 'Jesteś już zalogowany(a)',
     'Invalid username or password, or your account has not yet been activated' => 'Nieprawidłowa nazwa użytkownika lub hasło, albo konto nie zostało jeszcze aktywowane',
 
+    'Password must be at least %min% characters long' => 'Hasło musi zawierać przynajmniej %min% znaków',
+    'Password contains invalid characters' => 'Hasło zawiera niedozwolone znaki',
+    'Each character may occur no more than half the password length (rounded down) times' => 'Pojedynczy znak nie może wystąpić więcej niż wynosi połowa długości hasła',
+    'Password must contain at least one letter and at least one digit' => 'Hasło musi zawierać przynajmniej jedną literę i przynajmniej jedną cyfrę',
+
+    'No matching user was found' => 'Nie znaleziono pasującego użytkownika',
+    'A matching user was found' => 'Znaleziono pasującego użytkownika',
 );

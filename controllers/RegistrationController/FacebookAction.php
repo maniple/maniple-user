@@ -86,7 +86,7 @@ class ModUser_RegistrationController_FacebookAction
             
             $user = $userManager->createUser($info);
             $user->setUsername($info['email']);
-            $user->setIsActive(true);
+            $user->setActive(true);
             $user->setCreatedAt(time());
             $user->setId(null);
             $userManager->saveUser($user);

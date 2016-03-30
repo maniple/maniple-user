@@ -76,7 +76,7 @@ class ModUser_RegistrationController_FacebookAction
         $user = $userManager->getUserByEmail($info['email']);
 
         if (!$user) {
-            $registrationClosed = true;
+            $registrationClosed = false;
 
             if ($registrationClosed) {
                 $this->_helper->flashMessenger->addErrorMessage('Rejestracja nowych użytkowników jest zamknięta');

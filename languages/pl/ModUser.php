@@ -48,4 +48,6 @@
 
     'No matching user was found' => 'Nie znaleziono pasującego użytkownika',
     'A matching user was found' => 'Znaleziono pasującego użytkownika',
+
+    'Your account has been activated' => 'Twoje konto zostało aktywowane',
 );

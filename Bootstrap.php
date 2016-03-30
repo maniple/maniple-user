@@ -32,6 +32,7 @@ class ModUser_Bootstrap extends Maniple_Application_Module_Bootstrap
 
         /** @var Zend_View_Abstract $view */
         $view = $bootstrap->getResource('View');
+        $view->addScriptPath(dirname(__FILE__) . '/views/scripts');
         $view->addHelperPath(dirname(__FILE__) . '/library/View/Helper/', 'ModUser_View_Helper_');
 
         /** @var Zefram_Controller_Action_Helper_ViewRenderer $viewRenderer */

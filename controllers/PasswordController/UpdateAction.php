@@ -44,7 +44,7 @@ class ModUser_PasswordController_UpdateAction
         $userManager->saveUser($user);
 
         if ($this->isAjax()) {
-            $this->view->success = 'Hasło zostało zmienione';
+            $this->view->success = $this->view->translate('Your password has been changed');
             $this->_helper->json(array(
                 'data' => array(
                     'html' => $this->renderForm()
@@ -53,6 +53,6 @@ class ModUser_PasswordController_UpdateAction
             return false;
         }
 
-        $this->_helper->flashMessenger->addSuccessMessage('Hasło zostało zmienione');
+        $this->_helper->flashMessenger->addSuccessMessage($this->view->translate('Your password has been changed'));
     }
 }

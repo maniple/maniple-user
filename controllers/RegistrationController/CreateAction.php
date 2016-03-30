@@ -99,7 +99,7 @@ class ModUser_RegistrationController_CreateAction
 
         $message = new Zefram_Mail;
         $message->setType(Zend_Mime::MULTIPART_RELATED);
-        $message->setSubject('Confirm your email address');
+        $message->setSubject($this->view->translate('Confirm your email address'));
         $message->addTo($reg->email);
 
         $name = isset($data['username']) ? $data['username'] : $data['email'];

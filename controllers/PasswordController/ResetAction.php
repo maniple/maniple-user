@@ -28,13 +28,12 @@ class ModUser_PasswordController_ResetAction
         $reset = $this->getResource('tableManager')->getTable('ModUser_Model_DbTable_PasswordResets')->fetchRow(array('reset_id = ?' => (string) $this->getScalarParam('reset_id')));
 
         if (empty($reset) || ($reset->expires_at !== null && $reset->expires_at < time())) {
-            throw new Exception('Niepoprawny token resetu hasła');
-                // 'Invalid password reset token');
+            throw new Exception($this->view->translate('Invalid password reset token'));
         }
 
         $user = $this->getUserManager()->getUser($reset->user_id);
         if (empty($user)) {
-            throw new Exception('Corrupted registration token');
+            throw new Exception($this->view->translate('Corrupted password reset token'));
         }
 
         $form = new ModUser_Form_PasswordReset($user);

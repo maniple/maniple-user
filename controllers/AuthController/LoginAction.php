@@ -21,7 +21,7 @@ class ModUser_AuthController_LoginAction
 
             if ($this->_request->isXmlHttpRequest()) {
                 $response = $this->_helper->ajaxResponse();
-                $response->setMessage('You are already authenticated');
+                $response->setMessage($this->view->translate('You are already authenticated'));
                 $response->setData(array('redirect' => $continue));
                 $response->sendAndExit();
 
@@ -80,8 +80,7 @@ class ModUser_AuthController_LoginAction
         }
 
         $this->_form->getElement('password')->addError(
-            'Invalid username or password, or your account has not yet been activated'
-            // 'Nieprawidłowa nazwa użytkownika lub hasło, albo konto nie zostało jeszcze aktywowane'
+            $this->view->translate('Invalid username or password, or your account has not yet been activated')
         );
         $this->_form->markAsError();
         return false;

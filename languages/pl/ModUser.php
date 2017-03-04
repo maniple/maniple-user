@@ -27,7 +27,6 @@
 
     'Submit' => 'Prześlij',
 
-
     'You cannot request resetting your password while being a logged in user.' => 'Nie możesz prosić o reset hasła będąc zalogowanym.',
     'Your password has been changed' => 'Twoje hasło zostało zmienione',
     'Password has been successfully changed' => 'Hasło zostało pomyślnie zmienione',

@@ -9,7 +9,7 @@
  * @deprecated
  */
 class ModUser_RegistrationController_FacebookAction
-    extends Zefram_Controller_Action_Standalone
+    extends Maniple_Controller_Action_Standalone
 {
     public function run()
     {

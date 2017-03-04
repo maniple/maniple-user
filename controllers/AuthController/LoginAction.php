@@ -8,7 +8,7 @@
  * @method ModUser_Model_UserManagerInterface getUserManager()
  */
 class ModUser_AuthController_LoginAction
-    extends Zefram_Controller_Action_StandaloneForm
+    extends Maniple_Controller_Action_StandaloneForm
 {
     protected $_ajaxFormHtml = true;
 
@@ -26,7 +26,7 @@ class ModUser_AuthController_LoginAction
                 $response->sendAndExit();
 
             } else {
-                $this->_redirect($continue);
+                $this->redirect($continue);
                 return;
             }
         }

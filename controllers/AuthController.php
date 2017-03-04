@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @property Zend_Controller_Request_Http $_request
+ */
 class ModUser_AuthController extends ModUser_Controller_Action
 {
     public function getContinueParam() // {{{

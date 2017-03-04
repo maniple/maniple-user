@@ -1,6 +1,6 @@
 <?php
 
-class ModUser_Controller_Action extends Zefram_Controller_Action
+class ModUser_Controller_Action extends Maniple_Controller_Action
 {
     public function getSecurity()
     {

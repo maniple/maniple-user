@@ -1,7 +1,7 @@
 <?php
 
 class ModUser_PasswordController_UpdateAction
-    extends Zefram_Controller_Action_StandaloneForm
+    extends Maniple_Controller_Action_StandaloneForm
 {
     protected $_ajaxFormHtml = true;
 

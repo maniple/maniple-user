@@ -1,7 +1,7 @@
 <?php
 
 class ModUser_RegistrationController_CreateAction
-    extends Zefram_Controller_Action_StandaloneForm
+    extends Maniple_Controller_Action_StandaloneForm
 {
     protected function _prepare()
     {

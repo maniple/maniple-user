@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @property Zend_Controller_Request_Http $_request
+ */
 class ModUser_PasswordController_ForgotAction
     extends Maniple_Controller_Action_StandaloneForm
 {
@@ -29,6 +32,7 @@ class ModUser_PasswordController_ForgotAction
         $reset->reset_id = Zefram_Math_Rand::getString(64);
         $reset->created_at = time();
         $reset->expires_at = time() + 3600; // TODO lifetime
+        $reset->ip_addr = $this->_request->getClientIp();
         $reset->user_id = $user->getId();
         $reset->save();
 

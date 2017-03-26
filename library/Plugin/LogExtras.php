@@ -25,6 +25,21 @@ class ModUser_Plugin_LogExtras extends Zend_Controller_Plugin_Abstract
     {
         $this->_log->setEventItem('ip', $request->getClientIp());
 
+        if ($request instanceof Zend_Controller_Request_Http) {
+            /** @var Zend_Controller_Request_Http $requestUri */
+            $requestUri = $request->getRequestUri();
+
+            if (strpos($requestUri, '?') !== false) {
+                list($path, $query) = explode('?', $requestUri, 2);
+            } else {
+                $path = $requestUri;
+                $query = '';
+            }
+
+            $host = $request->getHttpHost();
+            $this->_log->setExtras(compact('host', 'path', 'query'));
+        }
+
         $bootstrap = $this->_frontController->getParam('bootstrap');
 
         /** @var ModUser_Service_Security $security */

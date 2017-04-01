@@ -119,8 +119,9 @@ CREATE TABLE registrations (
     reg_id              VARCHAR(255) PRIMARY KEY,
 
     -- registration processing status
-    status              ENUM('PENDING', 'CONFIRMED', 'ACCEPTED', 'REJECTED', 'INVALIDATED') NOT NULL
+    status              VARCHAR(16) NOT NULL
                         DEFAULT 'PENDING',
+                        CHECK (status IN ('PENDING', 'CONFIRMED', 'ACCEPTED', 'REJECTED', 'INVALIDATED')),
 
     -- registration time (epoch)
     created_at          INTEGER NOT NULL,

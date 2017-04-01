@@ -2,6 +2,11 @@
 
 class ModUser_Bootstrap extends Maniple_Application_Module_Bootstrap
 {
+    public function getModuleDependencies()
+    {
+        return array();
+    }
+
     public function getResourcesConfig()
     {
         return require dirname(__FILE__) . '/configs/resources.config.php';

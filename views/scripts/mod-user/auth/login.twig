@@ -1,53 +1,18 @@
-<h1>Logowanie</h1>
+<h1>Sign in</h1>
 
 <div class="row">
     <div class="col-md-6">
-        <p>Zaloguj się, aby uzyskać dostęp do swoich zapisów na zajęcia.</p>
+        <p>Sign in to your account</p>
 
         {% include 'mod-user/forms/login.twig' %}
+
+        <p><a href="{{ url('user.password.forgot') }}">Forgot your username or password?</a></p>
     </div>
     <div class="col-md-6">
         <p style="margin-bottom:20px">
-            Jeżeli nie masz jeszcze konta, możesz się
-            <a href="{{ url('user.registration.create') }}">zarejestrować</a>.
-        </p>
-        <p style="margin-bottom:20px">
-            Jeżeli posiadasz konto na Facebooku, możesz zalogować się za jego
-            pomocą, bez konieczności rejestrowania się.
-        </p>
-        <style>
-            .btn-facebook {
-                display: inline-block;
-                padding: 0 24px 0 52px;
-                color: #fff;
-                border: 1px solid #29447e;
-                background: #637bad;
-                font-size: 18px;
-                height: 40px;
-                line-height: 36px;
-                position: relative;
-            }
-            .btn-facebook:hover,
-            .btn-facebook:focus,
-            .btn-facebook:focus:hover {
-                text-decoration: none;
-                color: #fff;
-                outline: none;
-            }
-            .btn-facebook .icon {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 38px;
-                height: 38px;
-                border-right: 1px solid #465f94;
-            }
-        </style>
-        <p class="text-center">
-            <a href="{{ baseUrl('mod-user/registration/facebook') }}" class="btn-facebook">
-                <img class="icon" src="{{ baseUrl('/assets/main/img/facebook.png') }}" />
-                Zaloguj przez Facebooka
-            </a>
+            You can
+            <a href="{{ url('user.registration.create') }}">create an account</a>
+            if you don't have one.
         </p>
     </div>
 </div>

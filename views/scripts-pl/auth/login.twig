@@ -5,6 +5,8 @@
         <p>Zaloguj się, aby uzyskać dostęp do swoich zapisów na zajęcia.</p>
 
         {% include 'forms/login.twig' %}
+
+        <p>Jeżeli nie pamiętasz hasła kliknij <a href="{{ url('user.password.forgot') }}">tutaj</a>.</p>
     </div>
     <div class="col-md-6">
         <p style="margin-bottom:20px">

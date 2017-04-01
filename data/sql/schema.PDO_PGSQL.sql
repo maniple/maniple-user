@@ -1,16 +1,17 @@
 -- roles
 CREATE TABLE roles (
 
-    role_id         INTEGER PRIMARY KEY AUTO_INCREMENT,
+    role_id         SERIAL PRIMARY KEY,
 
     -- role name is purely informative and can be assigned by the end-user
-    name            VARCHAR(255) NOT NULL UNIQUE,
+    name            VARCHAR(255) NOT NULL,
 
     -- role description is even more informative, and as such, optional
     description     VARCHAR(255)
 
-) ENGINE=InnoDB CHARACTER SET 'UTF8' COLLATE 'utf8_general_ci';
+);
 
+CREATE UNIQUE INDEX roles_name_key ON roles (LOWER(name));
 
 CREATE TABLE perms (
 
@@ -22,7 +23,7 @@ CREATE TABLE perms (
     -- permission description
     description     VARCHAR(255)
 
-) ENGINE=InnoDB CHARACTER SET 'UTF8' COLLATE 'utf8_general_ci';
+);
 
 
 CREATE TABLE role_perms (
@@ -33,32 +34,31 @@ CREATE TABLE role_perms (
 
     UNIQUE (role_id, perm_id)
 
-) ENGINE=InnoDB CHARACTER SET 'UTF8' COLLATE 'utf8_general_ci';
+);
 
 
 CREATE TABLE users (
 
-    user_id         INTEGER PRIMARY KEY AUTO_INCREMENT,
+    user_id         SERIAL PRIMARY KEY,
 
-    username        VARCHAR(255) NOT NULL UNIQUE,
+    username        VARCHAR(255) NOT NULL,
 
                     -- salt.SHA-256(salt + password)
     password        VARCHAR(128) NOT NULL,
 
-    email           VARCHAR(255) NOT NULL UNIQUE,
+    email           VARCHAR(255) NOT NULL,
 
     first_name      VARCHAR(255) NOT NULL,
 
     last_name       VARCHAR(255) NOT NULL,
 
-    mid_name        VARCHAR(255),
+    middle_name     VARCHAR(255),
 
     created_at      INTEGER NOT NULL,
 
     is_active       INTEGER NOT NULL DEFAULT 1
                     CHECK (is_active IN (0, 1)),
 
-    -- what is this???
     last_password_change INTEGER,
 
     last_password_reset  INTEGER,
@@ -67,7 +67,16 @@ CREATE TABLE users (
 
     password_reset_token_expires_at INTEGER
 
-) ENGINE=InnoDB CHARACTER SET 'UTF8' COLLATE 'utf8_general_ci';
+);
+
+CREATE UNIQUE INDEX users_username_key
+    ON users (LOWER(username));
+
+CREATE UNIQUE INDEX users_email_key
+    ON users (LOWER(email));
+
+CREATE UNIQUE INDEX users_password_reset_token_key
+    ON users (password_reset_token);
 
 
 CREATE TABLE user_roles (
@@ -82,7 +91,7 @@ CREATE TABLE user_roles (
 
     PRIMARY KEY (user_id, role_id)
 
-) ENGINE=InnoDB CHARACTER SET 'UTF8' COLLATE 'utf8_general_ci';
+);
 
 
 -- password resets
@@ -100,8 +109,7 @@ CREATE TABLE password_resets (
 
     FOREIGN KEY (user_id) REFERENCES users (user_id)
 
-) ENGINE=InnoDB CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-
+);
 
 
 -- user registrations
@@ -152,43 +160,4 @@ CREATE TABLE registrations (
 
     FOREIGN KEY (user_id) REFERENCES users (user_id)
 
-) ENGINE=InnoDB CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-
-
--- Invites are almost stateless mappings between unique token and pairs
--- (email, data).
--- Their aim is to provide default values for some fields in the user
--- registration form. Some values may then be changed (those supplied in the
--- data) and some may not (email).
--- Invitation is accepted when a confirmed registration record exists
--- with matching invite_id value.
-CREATE TABLE invites (
-
-    -- fancy-looking random invite token visible to user
-    invite_id           VARCHAR(255) PRIMARY KEY,
-
-    created_at          INTEGER NOT NULL,
-
-    -- user who issued this invitation
-    created_by          INTEGER NOT NULL,
-
-    -- UNIX timestamp when this invite was processed (accepted or invalidated),
-    -- NULL value indicates that this invite is still pending (no action
-    -- concerning this invite was undertaken by the recipient)
-    -- once set, this invite is unusable as a data source
-    processed_at        INTEGER,
-
-    -- post-registration hooks must identify matching user by email, therefore
-    -- it is crucial that during an invite-based registration email address
-    -- remains unchanged.
-    -- email must be stored as lowercase
-    email               VARCHAR(255) NOT NULL,
-
-    -- json serialized data, such as first name, last name etc.
-    data                TEXT,
-
-    FOREIGN KEY (created_by) REFERENCES users (user_id)
 );
-
-CREATE INDEX invites_email_key ON invites (email);
-

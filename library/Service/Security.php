@@ -28,7 +28,7 @@ class ModUser_Service_Security extends Maniple_Security_ContextAbstract
         return $this;
     }
 
-    public function isAllowed($permission)
+    public function isAllowed($permission, $resource = null)
     {
         if ($this->isSuperUser()) {
             return true;
@@ -41,10 +41,9 @@ class ModUser_Service_Security extends Maniple_Security_ContextAbstract
 
             case 'manage':
                 return $this->isSuperUser();
-
-            default:
-                return false;
         }
+
+        return parent::isAllowed($permission, $resource);
     }
 
     /**

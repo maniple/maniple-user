@@ -47,6 +47,19 @@ class ModUser_Service_Security extends Maniple_Security_ContextAbstract
     }
 
     /**
+     * @param Maniple_Security_UserInterface $user
+     * @throws ModUser_Service_Security_Exception_InsufficientPrivileges
+     */
+    public function impersonate(Maniple_Security_UserInterface $user)
+    {
+        if (!$this->isSuperUser()) {
+            throw new Exception('User is not allowed to impersonate');
+        }
+
+        $this->getUserStorage()->impersonate($user);
+    }
+
+    /**
      * @param array|ArrayAccess $serviceLocator
      * @return ModUser_Service_Security
      */

@@ -74,7 +74,7 @@ class ModUser_AuthController extends ModUser_Controller_Action
 
         // TODO ensure that you cannot impersonate yourself
         $security = $this->getSecurity();
-        $security->getUserStorage()->impersonate($user);
+        $security->impersonate($user);
 
         $referer = $this->_request->getHeader('referer');
         $prefix = $this->view->serverUrl() . rtrim($this->_request->getBaseUrl(), '/') . '/';

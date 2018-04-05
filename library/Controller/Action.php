@@ -2,16 +2,26 @@
 
 class ModUser_Controller_Action extends Maniple_Controller_Action
 {
+    /**
+     * @return ModUser_Service_Security
+     */
     public function getSecurity()
     {
-        return $this->getResource('user.sessionManager');    
+        return $this->getResource('user.sessionManager');
     }
 
+    /**
+     * @return ModUser_Service_Security
+     * @deprecated Use {@link getSecurity()} instead
+     */
     public function getSecurityContext()
     {
         return $this->getSecurity();
     }
 
+    /**
+     * @return ModUser_Model_UserManager
+     */
     public function getUserManager()
     {
         return $this->getResource('user.userManager');

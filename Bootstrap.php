@@ -31,7 +31,7 @@ class ModUser_Bootstrap extends Maniple_Application_Module_Bootstrap
         return array(
             'scriptPaths' => dirname(__FILE__) . '/views/scripts',
             'helperPaths' => array(
-                'ModUser_View_Helper_' => dirname(__FILE__) . '/library/View/Helper/',
+                'ModUser_View_Helper_' => dirname(__FILE__) . '/library/ModUser/View/Helper/',
             ),
         );
     }

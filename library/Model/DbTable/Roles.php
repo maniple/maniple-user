@@ -2,6 +2,8 @@
 
 class ModUser_Model_DbTable_Roles extends Zefram_Db_Table
 {
+    const className = __CLASS__;
+
     protected $_name = 'roles';
 
     public function fetchRoles()

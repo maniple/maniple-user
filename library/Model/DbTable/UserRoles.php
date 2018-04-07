@@ -2,6 +2,8 @@
 
 class ModUser_Model_DbTable_UserRoles extends Zefram_Db_Table
 {
+    const className = __CLASS__;
+
     protected $_name = 'user_roles';
 
     protected $_referenceMap = array(

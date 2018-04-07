@@ -2,6 +2,8 @@
 
 class ModUser_Model_DbTable_PasswordResets extends Zefram_Db_Table
 {
+    const className = __CLASS__;
+
     protected $_name = 'password_resets';
 
     protected $_referenceMap = array(

@@ -18,11 +18,11 @@ class ModUser_Model_DbTable_Roles extends Zefram_Db_Table
         if ($roles) {
             $select = new Zefram_Db_Select($this->_db);
             $select->from(
-                array('perms' => $this->_getTableFromString('ModUser_Model_DbTable_Perms')),
+                array('perms' => $this->_getTableFromString(ModUser_Model_DbTable_Perms::className)),
                 'perm_name'
             );
             $select->join(
-                array('role_perms' => $this->_getTableFromString('ModUser_Model_DbTable_RolePerms')),
+                array('role_perms' => $this->_getTableFromString(ModUser_Model_DbTable_RolePerms::className)),
                 array(
                     'role_perms.role_id IN (?)' => array_keys($roles),
                     'role_perms.perm_id = perms.perm_id',

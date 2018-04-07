@@ -9,12 +9,12 @@ class ModUser_Model_DbTable_UserRoles extends Zefram_Db_Table
     protected $_referenceMap = array(
         'User' => array(
             'columns'       => 'user_id',
-            'refTableClass' => 'ModUser_Model_DbTable_Users',
+            'refTableClass' => ModUser_Model_DbTable_Users::className,
             'refColumns'    => 'user_id',
         ),
         'Role' => array(
             'columns'       => 'role_id',
-            'refTableClass' => 'ModUser_Model_DbTable_Roles',
+            'refTableClass' => ModUser_Model_DbTable_Roles::className,
             'refColumns'    => 'role_id',
         ),
     );

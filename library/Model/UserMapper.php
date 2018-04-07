@@ -191,7 +191,7 @@ class ModUser_Model_UserMapper implements ModUser_Model_UserMapperInterface
      */
     protected function _getUsersTable()
     {
-        return $this->_db->getTableFactory()->getTable('ModUser_Model_DbTable_Users');
+        return $this->_db->getTableFactory()->getTable(ModUser_Model_DbTable_Users::className);
     }
 
     /**

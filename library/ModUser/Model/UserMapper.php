@@ -1,7 +1,5 @@
 <?php
 
-use Maniple\ModUser\Entity\UserInterface;
-
 class ModUser_Model_UserMapper implements ModUser_Model_UserMapperInterface
 {
     /**
@@ -30,8 +28,8 @@ class ModUser_Model_UserMapper implements ModUser_Model_UserMapperInterface
 
         // can't use is_subclass_of as prior to PHP 5.3.7 it does not
         // check interfaces
-        if (!in_array('UserInterface', class_implements($userClass))) {
-            throw new InvalidArgumentException('User class must implement UserInterface interface');
+        if (!in_array('ModUser_Model_UserInterface', class_implements($userClass))) {
+            throw new InvalidArgumentException('User class must implement ModUser_Model_UserInterface interface');
         }
 
         $this->_userClass = $userClass;
@@ -41,7 +39,7 @@ class ModUser_Model_UserMapper implements ModUser_Model_UserMapperInterface
 
     /**
      * @param  int $userId
-     * @return UserInterface|null
+     * @return ModUser_Model_UserInterface|null
      */
     public function getUser($userId)
     {
@@ -56,7 +54,7 @@ class ModUser_Model_UserMapper implements ModUser_Model_UserMapperInterface
 
     /**
      * @param  string $username
-     * @return UserInterface|null
+     * @return ModUser_Model_UserInterface|null
      */
     public function getUserByUsername($username)
     {
@@ -66,7 +64,7 @@ class ModUser_Model_UserMapper implements ModUser_Model_UserMapperInterface
 
     /**
      * @param  string $email
-     * @return UserInterface|null
+     * @return ModUser_Model_UserInterface|null
      */
     public function getUserByEmail($email)
     {
@@ -76,7 +74,7 @@ class ModUser_Model_UserMapper implements ModUser_Model_UserMapperInterface
 
     /**
      * @param  string $usernameOrEmail
-     * @return UserInterface|null
+     * @return ModUser_Model_UserInterface|null
      */
     public function getUserByUsernameOrEmail($usernameOrEmail)
     {
@@ -90,7 +88,7 @@ class ModUser_Model_UserMapper implements ModUser_Model_UserMapperInterface
 
     /**
      * @param  array $userIds
-     * @return UserInterface[]
+     * @return ModUser_Model_UserInterface[]
      */
     public function getUsers(array $userIds = null)
     {
@@ -115,11 +113,11 @@ class ModUser_Model_UserMapper implements ModUser_Model_UserMapperInterface
     /**
      * Saves user entity to the storage.
      *
-     * @param  UserInterface $user
-     * @return UserInterface
+     * @param  ModUser_Model_UserInterface $user
+     * @return ModUser_Model_UserInterface
      * @throws Exception
      */
-    public function saveUser(UserInterface $user)
+    public function saveUser(ModUser_Model_UserInterface $user)
     {
         $userId = $user->getId();
 
@@ -159,7 +157,7 @@ class ModUser_Model_UserMapper implements ModUser_Model_UserMapperInterface
      * Creates a new instance of user entity.
      *
      * @param  array $data OPTIONAL
-     * @return UserInterface
+     * @return ModUser_Model_UserInterface
      */
     public function createUser(array $data = null)
     {
@@ -173,7 +171,7 @@ class ModUser_Model_UserMapper implements ModUser_Model_UserMapperInterface
 
     /**
      * @param string|array|Zend_Db_Expr $where
-     * @return UserInterface|null
+     * @return ModUser_Model_UserInterface|null
      */
     protected function _getUserBy($where)
     {
@@ -197,10 +195,11 @@ class ModUser_Model_UserMapper implements ModUser_Model_UserMapperInterface
     /**
      * Set user properties from array.
      *
-     * @param  UserInterface $user
+     * @param  ModUser_Model_UserInterface $user
      * @param  array $data
+     * @return ModUser_Model_UserInterface
      */
-    public function setFromArray(UserInterface $user, array $data)
+    public function setFromArray(ModUser_Model_UserInterface $user, array $data)
     {
         $filter = new Zend_Filter_Word_UnderscoreToCamelCase();
 
@@ -222,10 +221,10 @@ class ModUser_Model_UserMapper implements ModUser_Model_UserMapperInterface
      * Extract user properties to an array indexed by corresponding row
      * column names.
      *
-     * @param  UserInterface $user
+     * @param  ModUser_Model_UserInterface $user
      * @return array
      */
-    public function getAsArray(UserInterface $user)
+    public function getAsArray(ModUser_Model_UserInterface $user)
     {
         $filter = new Zend_Filter_Word_CamelCaseToUnderscore();
         $data = array('user_id' => null);

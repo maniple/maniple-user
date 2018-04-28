@@ -1,7 +1,5 @@
 <?php
 
-use Maniple\ModUser\Entity\UserInterface;
-
 interface ModUser_Model_UserManagerInterface
 {
     public function getUser($id);
@@ -16,5 +14,5 @@ interface ModUser_Model_UserManagerInterface
 
     public function createUser(array $data = null);
 
-    public function saveUser(UserInterface $user);
+    public function saveUser(ModUser_Model_UserInterface $user);
 }

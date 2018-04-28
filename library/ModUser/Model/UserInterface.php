@@ -18,6 +18,14 @@ interface ModUser_Model_UserInterface
 
     public function setEmail($email);
 
+    public function getFirstName();
+
+    public function setFirstName($firstName);
+
+    public function getLastName();
+
+    public function setLastName($lastName);
+
     public function isActive();
 
     public function setActive($active);

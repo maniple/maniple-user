@@ -152,3 +152,24 @@ CREATE TABLE registrations (
     FOREIGN KEY (user_id) REFERENCES users (user_id)
 
 ) ENGINE=InnoDB CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
+
+
+CREATE TABLE user_settings (
+
+    user_id         INTEGER NOT NULL,
+
+    -- The index limit is 767 bytes (not characters) for InnoDB table. And since MySQL's
+    -- utf8mb4 character set (which the rest of the world calls utf8) needs (at most)
+    -- 4 bytes per character you can only index up to VARCHAR(191)
+    name            VARCHAR(191) NOT NULL,
+
+    value           TEXT NOT NULL,
+
+    saved_at        INTEGER NOT NULL,
+
+    PRIMARY KEY (user_id, name),
+
+    FOREIGN KEY (user_id) REFERENCES users (user_id)
+
+) ENGINE=InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

@@ -18,7 +18,8 @@
             "Bootstrap.php"
         ],
         "psr-0": {
-            "ModUser_": "library/"
+            "ModUser_": "library/",
+            "ManipleUser_": "library/"
         },
         "psr-4": {
             "Maniple\\ModUser\\": "library/"

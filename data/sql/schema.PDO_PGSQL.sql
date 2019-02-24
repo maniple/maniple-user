@@ -162,3 +162,20 @@ CREATE TABLE registrations (
     FOREIGN KEY (user_id) REFERENCES users (user_id)
 
 );
+
+
+CREATE TABLE user_settings (
+
+    user_id         INTEGER NOT NULL,
+
+    name            VARCHAR(255) NOT NULL,
+
+    value           TEXT NOT NULL,
+
+    saved_at        INTEGER NOT NULL,
+
+    PRIMARY KEY (user_id, name),
+
+    FOREIGN KEY (user_id) REFERENCES users (user_id)
+
+);

@@ -21,6 +21,32 @@ class ModUser_Model_UserManager implements ModUser_Model_UserManagerInterface
     protected $_cache;
 
     /**
+     * @var Zend_EventManager_EventManager
+     */
+    protected $_events;
+
+    public function __construct(Zend_EventManager_SharedEventManager $sharedEventManager = null)
+    {
+        $this->_events = new Zend_EventManager_EventManager();
+        $this->_events->setIdentifiers(array(
+            'user.userManager',
+            __CLASS__,
+            get_class($this),
+        ));
+        if ($sharedEventManager) {
+            $this->_events->setSharedCollections($sharedEventManager);
+        }
+    }
+
+    /**
+     * @return Zend_EventManager_EventManager
+     */
+    public function getEventManager()
+    {
+        return $this->_events;
+    }
+
+    /**
      * @param ModUser_Model_UserMapperInterface $userMapper
      * @return $this
      */

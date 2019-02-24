@@ -14,7 +14,7 @@ class ModUser_RegistrationController_CreateAction
         if (!is_array($config)) {
             $config = $config->toArray();
         }
-        $registrationClosed = @$config['mod-user']['registration']['closed'];
+        $registrationClosed = @$config['mod_user']['registration']['closed'];
         if ($registrationClosed) {
             $this->_helper->flashMessenger->addErrorMessage('Rejestracja nowych użytkowników jest zamknięta');
             $this->_helper->redirector->gotoRoute('user.auth.login');
@@ -23,7 +23,11 @@ class ModUser_RegistrationController_CreateAction
 
         $this->getSessionNamespace()->unsetAll();
 
-        $this->_form = new ModUser_Form_Registration($this->getUserManager());
+        $formClass = @$config['mod_user']['registration']['formClass'];
+        if (!$formClass) {
+            $formClass = ModUser_Form_Registration::className;
+        }
+        $this->_form = new $formClass($this->getUserManager(), array('view' => $this->view));
 
         $this->view->form_template = 'mod-user/forms/registration';
     }

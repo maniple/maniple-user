@@ -2,7 +2,9 @@
 
 class ModUser_Form_Registration extends Zefram_Form
 {
-    public function __construct(ModUser_Model_UserManagerInterface $userManager)
+    const className = __CLASS__;
+
+    public function __construct(ModUser_Model_UserManagerInterface $userManager, array $options = array())
     {
         $elements = array(
             'first_name' => array(
@@ -47,9 +49,6 @@ class ModUser_Form_Registration extends Zefram_Form
                             ),
                         )), true),
                     ),
-                    'filters' => array(
-                        'StringToLower',
-                    ),
                 ),
             ),
             'email_verify' => array(
@@ -66,9 +65,6 @@ class ModUser_Form_Registration extends Zefram_Form
                                 Zend_Validate_Identical::NOT_SAME => 'Email address mismatch',
                             ),
                         )),
-                    ),
-                    'filters' => array(
-                        'StringToLower',
                     ),
                 ),
             ),
@@ -96,6 +92,7 @@ class ModUser_Form_Registration extends Zefram_Form
             ),
         );
 
-        parent::__construct(compact('elements'));
+        $options['elements'] = $elements;
+        parent::__construct($options);
     }
 }

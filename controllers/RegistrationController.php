@@ -116,6 +116,14 @@ class ModUser_RegistrationController extends ModUser_Controller_Action
                 throw $e;
             }
 
+            $event = new Zend_EventManager_Event();
+            $event->setName('userRegistrationComplete');
+            $event->setParams(array(
+                'user' => $user,
+                'data' => $data,
+            ));
+            $userRepository->getEventManager()->trigger($event);
+
             // Notify user about account activation
             $message = new Zefram_Mail;
             $message->setType(Zend_Mime::MULTIPART_RELATED);

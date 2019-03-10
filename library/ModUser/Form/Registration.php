@@ -4,7 +4,7 @@ class ModUser_Form_Registration extends Zefram_Form
 {
     const className = __CLASS__;
 
-    public function __construct(ModUser_Model_UserManagerInterface $userManager, array $options = array())
+    public function __construct(ModUser_Model_UserMapperInterface $userManager, array $options = array())
     {
         $elements = array(
             'first_name' => array(

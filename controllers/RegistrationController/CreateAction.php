@@ -1,8 +1,23 @@
 <?php
 
-class ModUser_RegistrationController_CreateAction
-    extends Maniple_Controller_Action_StandaloneForm
+/**
+ * @property Zend_Controller_Request_Http $_request
+ * @method Zend_Session_Namespace getSessionNamespace()
+ */
+class ModUser_RegistrationController_CreateAction extends Maniple_Controller_Action_StandaloneForm
 {
+    /**
+     * @Inject('user.model.userMapper')
+     * @var ModUser_Model_UserMapperInterface
+     */
+    protected $_userRepository;
+
+    /**
+     * @Inject('Zefram_Db')
+     * @var Zefram_Db
+     */
+    protected $_db;
+
     protected function _prepare()
     {
         if ($this->getSecurityContext()->isAuthenticated()) {
@@ -27,7 +42,7 @@ class ModUser_RegistrationController_CreateAction
         if (!$formClass) {
             $formClass = ModUser_Form_Registration::className;
         }
-        $this->_form = new $formClass($this->getUserManager(), array('view' => $this->view));
+        $this->_form = new $formClass($this->_userRepository, array('view' => $this->view));
 
         $this->view->form_template = 'mod-user/forms/registration';
     }
@@ -47,7 +62,7 @@ class ModUser_RegistrationController_CreateAction
         // hash password
         $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
 
-        $reg = $this->getTableManager()->getTable('ModUser_Model_DbTable_Registrations')->createRow(array(
+        $reg = $this->_db->getTable(ModUser_Model_DbTable_Registrations::className)->createRow(array(
             'reg_id'     => Zefram_Math_Rand::getString(64, Zefram_Math_Rand::BASE64URL),
             'created_at' => time(),
             'expires_at' => null, // TODO registration.lifetime setting

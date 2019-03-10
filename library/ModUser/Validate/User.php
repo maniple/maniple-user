@@ -13,7 +13,7 @@ abstract class ModUser_Validate_User extends Zend_Validate_Abstract
     const USER_EXISTS             = 'userExists';
 
     /**
-     * @var ModUser_Model_UserRepositoryInterface
+     * @var ModUser_Model_UserMapperInterface
      */
     protected $_userRepository;
 
@@ -54,17 +54,17 @@ abstract class ModUser_Validate_User extends Zend_Validate_Abstract
     }
 
     /**
-     * @param  ModUser_Model_UserRepositoryInterface $userRepository
-     * @return Core_Validate_UserExists
+     * @param  ModUser_Model_UserMapperInterface $userRepository
+     * @return $this
      */
-    public function setUserRepository(/* ModUser_Model_UserRepositoryInterface */ $userRepository)
+    public function setUserRepository(ModUser_Model_UserMapperInterface $userRepository)
     {
         $this->_userRepository = $userRepository;
         return $this;
     }
 
     /**
-     * @return ModUser_Model_UserRepositoryInterface
+     * @return ModUser_Model_UserMapperInterface
      * @throws Exception
      */
     public function getUserRepository()
@@ -114,7 +114,7 @@ abstract class ModUser_Validate_User extends Zend_Validate_Abstract
      * according to current matchBy setting.
      *
      * @param  mixed $value
-     * @return UserInterface
+     * @return ModUser_Model_UserInterface
      * @throws RuntimeException
      */
     protected function _getUserByValue($value)

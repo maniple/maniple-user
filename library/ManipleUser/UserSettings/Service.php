@@ -75,6 +75,9 @@ class ManipleUser_UserSettings_Service
     {
         if ($user === null) {
             $userId = $this->_securityContext->getIdentity();
+            if (empty($userId)) {
+                throw new Exception('No user is authenticated');
+            }
         } elseif ($user instanceof ModUser_Model_UserInterface) {
             $userId = $user->getId();
         } else {

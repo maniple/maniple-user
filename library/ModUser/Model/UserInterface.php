@@ -1,6 +1,6 @@
 <?php
 
-interface ModUser_Model_UserInterface
+interface ModUser_Model_UserInterface extends Maniple_Security_UserInterface
 {
     /**
      * @return int

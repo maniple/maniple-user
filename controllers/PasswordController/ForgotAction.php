@@ -6,29 +6,41 @@
 class ModUser_PasswordController_ForgotAction
     extends Maniple_Controller_Action_StandaloneForm
 {
+    /**
+     * @Inject('user.model.userMapper')
+     * @var ModUser_Model_UserMapperInterface
+     */
+    protected $_userRepository;
+
+    /**
+     * @Inject('Zefram_Db')
+     * @var Zefram_Db
+     */
+    protected $_db;
+
     protected function _prepare()
     {
         $security = $this->getSecurity();
 
         if ($security->isAuthenticated()) {
-            $this->flashMessage(
+            $this->_helper->flashMessenger->addErrorMessage(
                 $this->view->translate(
                     'You cannot request resetting your password while being a logged in user.'
-                ),
-                'error'
+                )
             );
             return $this->_helper->redirector->gotoUrlAndExit('/');
         }
 
-        $this->_form = new ModUser_Form_PasswordForgot($this->getUserManager());
+        $this->_form = new ModUser_Form_PasswordForgot($this->_userRepository);
         $this->getSessionNamespace('forgot')->unsetAll();
     }
 
     protected function _process()
     {
+        /** @var ModUser_Model_UserInterface $user */
         $user = $this->_form->getElement('username')->getValidator('UserExists')->user;
 
-        $reset = $this->getTableManager()->getTable('ModUser_Model_DbTable_PasswordResets')->createRow();
+        $reset = $this->_db->getTable(ModUser_Model_DbTable_PasswordResets::className)->createRow();
         $reset->reset_id = Zefram_Math_Rand::getString(64);
         $reset->created_at = time();
         $reset->expires_at = time() + 3600; // TODO lifetime

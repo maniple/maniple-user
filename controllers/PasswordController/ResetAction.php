@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @property ModUser_Form_PasswordReset $_form
+ */
 class ModUser_PasswordController_ResetAction
     extends Maniple_Controller_Action_StandaloneForm
 {
@@ -11,21 +14,26 @@ class ModUser_PasswordController_ResetAction
 
     protected $_user;
 
+    /**
+     * @Inject('Zefram_Db')
+     * @var Zefram_Db
+     */
+    protected $_db;
+
     protected function _prepare()
     {
         $security = $this->getSecurity();
 
         if ($security->isAuthenticated()) {
-            $this->_helper->flashMessenger->addMessage(
+            $this->_helper->flashMessenger->addErrorMessage(
                 $this->view->translate(
                     'You cannot request resetting your password while being a logged in user.'
-                ),
-                'error'
+                )
             );
             return $this->_helper->redirector->gotoUrlAndExit('/');
         }
 
-        $reset = $this->getResource('tableManager')->getTable('ModUser_Model_DbTable_PasswordResets')->fetchRow(array('reset_id = ?' => (string) $this->getScalarParam('reset_id')));
+        $reset = $this->_db->getTable(ModUser_Model_DbTable_PasswordResets::className)->fetchRow(array('reset_id = ?' => (string) $this->getScalarParam('reset_id')));
 
         if (empty($reset) || ($reset->expires_at !== null && $reset->expires_at < time())) {
             throw new Exception($this->view->translate('Invalid password reset token'));
@@ -56,7 +64,7 @@ class ModUser_PasswordController_ResetAction
 
         $this->getUserManager()->saveUser($user);
 
-        $this->getTableManager()->getTable('ModUser_Model_DbTable_PasswordResets')->delete(array(
+        $this->_db->getTable(ModUser_Model_DbTable_PasswordResets::className)->delete(array(
             'user_id = ?' => (int) $user->getId(),
         ));
 

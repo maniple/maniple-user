@@ -2,7 +2,7 @@
 
 class ModUser_Form_PasswordForgot extends Zefram_Form
 {
-    public function __construct(ModUser_Model_UserManagerInterface $userManager)
+    public function __construct(ModUser_Model_UserMapperInterface $userManager)
     {
         $elements = array(
             'username' => array(

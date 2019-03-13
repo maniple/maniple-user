@@ -63,6 +63,9 @@ class ModUser_Form_PasswordReset extends Zefram_Form
         return $this;
     }
 
+    /**
+     * @return UserInterface
+     */
     public function getUser()
     {
         return $this->_user;

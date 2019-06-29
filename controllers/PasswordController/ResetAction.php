@@ -1,9 +1,9 @@
 <?php
 
 /**
- * @property ModUser_Form_PasswordReset $_form
+ * @property ManipleUser_Form_PasswordReset $_form
  */
-class ModUser_PasswordController_ResetAction
+class ManipleUser_PasswordController_ResetAction
     extends Maniple_Controller_Action_StandaloneForm
 {
     protected $_ajaxViewScript = '_forms/password.twig';
@@ -33,7 +33,7 @@ class ModUser_PasswordController_ResetAction
             return $this->_helper->redirector->gotoUrlAndExit('/');
         }
 
-        $reset = $this->_db->getTable(ModUser_Model_DbTable_PasswordResets::className)->fetchRow(array('reset_id = ?' => (string) $this->getScalarParam('reset_id')));
+        $reset = $this->_db->getTable(ManipleUser_Model_DbTable_PasswordResets::className)->fetchRow(array('reset_id = ?' => (string) $this->getScalarParam('reset_id')));
 
         if (empty($reset) || ($reset->expires_at !== null && $reset->expires_at < time())) {
             throw new Exception($this->view->translate('Invalid password reset token'));
@@ -44,7 +44,7 @@ class ModUser_PasswordController_ResetAction
             throw new Exception($this->view->translate('Corrupted password reset token'));
         }
 
-        $form = new ModUser_Form_PasswordReset($user);
+        $form = new ManipleUser_Form_PasswordReset($user);
         $form->setAction(
             $this->view->url('user.password.reset', array('reset_id' => $reset->reset_id))
         );
@@ -64,7 +64,7 @@ class ModUser_PasswordController_ResetAction
 
         $this->getUserManager()->saveUser($user);
 
-        $this->_db->getTable(ModUser_Model_DbTable_PasswordResets::className)->delete(array(
+        $this->_db->getTable(ManipleUser_Model_DbTable_PasswordResets::className)->delete(array(
             'user_id = ?' => (int) $user->getId(),
         ));
 

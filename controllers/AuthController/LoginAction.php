@@ -1,13 +1,11 @@
 <?php
 
 /**
- * Class ModUser_AuthController_LoginAction
- *
  * @method string getContinueParam()
- * @method ModUser_Service_Security getSecurityContext()
- * @method ModUser_Model_UserManagerInterface getUserManager()
+ * @method ManipleUser_Service_Security getSecurityContext()
+ * @method ManipleUser_Model_UserManagerInterface getUserManager()
  */
-class ModUser_AuthController_LoginAction
+class ManipleUser_AuthController_LoginAction
     extends Maniple_Controller_Action_StandaloneForm
 {
     protected $_ajaxFormHtml = true;
@@ -31,7 +29,7 @@ class ModUser_AuthController_LoginAction
             }
         }
 
-        $this->_form = new ModUser_Form_Login();
+        $this->_form = new ManipleUser_Form_Login();
 
         // boolean auth_required value is set only via Auth plugin
         $this->view->auth_required = true === $this->getParam('auth_required');
@@ -91,7 +89,7 @@ class ModUser_AuthController_LoginAction
         $user = $this->_user;
 
         // remove all password resets for user
-        $this->getTableManager()->getTable('ModUser_Model_DbTable_PasswordResets')->delete(array(
+        $this->getTableManager()->getTable('ManipleUser_Model_DbTable_PasswordResets')->delete(array(
             'user_id = ?' => (int) $user->getId(),
         ));
 

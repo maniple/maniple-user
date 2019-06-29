@@ -3,7 +3,7 @@
 /**
  * @property Zend_Controller_Request_Http $_request
  */
-class ModUser_AuthController extends ModUser_Controller_Action
+class ManipleUser_AuthController extends ManipleUser_Controller_Action
 {
     public function getContinueParam() // {{{
     {

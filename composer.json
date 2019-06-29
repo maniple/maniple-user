@@ -1,5 +1,5 @@
 {
-    "name": "maniple/mod-user",
+    "name": "maniple/maniple-user",
     "description": "User support for maniple",
     "type": "zend1-module",
     "license": "MIT",
@@ -18,11 +18,7 @@
             "Bootstrap.php"
         ],
         "psr-0": {
-            "ModUser_": "library/",
             "ManipleUser_": "library/"
-        },
-        "psr-4": {
-            "Maniple\\ModUser\\": "library/"
         }
     }
 }

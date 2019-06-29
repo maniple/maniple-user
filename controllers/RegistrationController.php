@@ -1,6 +1,6 @@
 <?php
 
-class ModUser_RegistrationController extends ModUser_Controller_Action
+class ManipleUser_RegistrationController extends ManipleUser_Controller_Action
 {
     /**
      * @return Zend_Session_Namespace
@@ -38,7 +38,7 @@ class ModUser_RegistrationController extends ModUser_Controller_Action
     public function confirmAction()
     {
         $reg_id = (string) $this->getScalarParam('reg_id');
-        $reg = $this->getTableManager()->getTable('ModUser_Model_DbTable_Registrations')->fetchRow(array(
+        $reg = $this->getTableManager()->getTable('ManipleUser_Model_DbTable_Registrations')->fetchRow(array(
             'reg_id = ?' => $reg_id,
             'status = ?' => 'PENDING',
         ));
@@ -171,7 +171,7 @@ class ModUser_RegistrationController extends ModUser_Controller_Action
             $this->view->email = $reg->email;
 
             // prepare login form
-            $form = new ModUser_Form_Login;
+            $form = new ManipleUser_Form_Login;
             $form->setAction($this->view->url('user.auth.login'));
             $form->setDefaults(array('username' => $reg->email));
 

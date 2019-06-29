@@ -1,16 +1,16 @@
 <?php
 
-class ModUser_PasswordController_UpdateAction
+class ManipleUser_PasswordController_UpdateAction
     extends Maniple_Controller_Action_StandaloneForm
 {
     protected $_ajaxFormHtml = true;
 
     /**
-     * @return ModUser_Model_UserManager
+     * @return ManipleUser_Model_UserManager
      */
     public function getUserManager()
     {
-        /** @var ModUser_Model_UserManager $userManager */
+        /** @var ManipleUser_Model_UserManager $userManager */
         $userManager = $this->getResource('user.userManager');
         return $userManager;
     }
@@ -30,7 +30,7 @@ class ModUser_PasswordController_UpdateAction
             throw new Exception('User was not found');
         }
 
-        $this->_form = new ModUser_Form_Password($user);
+        $this->_form = new ManipleUser_Form_Password($user);
     }
 
     protected function _process()

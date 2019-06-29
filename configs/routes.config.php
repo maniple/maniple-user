@@ -4,7 +4,7 @@
     'user.auth.login' => array(
         'route' => 'login',
         'defaults' => array(
-            'module'     => 'mod-user',
+            'module'     => 'maniple-user',
             'controller' => 'auth',
             'action'     => 'login',
         ),
@@ -12,7 +12,7 @@
     'user.auth.logout' => array(
         'route' => 'logout',
         'defaults' => array(
-            'module'     => 'mod-user',
+            'module'     => 'maniple-user',
             'controller' => 'auth',
             'action'     => 'logout',
         ),
@@ -20,7 +20,7 @@
     'user.auth.impersonate' => array(
         'route' => 'impersonate/:user_id',
         'defaults' => array(
-            'module'     => 'mod-user',
+            'module'     => 'maniple-user',
             'controller' => 'auth',
             'action'     => 'impersonate',
         ),
@@ -34,7 +34,7 @@
     'user.password.forgot' => array(
         'route' => 'forgot-password',
         'defaults' => array(
-            'module'     => 'mod-user',
+            'module'     => 'maniple-user',
             'controller' => 'password',
             'action'     => 'forgot',
         ),
@@ -42,7 +42,7 @@
     'user.password.forgot_complete' => array(
         'route' => 'forgot-password/complete',
         'defaults' => array(
-            'module'     => 'mod-user',
+            'module'     => 'maniple-user',
             'controller' => 'password',
             'action'     => 'forgot-complete',
         ),
@@ -50,7 +50,7 @@
     'user.password.reset' => array(
         'route' => 'reset-password/:reset_id',
         'defaults' => array(
-            'module'     => 'mod-user',
+            'module'     => 'maniple-user',
             'controller' => 'password',
             'action'     => 'reset',
         ),
@@ -61,7 +61,7 @@
     'user.password.reset_complete' => array(
         'route' => 'reset-password/complete',
         'defaults' => array(
-            'module'     => 'mod-user',
+            'module'     => 'maniple-user',
             'controller' => 'password',
             'action'     => 'reset-complete',
         ),
@@ -69,7 +69,7 @@
     'user.password.update' => array(
         'route' => 'password',
         'defaults' => array(
-            'module'     => 'mod-user',
+            'module'     => 'maniple-user',
             'controller' => 'password',
             'action'     => 'update',
         ),    
@@ -80,7 +80,7 @@
     'user.registration.create' => array(
         'route' => 'register',
         'defaults' => array(
-            'module'     => 'mod-user',
+            'module'     => 'maniple-user',
             'controller' => 'registration',
             'action'     => 'create',
         ),
@@ -88,7 +88,7 @@
     'user.registration.confirm' => array(
         'route' => 'registration/confirm/:reg_id',
         'defaults' => array(
-            'module'     => 'mod-user',
+            'module'     => 'maniple-user',
             'controller' => 'registration',
             'action'     => 'confirm',
         ),
@@ -99,7 +99,7 @@
     'user.registration.complete' => array(
         'route' => 'registration/complete',
         'defaults' => array(
-            'module'     => 'mod-user',
+            'module'     => 'maniple-user',
             'controller' => 'registration',
             'action'     => 'complete',
         ),

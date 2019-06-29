@@ -1,7 +1,7 @@
 <?php
 
 // controller with password reset/recovery
-class ModUser_PasswordController extends ModUser_Controller_Action
+class ManipleUser_PasswordController extends ManipleUser_Controller_Action
 {
     public function getSessionNamespace($name)
     {

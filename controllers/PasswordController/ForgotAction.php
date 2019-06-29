@@ -3,12 +3,12 @@
 /**
  * @property Zend_Controller_Request_Http $_request
  */
-class ModUser_PasswordController_ForgotAction
+class ManipleUser_PasswordController_ForgotAction
     extends Maniple_Controller_Action_StandaloneForm
 {
     /**
      * @Inject('user.model.userMapper')
-     * @var ModUser_Model_UserMapperInterface
+     * @var ManipleUser_Model_UserMapperInterface
      */
     protected $_userRepository;
 
@@ -31,16 +31,16 @@ class ModUser_PasswordController_ForgotAction
             return $this->_helper->redirector->gotoUrlAndExit('/');
         }
 
-        $this->_form = new ModUser_Form_PasswordForgot($this->_userRepository);
+        $this->_form = new ManipleUser_Form_PasswordForgot($this->_userRepository);
         $this->getSessionNamespace('forgot')->unsetAll();
     }
 
     protected function _process()
     {
-        /** @var ModUser_Model_UserInterface $user */
+        /** @var ManipleUser_Model_UserInterface $user */
         $user = $this->_form->getElement('username')->getValidator('UserExists')->user;
 
-        $reset = $this->_db->getTable(ModUser_Model_DbTable_PasswordResets::className)->createRow();
+        $reset = $this->_db->getTable(ManipleUser_Model_DbTable_PasswordResets::className)->createRow();
         $reset->reset_id = Zefram_Math_Rand::getString(64);
         $reset->created_at = time();
         $reset->expires_at = time() + 3600; // TODO lifetime

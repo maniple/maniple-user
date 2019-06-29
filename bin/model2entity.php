@@ -12,14 +12,14 @@ foreach ($it as $f) {
 
     $php = file_get_contents($f);
 
-    if (strpos($php, 'ModUser_Model_UserInterface') === false) {
+    if (strpos($php, 'ManipleUser_Model_UserInterface') === false) {
         continue;
     }
 
     $php = strtr(
         $php,
         array(
-            'ModUser_Model_UserInterface' => 'UserInterface',
+            'ManipleUser_Model_UserInterface' => 'UserInterface',
         )
     );
     $php = "<?php\n\nuse Maniple\\ModUser\\Entity\\UserInterface;\n" . substr($php, 6); // skip <?php\n

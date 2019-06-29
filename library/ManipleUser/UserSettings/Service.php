@@ -21,7 +21,7 @@ class ManipleUser_UserSettings_Service
     /**
      * Retrieve all settings of a given user
      *
-     * @param int|ModUser_Model_UserInterface $user OPTIONAL
+     * @param int|ManipleUser_Model_UserInterface $user OPTIONAL
      * @return array
      */
     public function getAll($user = null)
@@ -33,7 +33,7 @@ class ManipleUser_UserSettings_Service
      * Retrieve single user setting
      *
      * @param string $name
-     * @param int|ModUser_Model_UserInterface $user OPTIONAL
+     * @param int|ManipleUser_Model_UserInterface $user OPTIONAL
      * @return mixed
      */
     public function get($name, $user = null)
@@ -46,7 +46,7 @@ class ManipleUser_UserSettings_Service
      *
      * @param string $name
      * @param mixed $value
-     * @param int|ModUser_Model_UserInterface $user OPTIONAL
+     * @param int|ManipleUser_Model_UserInterface $user OPTIONAL
      * @return $this
      */
     public function set($name, $value, $user = null)
@@ -59,7 +59,7 @@ class ManipleUser_UserSettings_Service
      * Remove user setting
      *
      * @param $name
-     * @param int|ModUser_Model_UserInterface $user OPTIONAL
+     * @param int|ManipleUser_Model_UserInterface $user OPTIONAL
      * @return bool
      */
     public function remove($name, $user = null)
@@ -68,7 +68,7 @@ class ManipleUser_UserSettings_Service
     }
 
     /**
-     * @param ModUser_Model_UserInterface|null|int $user
+     * @param ManipleUser_Model_UserInterface|null|int $user
      * @return int
      */
     protected function _getUserId($user)
@@ -78,7 +78,7 @@ class ManipleUser_UserSettings_Service
             if (empty($userId)) {
                 throw new Exception('No user is authenticated');
             }
-        } elseif ($user instanceof ModUser_Model_UserInterface) {
+        } elseif ($user instanceof ManipleUser_Model_UserInterface) {
             $userId = $user->getId();
         } else {
             $userId = $user;

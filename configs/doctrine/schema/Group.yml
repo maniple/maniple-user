@@ -1,5 +1,5 @@
 
-ModUser_Model_Group:
+ManipleUser_Model_Group:
     tableName: groups
     columns:
         group_id:
@@ -18,8 +18,8 @@ ModUser_Model_Group:
             default:        0
     relations:
         Users:
-            class:          ModTest_Model_User
-            refClass:       ModUser_Model_GroupUser
+            class:          ManipleUser_Model_User
+            refClass:       ManipleUser_Model_GroupUser
 
     options:
         type: INNODB
@@ -27,7 +27,7 @@ ModUser_Model_Group:
         charset: utf8
 
 
-ModUser_Model_GroupUser:
+ManipleUser_Model_GroupUser:
     tableName: group_users
     columns:
         group_id:
@@ -41,7 +41,7 @@ ModUser_Model_GroupUser:
 
     relations:
         Group:
-            class:          ModUser_Model_Group
+            class:          ManipleUser_Model_Group
             local:          group_id
             foreign:        group_id
             foreignType:    many

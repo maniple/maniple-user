@@ -1,6 +1,6 @@
 <?php
 
-class ModUser_Bootstrap extends Maniple_Application_Module_Bootstrap
+class ManipleUser_Bootstrap extends Maniple_Application_Module_Bootstrap
 {
     public function getModuleDependencies()
     {
@@ -31,7 +31,7 @@ class ModUser_Bootstrap extends Maniple_Application_Module_Bootstrap
         return array(
             'scriptPaths' => dirname(__FILE__) . '/views/scripts',
             'helperPaths' => array(
-                'ModUser_View_Helper_' => dirname(__FILE__) . '/library/ModUser/View/Helper/',
+                'ManipleUser_View_Helper_' => dirname(__FILE__) . '/library/ManipleUser/View/Helper/',
             ),
         );
     }
@@ -40,8 +40,8 @@ class ModUser_Bootstrap extends Maniple_Application_Module_Bootstrap
     {
         /** @var Zefram_Controller_Action_Helper_ViewRenderer $viewRenderer */
         $viewRenderer = Zend_Controller_Action_HelperBroker::getStaticHelper('ViewRenderer');
-        $viewRenderer->setViewScriptPathSpec(':module/:controller/:action.:suffix', 'mod-user');
-        $viewRenderer->setViewSuffix('twig', 'mod-user');
+        $viewRenderer->setViewScriptPathSpec(':module/:controller/:action.:suffix', 'maniple-user');
+        $viewRenderer->setViewSuffix('twig', 'maniple-user');
     }
 
     /**
@@ -60,7 +60,7 @@ class ModUser_Bootstrap extends Maniple_Application_Module_Bootstrap
 
             /** @var Zend_Controller_Front $front */
             $front = $bootstrap->getResource('FrontController');
-            $front->registerPlugin(new ModUser_Plugin_LogExtras($log, $front));
+            $front->registerPlugin(new ManipleUser_Plugin_LogExtras($log, $front));
         }
 
         // if nothing is returned, resource is not added to the container

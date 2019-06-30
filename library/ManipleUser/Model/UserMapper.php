@@ -10,7 +10,7 @@ class ManipleUser_Model_UserMapper implements ManipleUser_Model_UserMapperInterf
     /**
      * @var string
      */
-    protected $_userClass = ManipleUser_Model_User::className;
+    protected $_userClass = ManipleUser_Entity_User::className;
 
     public function __construct(Zefram_Db $db)
     {
@@ -19,7 +19,7 @@ class ManipleUser_Model_UserMapper implements ManipleUser_Model_UserMapperInterf
 
     /**
      * @param  string $userClass
-     * @return ManipleUser_Model_UserManager
+     * @return $this
      * @throws InvalidArgumentException
      */
     public function setUserClass($userClass)

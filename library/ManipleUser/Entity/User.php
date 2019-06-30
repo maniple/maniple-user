@@ -1,13 +1,13 @@
 <?php
 
-// use Doctrine\Common\Collections\ArrayCollection;
-
 /**
  * @Entity(repositoryClass="ManipleUser_Repository_UserRepository")
  * @Table(name="users")
  */
 class ManipleUser_Entity_User implements ManipleUser_Entity_UserInterface
 {
+    const className = __CLASS__;
+
     /**
      * @Id
      * @Column(name="user_id", type="integer")

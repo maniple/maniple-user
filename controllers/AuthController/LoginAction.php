@@ -89,7 +89,7 @@ class ManipleUser_AuthController_LoginAction
         $user = $this->_user;
 
         // remove all password resets for user
-        $this->getTableManager()->getTable('ManipleUser_Model_DbTable_PasswordResets')->delete(array(
+        $this->getTableManager()->getTable(ManipleUser_Model_DbTable_PasswordResets::className)->delete(array(
             'user_id = ?' => (int) $user->getId(),
         ));
 

@@ -44,7 +44,7 @@ class ManipleUser_RegistrationController_CreateAction extends Maniple_Controller
         }
         $this->_form = new $formClass($this->_userRepository, array('view' => $this->view));
 
-        $this->view->form_template = 'mod-user/forms/registration';
+        $this->view->form_template = 'maniple-user/forms/registration';
     }
 
     protected function _process()
@@ -131,7 +131,7 @@ class ManipleUser_RegistrationController_CreateAction extends Maniple_Controller
         $this->view->name = $name;
         $this->view->message = $message;
 
-        $message->setBodyHtml($this->view->render('mod-user/registration/mail/confirm.twig'));
+        $message->setBodyHtml($this->view->render('maniple-user/registration/mail/confirm.twig'));
 
         try {
             $message->send();
@@ -145,7 +145,7 @@ class ManipleUser_RegistrationController_CreateAction extends Maniple_Controller
 
             $response = Zefram_Json::encode(array(
                 'status' => 'success',
-                'data' => $this->view->render('mod-user/registration/complete.twig'),
+                'data' => $this->view->render('maniple-user/registration/complete.twig'),
             ));
 
             $this->_helper->json($response);

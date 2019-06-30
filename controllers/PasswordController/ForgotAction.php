@@ -59,7 +59,7 @@ class ManipleUser_PasswordController_ForgotAction
         $this->view->user = $user;
         $this->view->message = $message;
 
-        $message->setBodyHtml($this->view->render('mod-user/password/password-forgot-mail.twig'));
+        $message->setBodyHtml($this->view->render('maniple-user/password/password-forgot-mail.twig'));
         $message->send();
 
         if ($this->_request->isXmlHttpRequest()) {

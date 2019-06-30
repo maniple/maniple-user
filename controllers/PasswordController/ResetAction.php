@@ -79,7 +79,7 @@ class ManipleUser_PasswordController_ResetAction
         $this->view->user = $user;
         $this->view->message = $message;
 
-        $message->setBodyHtml($this->view->render('mod-user/password/password-reset-mail.twig'));
+        $message->setBodyHtml($this->view->render('maniple-user/password/password-reset-mail.twig'));
         $message->send();
 
         return $this->view->url('user.password.reset_complete');

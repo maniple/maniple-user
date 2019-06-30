@@ -142,7 +142,7 @@ class ManipleUser_RegistrationController extends ManipleUser_Controller_Action
             $this->view->name = $name;
 
             // TODO configurable template root dir
-            $message->setBodyHtml($this->view->render('mod-user/registration/mail/account-activated.twig'));
+            $message->setBodyHtml($this->view->render('maniple-user/registration/mail/account-activated.twig'));
             $message->send();
 
             /*

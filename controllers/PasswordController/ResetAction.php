@@ -71,10 +71,19 @@ class ManipleUser_PasswordController_ResetAction
         $sessionNamespace = $this->getSessionNamespace('reset');
         $sessionNamespace->complete = true;
 
+        header('Location: ' . $this->view->url('user.password.reset_complete'));
+        header('Connection: close');
+        header('Content-Length: 0');
+
+        while (@ob_end_clean());
+        flush();
+
+        session_write_close();
+
         $message = new Zefram_Mail;
         $message->setType(Zend_Mime::MULTIPART_RELATED);
         $message->setSubject($this->view->translate('Your password has been changed'));
-        $message->addTo($user->getEmail());
+        $message->addTo($user->getEmail(), $user->getFirstName() . ' ' . $user->getLastName());
 
         $this->view->user = $user;
         $this->view->message = $message;
@@ -82,6 +91,7 @@ class ManipleUser_PasswordController_ResetAction
         $message->setBodyHtml($this->view->render('maniple-user/password/password-reset-mail.twig'));
         $message->send();
 
+        exit;
         return $this->view->url('user.password.reset_complete');
     }
 }

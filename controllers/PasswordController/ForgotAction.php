@@ -65,7 +65,7 @@ class ManipleUser_PasswordController_ForgotAction
         if ($this->_request->isXmlHttpRequest()) {
             $this->_helper->json(array(
                 'success' => true,
-                'message' => $this->view->translate('Password has been successfully changed'),
+                'message' => $this->view->translate('Password has been successfully changed'), // FIXME
             ));
             return false;
         }

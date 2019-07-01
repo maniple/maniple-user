@@ -242,6 +242,12 @@ class ManipleUser_Model_UserMapper implements ManipleUser_Model_UserMapperInterf
 
         $data['user_id'] = $user->getId();
 
+        foreach ($data as $key => $value) {
+            if (is_bool($value)) {
+                $data[$key] = $value ? 1 : 0;
+            }
+        }
+
         return $data;
     }
 }

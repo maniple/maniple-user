@@ -17,6 +17,10 @@
         ),
     ),
 
+    'ManipleUser_Signup_SignupManager' => array(
+        'class' => 'ManipleUser_Signup_SignupManager',
+    ),
+
     'ManipleUser.UserSettings' => array(
         'class' => 'ManipleUser_UserSettings_Service',
         'args'  => array(

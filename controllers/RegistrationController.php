@@ -3,6 +3,12 @@
 class ManipleUser_RegistrationController extends ManipleUser_Controller_Action
 {
     /**
+     * @Inject
+     * @var Zefram_Db
+     */
+    protected $_db;
+
+    /**
      * @return Zend_Session_Namespace
      */
     public function getSessionNamespace() // {{{
@@ -38,7 +44,7 @@ class ManipleUser_RegistrationController extends ManipleUser_Controller_Action
     public function confirmAction()
     {
         $reg_id = (string) $this->getScalarParam('reg_id');
-        $reg = $this->getTableManager()->getTable('ManipleUser_Model_DbTable_Registrations')->fetchRow(array(
+        $reg = $this->_db->getTable(ManipleUser_Model_DbTable_Registrations::className)->fetchRow(array(
             'reg_id = ?' => $reg_id,
             'status = ?' => 'PENDING',
         ));
@@ -69,7 +75,7 @@ class ManipleUser_RegistrationController extends ManipleUser_Controller_Action
             //$domain = substr($data['email'], strrpos($data['email'], '@') + 1);
             //$auto_accept = in_array($domain, $auto_accept_domains);
 
-            $db = $this->getTableManager()->getAdapter();
+            $db = $this->_db->getAdapter();
             $db->beginTransaction();
 
             try {

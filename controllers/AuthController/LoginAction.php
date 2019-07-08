@@ -1,13 +1,21 @@
 <?php
 
 /**
+ * @property Zend_Controller_Request_Http $_request
  * @method string getContinueParam()
+ * @method string getContinueAfterLogin(string $continue = null)
  * @method ManipleUser_Service_Security getSecurityContext()
  * @method ManipleUser_Model_UserManagerInterface getUserManager()
  */
 class ManipleUser_AuthController_LoginAction
     extends Maniple_Controller_Action_StandaloneForm
 {
+    /**
+     * @Inject
+     * @var Zefram_Db
+     */
+    protected $_db;
+
     protected $_ajaxFormHtml = true;
 
     protected $_user;
@@ -89,7 +97,7 @@ class ManipleUser_AuthController_LoginAction
         $user = $this->_user;
 
         // remove all password resets for user
-        $this->getTableManager()->getTable(ManipleUser_Model_DbTable_PasswordResets::className)->delete(array(
+        $this->_db->getTable(ManipleUser_Model_DbTable_PasswordResets::className)->delete(array(
             'user_id = ?' => (int) $user->getId(),
         ));
 

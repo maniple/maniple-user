@@ -25,6 +25,10 @@ class ManipleUser_AuthController extends ManipleUser_Controller_Action
         return $continue;
     } // }}}
 
+    /**
+     * @param string $continue
+     * @return string
+     */
     public function getContinueAfterLogin($continue = null)
     {
         $continue = trim($continue);

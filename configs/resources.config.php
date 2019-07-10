@@ -2,7 +2,7 @@
     'user.model.userMapper' => array(
         'class' => 'ManipleUser_Model_UserMapper',
         'args' => array(
-            'db' => 'resource:ZeframDb',
+            'db' => 'resource:Zefram_Db',
         ),
     ),
 

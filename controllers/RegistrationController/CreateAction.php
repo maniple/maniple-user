@@ -13,7 +13,7 @@ class ManipleUser_RegistrationController_CreateAction extends Maniple_Controller
     protected $_userRepository;
 
     /**
-     * @Inject('Zefram_Db')
+     * @Inject
      * @var Zefram_Db
      */
     protected $_db;

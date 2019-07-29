@@ -19,6 +19,9 @@
 
     'ManipleUser_Signup_SignupManager' => array(
         'class' => 'ManipleUser_Signup_SignupManager',
+        'args' => array(
+            'resource:SharedEventManager',
+        ),
     ),
 
     'ManipleUser.UserSettings' => array(

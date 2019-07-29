@@ -18,6 +18,12 @@ class ManipleUser_RegistrationController_CreateAction extends Maniple_Controller
      */
     protected $_db;
 
+    /**
+     * @Inject
+     * @var ManipleUser_Signup_SignupManager
+     */
+    protected $_signupManager;
+
     protected function _prepare()
     {
         if ($this->getSecurityContext()->isAuthenticated()) {
@@ -38,11 +44,8 @@ class ManipleUser_RegistrationController_CreateAction extends Maniple_Controller
 
         $this->getSessionNamespace()->unsetAll();
 
-        $formClass = @$config['mod_user']['registration']['formClass'];
-        if (!$formClass) {
-            $formClass = ManipleUser_Form_Registration::className;
-        }
-        $this->_form = new $formClass($this->_userRepository, array('view' => $this->view));
+        $this->_form = $this->_signupManager->createSignupForm();
+        $this->_form->setView($this->view);
 
         $this->view->form_template = 'maniple-user/forms/registration';
     }
@@ -50,28 +53,7 @@ class ManipleUser_RegistrationController_CreateAction extends Maniple_Controller
     protected function _process()
     {
         $data = $this->_form->getValues();
-
-        // make sure email is lowercased
-        $tolower = new Zend_Filter_StringToLower();
-        $data['email'] = $tolower->filter($data['email']);
-
-        if (isset($data['username'])) {
-            $data['username'] = $tolower->filter($data['username']);
-        }
-
-        // hash password
-        $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
-
-        $reg = $this->_db->getTable(ManipleUser_Model_DbTable_Registrations::className)->createRow(array(
-            'reg_id'     => Zefram_Math_Rand::getString(64, Zefram_Math_Rand::BASE64URL),
-            'created_at' => time(),
-            'expires_at' => null, // TODO registration.lifetime setting
-            'ip_addr'    => $this->_request->getServer('REMOTE_ADDR'),
-            'email'      => $data['email'],
-            'data'       => Zefram_Json::encode($data, array('unescapedSlashes' => true, 'unescapedUnicode' => true)),
-            'status'     => 'PENDING',
-        ));
-        $reg->save();
+        $reg = $this->_signupManager->createSignupRecord($data, $this->_request->getClientIp());
 
         // close connection and send e-mail semi-asynchronously
 

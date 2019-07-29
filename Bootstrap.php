@@ -89,10 +89,6 @@ class ManipleUser_Bootstrap extends Maniple_Application_Module_Bootstrap
             function (Zend_EventManager_Event $event) {
                 /** @var ManipleCore_Settings_SettingsManager $settingsManager */
                 $settingsManager = $event->getTarget();
-                $settingsManager->register('ManipleUser.Signup.customFields', array(
-                    'type' => 'array',
-                    'default' => array(),
-                ));
             }
         );
     }

@@ -17,8 +17,8 @@ class ManipleUser_Signup_SignupManager
     protected $_settingsManager;
 
     /**
-     * @Inject('user.userManager')
-     * @var ManipleUser_Model_UserManager
+     * @Inject('user.model.userMapper')
+     * @var ManipleUser_Model_UserMapper
      */
     protected $_userRepository;
 
@@ -29,13 +29,82 @@ class ManipleUser_Signup_SignupManager
     protected $_userSettingsManager;
 
     /**
-     * @var array
+     * @Inject('Config')
      */
-    protected $_customFields;
+    protected $_config;
 
-    public function createSignup($form)
+    /**
+     * @var Zend_EventManager_EventManager
+     */
+    protected $_events;
+
+    public function __construct(Zend_EventManager_SharedEventManager $sharedEventManager)
     {
+        $this->_events = new Zend_EventManager_EventManager();
+        $this->_events->setIdentifiers(array(
+            __CLASS__,
+            get_class($this),
+            'ManipleUser.SignupManager',
+        ));
+        $this->_events->setSharedCollections($sharedEventManager);
+        $this->_events->trigger('init', $this);
+    }
 
+    /**
+     * @return Zend_Form
+     */
+    public function createSignupForm()
+    {
+        if ($this->_config instanceof Zend_Config) {
+            $formClass = isset($this->_config->{'mod_user'}->{'registration'}->{'formClass'})
+                ? $this->_config->{'mod_user'}->{'registration'}->{'formClass'}
+                : null;
+        } else {
+            $formClass = isset($this->_config['mod_user']['registration']['formClass'])
+                ? $this->_config['mod_user']['registration']['formClass']
+                : null;
+        }
+
+        if (!$formClass) {
+            $formClass = ManipleUser_Form_Registration::className;
+        }
+
+        $form = new $formClass($this->_userRepository);
+        $this->_events->trigger('createSignupForm', $form);
+
+        return $form;
+    }
+
+    /**
+     * @param array $data
+     * @param string $clientIp OPTIONAL
+     * @return Zend_Db_Table_Row_Abstract
+     */
+    public function createSignupRecord(array $data, $clientIp = null)
+    {
+        // make sure email is lowercased
+        $tolower = new Zend_Filter_StringToLower();
+        $email = $tolower->filter($data['email']);
+
+        if (isset($data['username'])) {
+            $data['username'] = $tolower->filter($data['username']);
+        }
+
+        $data['email'] = $email;
+        $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
+
+        $reg = $this->_db->getTable(ManipleUser_Model_DbTable_Registrations::className)->createRow(array(
+            'reg_id'     => Zefram_Math_Rand::getString(64, Zefram_Math_Rand::BASE64URL),
+            'created_at' => time(),
+            'expires_at' => null, // TODO registration.lifetime setting
+            'ip_addr'    => $clientIp,
+            'email'      => $email,
+            'data'       => Zefram_Json::encode($data, array('unescapedSlashes' => true, 'unescapedUnicode' => true)),
+            'status'     => 'PENDING',
+        ));
+        $reg->save();
+
+        return $reg;
     }
 
     /**
@@ -101,6 +170,8 @@ class ManipleUser_Signup_SignupManager
             $data['username'] = $reg->email;
         }
 
+        $data['signup_ip'] = $reg->ip_addr;
+
         foreach ($data as $key => $value) {
             $method = 'set' . $filter->filter($key);
             if (method_exists($user, $method)) {
@@ -113,51 +184,8 @@ class ManipleUser_Signup_SignupManager
         $user->setId(null); // enforce auto-generation
         $this->_userRepository->saveUser($user);
 
-        // Store custom fields
-        foreach ($this->getCustomFields() as $name) {
-            if (!isset($data[$name])) {
-                continue;
-            }
-            $this->_userSettingsManager->set(
-                sprintf('signup.customField.%s', $name),
-                $data[$name]
-            );
-        }
+        $this->_events->trigger('createUser', $user, array('data' => $data));
 
         return $user;
-    }
-
-    /**
-     * Retrieve custom signup fields
-     *
-     * @return array
-     */
-    public function getCustomFields()
-    {
-        if ($this->_customFields === null) {
-            $customFields = array();
-            $fields = (array) $this->_settingsManager->get('ManipleUser.Signup.customFields');
-
-            foreach ($fields as $name => $field) {
-                $type = isset($field['type']) ? $field['type'] : null;
-
-                if ($type !== 'checkbox') {
-                    throw new ManipleUser_Signup_Exception_InvalidArgumentException(sprintf(
-                        'Unsupported custom field type: %s',
-                        $type
-                    ));
-                }
-
-                $customFields[$name] = array(
-                    'type' => $type,
-                    'label' => isset($field['label']) ? $field['label'] : null,
-                    'description' => isset($field['description']) ? $field['description'] : null,
-                );
-            }
-
-            $this->_customFields = $customFields;
-        }
-
-        return $this->_customFields;
     }
 }

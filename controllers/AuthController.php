@@ -36,15 +36,10 @@ class ManipleUser_AuthController extends ManipleUser_Controller_Action
             $continue = null;
         }
         if (empty($continue)) {
-            $config = $this->getResource('config');
-            if (!is_array($config)) {
-                $config = $config->toArray();
-            }
-            if (isset($config['ModUser']['afterLoginRoute'])) {
-                $continue = $this->view->url($config['ModUser']['afterLoginRoute']);
-            } else {
-                $continue = $this->view->baseUrl('/');
-            }
+            $config = $this->getResource('modules')->offsetGet('maniple-user')->getOptions();
+            $continue = isset($config['afterLoginRoute'])
+                ? $this->view->url($config['afterLoginRoute'])
+                : $this->view->baseUrl('/');
         }
         return $continue;
     }

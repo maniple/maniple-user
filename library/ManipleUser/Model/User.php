@@ -75,6 +75,24 @@ class ManipleUser_Model_User extends Zefram_Db_Table_Row implements ManipleUser_
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getMiddleName()
+    {
+        return $this->middle_name;
+    }
+
+    /**
+     * @param string $middleName
+     * @return $this
+     */
+    public function setMiddleName($middleName)
+    {
+        $this->middle_name = $middleName;
+        return $this;
+    }
+
     public function isActive()
     {
         return (bool) $this->is_active;

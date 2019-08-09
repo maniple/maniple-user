@@ -1,8 +1,8 @@
-<?php return array(
+<?php
 
-    // user.auth {{{
+return array(
     'user.auth.login' => array(
-        'route' => 'login',
+        'route'    => 'login',
         'defaults' => array(
             'module'     => 'maniple-user',
             'controller' => 'auth',
@@ -10,7 +10,7 @@
         ),
     ),
     'user.auth.logout' => array(
-        'route' => 'logout',
+        'route'    => 'logout',
         'defaults' => array(
             'module'     => 'maniple-user',
             'controller' => 'auth',
@@ -18,21 +18,18 @@
         ),
     ),
     'user.auth.impersonate' => array(
-        'route' => 'impersonate/:user_id',
+        'route'    => 'impersonate/:user_id',
         'defaults' => array(
             'module'     => 'maniple-user',
             'controller' => 'auth',
             'action'     => 'impersonate',
         ),
-        'reqs' => array(
-            'user_id' => '^\d+',
+        'reqs'     => array(
+            'user_id' => '^\\d+',
         ),
     ),
-    // }}}
-
-    // user.password {{{
     'user.password.forgot' => array(
-        'route' => 'forgot-password',
+        'route'    => 'forgot-password',
         'defaults' => array(
             'module'     => 'maniple-user',
             'controller' => 'password',
@@ -40,7 +37,7 @@
         ),
     ),
     'user.password.forgot_complete' => array(
-        'route' => 'forgot-password/complete',
+        'route'    => 'forgot-password/complete',
         'defaults' => array(
             'module'     => 'maniple-user',
             'controller' => 'password',
@@ -48,18 +45,18 @@
         ),
     ),
     'user.password.reset' => array(
-        'route' => 'reset-password/:reset_id',
+        'route'    => 'reset-password/:reset_id',
         'defaults' => array(
             'module'     => 'maniple-user',
             'controller' => 'password',
             'action'     => 'reset',
         ),
-        'reqs' => array(
-            'reset_id' => '^\S+',
+        'reqs'     => array(
+            'reset_id' => '^\\S+',
         ),
     ),
     'user.password.reset_complete' => array(
-        'route' => 'reset-password/complete',
+        'route'    => 'reset-password/complete',
         'defaults' => array(
             'module'     => 'maniple-user',
             'controller' => 'password',
@@ -67,18 +64,15 @@
         ),
     ),
     'user.password.update' => array(
-        'route' => 'password',
+        'route'    => 'password',
         'defaults' => array(
             'module'     => 'maniple-user',
             'controller' => 'password',
             'action'     => 'update',
-        ),    
+        ),
     ),
-    // }}}
-
-    // user.registration {{{
     'user.registration.create' => array(
-        'route' => 'register',
+        'route'    => 'register',
         'defaults' => array(
             'module'     => 'maniple-user',
             'controller' => 'registration',
@@ -86,23 +80,30 @@
         ),
     ),
     'user.registration.confirm' => array(
-        'route' => 'registration/confirm/:reg_id',
+        'route'    => 'registration/confirm/:reg_id',
         'defaults' => array(
             'module'     => 'maniple-user',
             'controller' => 'registration',
             'action'     => 'confirm',
         ),
-        'reqs' => array(
+        'reqs'     => array(
             'reg_token' => '^[-_a-zA-Z0-9]+$',
         ),
     ),
     'user.registration.complete' => array(
-        'route' => 'registration/complete',
+        'route'    => 'registration/complete',
         'defaults' => array(
             'module'     => 'maniple-user',
             'controller' => 'registration',
             'action'     => 'complete',
         ),
     ),
-    // }}}
+    'maniple-user.users.index' => array(
+        'route'    => 'users',
+        'defaults' => array(
+            'module'     => 'maniple-user',
+            'controller' => 'users',
+            'action'     => 'index',
+        ),
+    ),
 );

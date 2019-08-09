@@ -1,0 +1,45 @@
+<header>
+  <h1>Users</h1>
+  <a href="#" class="btn btn-primary"><i class="fa fa-plus"></i> Add user</a>
+</header>
+
+<main>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Full name</th>
+      <th>Username</th>
+      <th>Roles</th>
+    </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+      <tr>
+        <td>{{ userFullName(user) }}</td>
+        <td>{{ user.email }}</td>
+        <td>
+          {% for role in user.roles %}
+          <span class="badge">{{ role.name }}</span>
+          {% endfor %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</main>
+
+<footer>
+  {% set pages = users.getPages() %}
+  {% if pages.pageCount > 1 %}
+    <div class="text-center">
+      <ul class="pagination">
+        {% for page in pages.pagesInRange %}
+          <li {%- if page == pages.current %} class="active"{% endif %}>
+            <a href="{{ url('maniple-user.users.index') }}?q={{ query | url_encode }}&page={{ page }}">{{ page }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+</footer>
+

@@ -38,4 +38,8 @@
             'resource:Zefram_Db',
         ),
     ),
+
+    'ManipleUser_UsersService' => array(
+        'class' => 'ManipleUser_UsersService',
+    ),
 );

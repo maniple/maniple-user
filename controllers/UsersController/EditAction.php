@@ -69,7 +69,7 @@ class ManipleUser_UsersController_EditAction
             /** @var ManipleUser_Model_DbTable_UserRoles $userRolesTable */
             $userRolesTable = $this->_db->getTable(ManipleUser_Model_DbTable_UserRoles::className);
             $userRolesTable->delete(array(
-                'user_id' => $user->getId(),
+                'user_id = ?' => (int) $user->getId(),
             ));
             foreach ($roleIds as $roleId) {
                 $userRolesTable->createRow(array(

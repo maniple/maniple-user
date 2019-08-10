@@ -7,7 +7,7 @@ UPDATE users SET signup_ip = (
     WHERE r.status = 'CONFIRMED'
       -- ERROR 1267 (HY000): Illegal mix of collations (utf8_unicode_ci,IMPLICIT) and
       -- (utf8_general_ci,IMPLICIT) for operation '='
-      AND r.email = users.email COLLATE utf8_unicode_ci
+      AND r.email = users.email COLLATE utf8mb4_unicode_ci
 );
 
 ALTER TABLE users CHANGE username username VARCHAR(191)

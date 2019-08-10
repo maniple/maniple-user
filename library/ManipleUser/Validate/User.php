@@ -35,8 +35,6 @@ abstract class ManipleUser_Validate_User extends Zend_Validate_Abstract
     );
 
     /**
-     * Constructor.
-     *
      * @param array $options
      */
     public function __construct(array $options = null)
@@ -75,7 +73,7 @@ abstract class ManipleUser_Validate_User extends Zend_Validate_Abstract
 
     /**
      * @param  string $matchBy
-     * @return ManipleUser_Validate_UserExists
+     * @return $this
      * @throws InvalidArgumentException
      */
     public function setMatchBy($matchBy)

@@ -106,4 +106,12 @@ return array(
             'action'     => 'index',
         ),
     ),
+    'maniple-user.users.create' => array(
+        'route'    => 'users/create',
+        'defaults' => array(
+            'module'     => 'maniple-user',
+            'controller' => 'users',
+            'action'     => 'create',
+        ),
+    ),
 );

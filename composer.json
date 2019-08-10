@@ -12,7 +12,12 @@
     "require": {
         "php": ">= 5.3.0",
         "ircmaxell/password-compat": "^1.0",
+        "maniple/maniple": "*",
+        "maniple/maniple-user": "*",
         "xemlock/zend1-composer-installer": "^0.1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": ">=4.7 <6.0"
     },
     "autoload": {
         "classmap": [
@@ -22,5 +27,25 @@
         "psr-0": {
             "ManipleUser_": "library/"
         }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/maniple/maniple"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/xemlock/zefram"
+        }
+    ],
+    "extra": {
+        "installer-paths": {
+            "vendor/{$vendor}/{$name}": ["type:zend1-module"]
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
     }
 }

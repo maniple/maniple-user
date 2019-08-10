@@ -42,4 +42,21 @@
     'ManipleUser_UsersService' => array(
         'class' => 'ManipleUser_UsersService',
     ),
+
+    'ManipleUser_PasswordService' => array(
+        'class' => 'ManipleUser_PasswordService',
+    ),
+
+    'ManipleUser_Form_Factory_User' => array(
+        'class' => 'ManipleUser_Form_Factory_User',
+        'args' => array(
+            'resource:user.model.userMapper',
+            'resource:ManipleUser_Model_DbTable_Roles',
+        ),
+    ),
+
+    'ManipleUser_Model_DbTable_Roles' => array(
+        'callback' => 'Maniple_Model_TableProvider::getTable',
+        'args' => 'ManipleUser_Model_DbTable_Roles',
+    ),
 );

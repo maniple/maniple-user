@@ -41,7 +41,7 @@ class ManipleUser_PasswordController_ForgotAction
         $user = $this->_form->getElement('username')->getValidator('UserExists')->user;
 
         $reset = $this->_db->getTable(ManipleUser_Model_DbTable_PasswordResets::className)->createRow();
-        $reset->reset_id = Zefram_Math_Rand::getString(64);
+        $reset->reset_id = Zefram_Random::getString(64);
         $reset->created_at = time();
         $reset->expires_at = time() + 3600; // TODO lifetime
         $reset->ip_addr = $this->_request->getClientIp();

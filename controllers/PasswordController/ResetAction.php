@@ -15,6 +15,12 @@ class ManipleUser_PasswordController_ResetAction
     protected $_user;
 
     /**
+     * @Inject
+     * @var ManipleUser_PasswordService
+     */
+    protected $_passwordService;
+
+    /**
      * @Inject('Zefram_Db')
      * @var Zefram_Db
      */
@@ -57,7 +63,7 @@ class ManipleUser_PasswordController_ResetAction
 
     protected function _process()
     {
-        $password = password_hash($this->_form->getValue('password'), PASSWORD_BCRYPT);
+        $password = $this->_passwordService->passwordHash($this->_form->getValue('password'));
 
         $user = $this->_form->getUser();
         $user->setPassword($password);

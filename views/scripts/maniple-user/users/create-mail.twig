@@ -1,0 +1,36 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>{{ message.subject }}</title>
+</head>
+<body>
+<p>
+  {{ translate('Welcome <strong>%s %s</strong>,')
+    | format(user.firstName | escape, user.lastName | escape)
+    | raw }}
+</p>
+
+<p>
+  {{ translate('An account has just been created for you at %s.')
+    | format(serverUrl(baseUrl()) | replace({ 'http://': '', 'https://': '' }))
+    | raw }}
+</p>
+
+<p>
+  {{ translate('To login, visit <a href="%s">%s</a> and enter the following information:')
+    | format(serverUrl(url('user.auth.login')), serverUrl(url('user.auth.login')))
+    | raw }}
+</p>
+
+<p>
+  {{ translate('Username: <strong>%s</strong>')
+    | format(user.email | escape)
+    | raw }}
+  <br/>
+  {{ translate('Temporary password: <strong>%s</strong>')
+    | format(password | escape)
+    | raw }}
+</p>
+
+</body>
+</html>

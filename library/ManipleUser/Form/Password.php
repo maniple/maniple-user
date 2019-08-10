@@ -8,10 +8,13 @@ class ManipleUser_Form_Password extends Zefram_Form
     protected $_user;
 
     /**
+     * @param ManipleUser_PasswordService $passwordService
      * @param ManipleUser_Model_UserInterface $user
      */
-    public function __construct(ManipleUser_Model_UserInterface $user) // {{{
-    {
+    public function __construct(
+        ManipleUser_PasswordService $passwordService,
+        ManipleUser_Model_UserInterface $user
+    ) {
         $elements = array();
 
         if ($user->getPassword()) {
@@ -22,9 +25,8 @@ class ManipleUser_Form_Password extends Zefram_Form
                     'required' => true,
                     'validators' => array(
                         array(
-                            'PasswordVerify',
+                            new ManipleUser_Validate_PasswordVerify($passwordService, $user->getPassword()),
                             true,
-                            array('hash' => $user->getPassword()),
                         ),
                     ),
                 ),
@@ -42,6 +44,14 @@ class ManipleUser_Form_Password extends Zefram_Form
                         true,
                         array(
                             'token' => $user->getUsername(),
+                            'useContext' => false,
+                        ),
+                    ),
+                    array(
+                        'NotEqual',
+                        true,
+                        array(
+                            'token' => $user->getEmail(),
                             'useContext' => false,
                         ),
                     ),
@@ -83,15 +93,15 @@ class ManipleUser_Form_Password extends Zefram_Form
         $this->_user = $user;
 
         parent::__construct(compact('elements'));
-    } // }}}
+    }
 
     /**
      * Retrieve user entity attached to this form.
      *
      * @return ManipleUser_Model_UserInterface
      */
-    public function getUser() // {{{
+    public function getUser()
     {
         return $this->_user;
-    } // }}}
+    }
 }

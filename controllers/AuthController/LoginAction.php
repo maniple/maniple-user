@@ -20,6 +20,12 @@ class ManipleUser_AuthController_LoginAction
 
     protected $_user;
 
+    /**
+     * @Inject
+     * @var ManipleUser_PasswordService
+     */
+    protected $_passwordService;
+
     protected function _prepare() // {{{
     {
         if ($this->getSecurityContext()->isAuthenticated()) {
@@ -80,7 +86,7 @@ class ManipleUser_AuthController_LoginAction
         $userRepository = $this->getUserManager();
         $user = $userRepository->getUserByUsernameOrEmail($username);
 
-        if ($user && $user->isActive() && password_verify($password, $user->getPassword())) {
+        if ($user && $user->isActive() && $this->_passwordService->verify($password, $user)) {
             $this->_user = $user;
             return true;
         }

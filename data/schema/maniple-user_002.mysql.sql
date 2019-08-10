@@ -11,19 +11,19 @@ UPDATE users SET signup_ip = (
 );
 
 ALTER TABLE users CHANGE username username VARCHAR(191)
-    CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+    CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL UNIQUE;
 
 ALTER TABLE users CHANGE email email VARCHAR(191)
-    CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+    CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL UNIQUE;
 
 ALTER TABLE users CHANGE password password VARCHAR(191)
-    CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+    CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
 
 ALTER TABLE users CHANGE first_name first_name VARCHAR(191)
-    CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+    CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
 
 ALTER TABLE users CHANGE last_name last_name VARCHAR(191)
-    CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+    CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
 
 ALTER TABLE users CHANGE middle_name middle_name VARCHAR(191)
     CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

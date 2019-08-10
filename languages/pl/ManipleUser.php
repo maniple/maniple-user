@@ -1,4 +1,8 @@
 <?php return array(
+    'Please choose' => 'Proszę wybrać',
+    'No hash was provided to match against' => 'Nie podano wartości do porównania',
+    'The password provided is invalid' => 'Podane hasło jest nieprawidłowe',
+
     'Username or email' => 'Nazwa użytkownika / e-mail',
     'Password' => 'Hasło',
     'Sign in' => 'Zaloguj',
@@ -49,4 +53,24 @@
     'A matching user was found' => 'Znaleziono pasującego użytkownika',
 
     'Your account has been activated' => 'Twoje konto zostało aktywowane',
+
+    // maniple-user/users/index.twig
+    'Users' => 'Użytkownicy',
+    'Create user' => 'Nowy użytkownik',
+    'Add user' => 'Dodaj użytkownika',
+    'Full name' => 'Imię i nazwisko',
+    'Username' => 'Nazwa użytkownika',
+    'Roles' => 'Role',
+
+    // maniple-user/users/create.twig
+    'User account has been successfully created' => 'Konto użytkownika zostało utworzone',
+
+    // maniple-user/users/create-mail.twig
+    'Primary role' => 'Główna rola',
+    'Welcome to %s' => 'Witaj na stronie %s',
+    'Welcome <strong>%s %s</strong>,' => 'Witaj <strong>%s %s</strong>,',
+    'An account has just been created for you at %s.' => 'Właśnie zostało utworzone dla Ciebie konto na stronie %s.',
+    'To login, visit <a href="%s">%s</a> and enter the following information:' => 'Aby się zalogować, odwiedź <a href="%s">%s</a> i użyj następujących danych:',
+    'Username: <strong>%s</strong>' => 'Login: <strong>%s</strong>',
+    'Temporary password: <strong>%s</strong>' => 'Hasło tymczasowe: <strong>%s</strong>',
 );

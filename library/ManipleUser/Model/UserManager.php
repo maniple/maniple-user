@@ -155,6 +155,7 @@ class ManipleUser_Model_UserManager implements ManipleUser_Model_UserManagerInte
      * @TODO this should not be in repository, but in service
      * @param string $password
      * @return string
+     * @deprecated Use {@link ManipleUser_PasswordService::passwordHash()}
      */
     public function getPasswordHash($password)
     {
@@ -166,6 +167,7 @@ class ManipleUser_Model_UserManager implements ManipleUser_Model_UserManagerInte
      * @param string $password
      * @param string $hash
      * @return bool
+     * @deprecated Use {@link ManipleUser_PasswordService::verify()}
      */
     public function verifyPasswordHash($password, $hash)
     {

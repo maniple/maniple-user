@@ -11,7 +11,9 @@ class ManipleUser_Model_DbTable_Roles extends Zefram_Db_Table
         $roles = array();
 
         foreach ($this->fetchAllAsArray(null, 'name ASC') as $role) {
-            $role['perms'] = (array) Zefram_Json::decode($role['perms']); // <-- this is obsolete
+            $role['perms'] = isset($role['perms'])
+                ? (array) Zefram_Json::decode($role['perms'])
+                : array();
             $roles[$role['role_id']] = $role;
         }
 

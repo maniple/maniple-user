@@ -9,11 +9,18 @@ class ManipleUser_Form_User extends Zefram_Form
      */
     protected $_user;
 
+    /**
+     * @var Zend_Db_Adapter_Abstract
+     */
+    protected $_rolesTable;
+
     public function __construct(
         ManipleUser_Model_UserMapperInterface $userManager,
         ManipleUser_Model_DbTable_Roles $rolesTable,
         array $options = array()
     ) {
+        $this->_rolesTable = $rolesTable;
+
         $elements = array(
             'first_name' => array(
                 'type' => 'text',
@@ -59,26 +66,39 @@ class ManipleUser_Form_User extends Zefram_Form
                     ),
                 ),
             ),
-            'role_id' => array(
-                'type' => 'select',
-                'options' => array(
-                    'label' => 'Primary role',
-                    'required' => true,
-                    'multioptions' => array_column(
-                        array_merge(
-                            array(
-                                array(
-                                    'role_id' => 0,
-                                    'name' => 'User',
-                                ),
-                            ),
-                            $rolesTable->fetchAll(null, 'name')->toArray()
+            'role_id' =>
+                isset($options['user'])
+                ? array(
+                    'type' => 'multiselect',
+                    'options' => array(
+                        'label' => 'Roles',
+                        'multioptions' => array_column(
+                            $this->_rolesTable->fetchAll(null, 'name')->toArray(),
+                            'name',
+                            'role_id'
                         ),
-                        'name',
-                        'role_id'
+                    ),
+                )
+                : array(
+                    'type' => 'select',
+                    'options' => array(
+                        'label' => 'Primary role',
+                        'required' => true,
+                        'multioptions' => array_column(
+                            array_merge(
+                                array(
+                                    array(
+                                        'role_id' => 0,
+                                        'name' => 'User',
+                                    ),
+                                ),
+                                $rolesTable->fetchAll(null, 'name')->toArray()
+                            ),
+                            'name',
+                            'role_id'
+                        ),
                     ),
                 ),
-            ),
             '_submit' => array(
                 'type' => 'submit',
                 'options' => array(
@@ -118,7 +138,12 @@ class ManipleUser_Form_User extends Zefram_Form
             'email'      => $user->getEmail(),
             'first_name' => $user->getFirstName(),
             'last_name'  => $user->getLastName(),
+            'role_id'    => array_column(
+                $this->_rolesTable->fetchRolesByUserId($user->getId())->toArray(),
+                'role_id'
+            ),
         ));
+
         return $this;
     }
 

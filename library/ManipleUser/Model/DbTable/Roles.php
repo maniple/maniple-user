@@ -61,4 +61,24 @@ class ManipleUser_Model_DbTable_Roles extends Zefram_Db_Table
 
         return $roles;
     }
+
+    /**
+     * @param int $userId
+     * @return Zefram_Db_Table_Rowset
+     */
+    public function fetchRolesByUserId($userId)
+    {
+        $select = $this->_db->select();
+        $select->from(
+            array('roles' => $this->getName())
+        );
+        $select->join(
+            array('user_roles' => $this->_getTableFromString(ManipleUser_Model_DbTable_UserRoles::className)->getName()),
+            'roles.role_id = user_roles.role_id',
+            array()
+        );
+        $select->where('user_roles.user_id = ?', (int) $userId);
+
+        return $this->fetchAll($select);
+    }
 }

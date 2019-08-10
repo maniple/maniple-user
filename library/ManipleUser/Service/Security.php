@@ -2,6 +2,17 @@
 
 class ManipleUser_Service_Security extends Maniple_Security_ContextAbstract
 {
+    /**
+     * @Inject
+     * @var Zefram_Db
+     */
+    protected $_db;
+
+    /**
+     * @var array
+     */
+    protected $_userPerms;
+
     public function __construct(array $options = null)
     {
         if ($options) {
@@ -17,6 +28,16 @@ class ManipleUser_Service_Security extends Maniple_Security_ContextAbstract
                 $this->$method($value);
             }
         }
+        return $this;
+    }
+
+    /**
+     * @param Zefram_Db $db
+     * @return $this
+     */
+    public function setDbAdapter(Zefram_Db $db)
+    {
+        $this->_db = $db;
         return $this;
     }
 
@@ -43,6 +64,24 @@ class ManipleUser_Service_Security extends Maniple_Security_ContextAbstract
                 return $this->isSuperUser();
         }
 
+        if ($this->isAuthenticated()) {
+
+            if ($this->_userPerms === null) {
+                /** @var ManipleUser_Model_DbTable_Perms $permsTable */
+                $permsTable = $this->_db->getTable(ManipleUser_Model_DbTable_Perms::className);
+
+                $userPerms = array();
+                foreach ($permsTable->fetchPermsByUserId($this->getUser()->getId()) as $perm) {
+                    $userPerms[$perm->perm_key] = true;
+                }
+                $this->_userPerms = $userPerms;
+            }
+
+            if (isset($this->_userPerms[$permission])) {
+                return true;
+            }
+        }
+
         return parent::isAllowed($permission, $resource);
     }
 
@@ -56,6 +95,7 @@ class ManipleUser_Service_Security extends Maniple_Security_ContextAbstract
             throw new Exception('User is not allowed to impersonate');
         }
 
+        $this->_userPerms = null;
         $this->getUserStorage()->impersonate($user);
     }
 
@@ -76,6 +116,7 @@ class ManipleUser_Service_Security extends Maniple_Security_ContextAbstract
             $options = $options->toArray();
         }
         $options = (array) $options;
+        $options['dbAdapter'] = $serviceLocator['Zefram_Db'];
 
         return new self($options);
     }

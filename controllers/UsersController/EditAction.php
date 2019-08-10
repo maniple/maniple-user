@@ -64,15 +64,14 @@ class ManipleUser_UsersController_EditAction
         try {
             /** @var ManipleUser_Model_UserInterface $user */
             $user = $this->_userRepository->saveUser($user);
-            $roleId = $this->_form->getValue('role_id');
+            $roleIds = $this->_form->getValue('role_id');
 
-            if ($roleId) {
-                /** @var ManipleUser_Model_DbTable_UserRoles $userRolesTable */
-                $userRolesTable = $this->_db->getTable(ManipleUser_Model_DbTable_UserRoles::className);
-                $userRolesTable->delete(array(
-                    'user_id' => $user->getId(),
-                    'role_id' => $roleId,
-                ));
+            /** @var ManipleUser_Model_DbTable_UserRoles $userRolesTable */
+            $userRolesTable = $this->_db->getTable(ManipleUser_Model_DbTable_UserRoles::className);
+            $userRolesTable->delete(array(
+                'user_id' => $user->getId(),
+            ));
+            foreach ($roleIds as $roleId) {
                 $userRolesTable->createRow(array(
                     'user_id' => $user->getId(),
                     'role_id' => $roleId,

@@ -61,7 +61,14 @@ class ManipleUser_UsersController_CreateAction
 
         $this->_db->beginTransaction();
         try {
-            $this->_userRepository->saveUser($user);
+            /** @var ManipleUser_Model_UserInterface $user */
+            $user = $this->_userRepository->saveUser($user);
+            $roleId = $this->_form->getValue('role_id');
+
+            $this->_db->getTable(ManipleUser_Model_DbTable_UserRoles::className)->createRow(array(
+                'user_id' => $user->getId(),
+                'role_id' => $roleId,
+            ))->save();
 
             $message = new Zefram_Mail;
             $message->setType(Zend_Mime::MULTIPART_RELATED);

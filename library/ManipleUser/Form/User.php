@@ -59,18 +59,23 @@ class ManipleUser_Form_User extends Zefram_Form
                     ),
                 ),
             ),
-            'role' => array(
+            'role_id' => array(
                 'type' => 'select',
                 'options' => array(
                     'label' => 'Primary role',
                     'required' => true,
-                    'multioptions' => array_merge(
-                        array(''  => 'Please choose'),
-                        array_column(
-                            $rolesTable->fetchAll(null, 'name')->toArray(),
-                            'name',
-                            'role_id'
-                        )
+                    'multioptions' => array_column(
+                        array_merge(
+                            array(
+                                array(
+                                    'role_id' => '',
+                                    'name' => 'Please choose',
+                                ),
+                            ),
+                            $rolesTable->fetchAll(null, 'name')->toArray()
+                        ),
+                        'name',
+                        'role_id'
                     ),
                 ),
             ),

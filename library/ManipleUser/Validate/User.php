@@ -21,6 +21,12 @@ abstract class ManipleUser_Validate_User extends Zend_Validate_Abstract
     protected $_user;
 
     /**
+     * Value, that if matched will exclude user from query result
+     * @var mixed
+     */
+    protected $_exclude;
+
+    /**
      * @var string
      */
     protected $_matchBy = self::MATCH_ID;
@@ -106,6 +112,18 @@ abstract class ManipleUser_Validate_User extends Zend_Validate_Abstract
     }
 
     /**
+     * Sets a new exclude value
+     *
+     * @param mixed $exclude
+     * @return $this
+     */
+    public function setExclude($exclude)
+    {
+        $this->_exclude = $exclude;
+        return $this;
+    }
+
+    /**
      * Retrieves user from repository matched by given value interpreted
      * according to current matchBy setting.
      *
@@ -140,6 +158,36 @@ abstract class ManipleUser_Validate_User extends Zend_Validate_Abstract
                 ));
         }
 
+        if ($user && $this->_exclude && $this->_matchesExclude($user)) {
+            return null;
+        }
+
         return $user;
+    }
+
+    /**
+     * @param ManipleUser_Model_UserInterface|null $user
+     * @return bool
+     */
+    protected function _matchesExclude(ManipleUser_Model_UserInterface $user)
+    {
+        switch ($this->_matchBy) {
+            case self::MATCH_ID:
+                return $this->_exclude === $user->getId();
+
+            case self::MATCH_EMAIL:
+                return $this->_exclude === $user->getEmail();
+                break;
+
+            case self::MATCH_USERNAME:
+                return $this->_exclude === $user->getUsername();
+                break;
+
+            case self::MATCH_USERNAME_OR_EMAIL:
+                return $this->_exclude === $user->getUsername() || $this->_exclude === $user->getEmail();
+                break;
+        }
+
+        return false;
     }
 }

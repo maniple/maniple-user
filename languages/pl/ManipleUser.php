@@ -61,9 +61,14 @@
     'Full name' => 'Imię i nazwisko',
     'Username' => 'Nazwa użytkownika',
     'Roles' => 'Role',
+    'User' => 'Użytkownik',
 
     // maniple-user/users/create.twig
     'User account has been successfully created' => 'Konto użytkownika zostało utworzone',
+
+    // maniple-user/users/edit.twig
+    'Edit user' => 'Edycja użytkownika',
+    'User account has been successfully updated' => 'Konto użytkownika zostało zaktualizowane',
 
     // maniple-user/users/create-mail.twig
     'Primary role' => 'Główna rola',

@@ -1,0 +1,12 @@
+{% do form.getElement('_submit').setAttrib('class', 'btn btn-primary') %}
+<header>
+  <ol class="breadcrumb">
+    <li><a href="{{ baseUrl('/') }}">Start</a></li>
+    <li><a href="{{ url('maniple-user.users.index') }}">{{ translate('Users') }}</a></li>
+    <li class="active">{{ translate('Edit user') }}</li>
+  </ol>
+  <h1>{{ translate('Edit user') }}</h1>
+</header>
+<main>
+  {{ form | raw }}
+</main>

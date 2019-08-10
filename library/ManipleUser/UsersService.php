@@ -38,6 +38,7 @@ class ManipleUser_UsersService
         $select->from(
             array('users' => $this->_db->getTable(ManipleUser_Model_DbTable_Users::className)),
             array(
+                'id' => new Zend_Db_Expr('user_id'),
                 'user_id',
                 'first_name',
                 'last_name',

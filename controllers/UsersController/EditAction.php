@@ -5,7 +5,7 @@
  * @property ManipleUser_Form_User $_form
  * @method void requireAuthentication();
  */
-class ManipleUser_UsersController_CreateAction
+class ManipleUser_UsersController_EditAction
     extends Maniple_Controller_Action_StandaloneForm
 {
     /**
@@ -27,12 +27,6 @@ class ManipleUser_UsersController_CreateAction
     protected $_userRepository;
 
     /**
-     * @Inject
-     * @var ManipleUser_PasswordService
-     */
-    protected $_passwordService;
-
-    /**
      * @Inject('user.sessionManager')
      * @var Maniple_Security_ContextInterface
      */
@@ -45,19 +39,26 @@ class ManipleUser_UsersController_CreateAction
             throw new Maniple_Controller_Exception_NotAllowed();
         }
 
-        $this->_form = $this->_userFormFactory->createForm();
+        /** @var ManipleUser_Model_UserInterface $user */
+        $user = $this->_userRepository->getUser((int) $this->getSingleParam('user_id'));
+        if (empty($user)) {
+            throw new Maniple_Controller_Exception_NotFound('User not found');
+        }
+
+        // Non-superuser cannot edit superuser
+        if ($this->_securityContext->isSuperUser($user->getId())
+            && !$this->_securityContext->isSuperUser()
+        ) {
+            throw new Maniple_Controller_Exception_NotAllowed();
+        }
+
+        $this->_form = $this->_userFormFactory->createForm(array('user' => $user));
     }
 
     protected function _process()
     {
-        $password = $this->_passwordService->generatePassword();
-
-        $user = $this->_form->populateUser(new ManipleUser_Entity_User());
-
+        $user = $this->_form->populateUser($this->_form->getUser());
         $user->setUsername($user->getEmail());
-        $user->setActive(true);
-        $user->setPassword($this->_passwordService->temporaryPasswordHash($password));
-        $user->setCreatedAt(time());
 
         $this->_db->beginTransaction();
         try {
@@ -66,28 +67,17 @@ class ManipleUser_UsersController_CreateAction
             $roleId = $this->_form->getValue('role_id');
 
             if ($roleId) {
-                $this->_db->getTable(ManipleUser_Model_DbTable_UserRoles::className)->createRow(array(
+                /** @var ManipleUser_Model_DbTable_UserRoles $userRolesTable */
+                $userRolesTable = $this->_db->getTable(ManipleUser_Model_DbTable_UserRoles::className);
+                $userRolesTable->delete(array(
+                    'user_id' => $user->getId(),
+                    'role_id' => $roleId,
+                ));
+                $userRolesTable->createRow(array(
                     'user_id' => $user->getId(),
                     'role_id' => $roleId,
                 ))->save();
             }
-
-            $message = new Zefram_Mail;
-            $message->setType(Zend_Mime::MULTIPART_RELATED);
-            $message->setSubject(sprintf(
-                $this->view->translate('Welcome to %s'),
-                preg_replace('%https?://%', '', $this->view->serverUrl($this->view->baseUrl()))
-            ));
-            $message->addTo($user->getEmail());
-
-            $this->view->assign(array(
-                'user'     => $user,
-                'message'  => $message,
-                'password' => $password,
-            ));
-
-            $message->setBodyHtml($this->view->render('maniple-user/users/create-mail.twig'));
-            $message->send();
 
             $this->_db->commit();
 
@@ -96,7 +86,7 @@ class ManipleUser_UsersController_CreateAction
             throw $e;
         }
 
-        $this->_helper->flashMessenger->addSuccessMessage($this->view->translate('User account has been successfully created'));
+        $this->_helper->flashMessenger->addSuccessMessage($this->view->translate('User account has been successfully updated'));
         return $this->view->url('maniple-user.users.index');
     }
 }

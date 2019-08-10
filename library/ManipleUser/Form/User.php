@@ -68,8 +68,8 @@ class ManipleUser_Form_User extends Zefram_Form
                         array_merge(
                             array(
                                 array(
-                                    'role_id' => '',
-                                    'name' => 'Please choose',
+                                    'role_id' => 0,
+                                    'name' => 'User',
                                 ),
                             ),
                             $rolesTable->fetchAll(null, 'name')->toArray()
@@ -130,6 +130,19 @@ class ManipleUser_Form_User extends Zefram_Form
     {
         $this->_user = $user;
         $this->setDefaultsFromUser($user);
+
+        /** @var ManipleUser_Validate_UserNotExists $userNotExistsValidator */
+        $userNotExistsValidator = $this->getElement('email')->getValidator('UserNotExists');
+        $userNotExistsValidator->setExclude($user->getEmail());
+
         return $this;
+    }
+
+    /**
+     * @return ManipleUser_Model_UserInterface|null
+     */
+    public function getUser()
+    {
+        return $this->_user;
     }
 }

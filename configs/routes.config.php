@@ -114,4 +114,15 @@ return array(
             'action'     => 'create',
         ),
     ),
+    'maniple-user.users.edit' => array(
+        'route'    => 'users/:user_id/edit',
+        'defaults' => array(
+            'module'     => 'maniple-user',
+            'controller' => 'users',
+            'action'     => 'edit',
+        ),
+        'reqs' => array(
+            'user_id' => '^\d+',
+        ),
+    ),
 );

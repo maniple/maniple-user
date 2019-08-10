@@ -97,6 +97,8 @@ class ManipleUser_UsersController_CreateAction
         }
 
         $this->_helper->flashMessenger->addSuccessMessage($this->view->translate('User account has been successfully created'));
-        return $this->view->url('maniple-user.users.index');
+
+        $returnUrl = $this->getSingleParam('return_url');
+        return $returnUrl ? $returnUrl : $this->view->url('maniple-user.users.index');
     }
 }

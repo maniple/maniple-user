@@ -37,6 +37,7 @@ class ManipleUser_UsersController extends Maniple_Controller_Action
 
         $this->view->assign(array(
             'users' => $users,
+            'returnUrl' => $this->_request->getRequestUri(),
         ));
     }
 }

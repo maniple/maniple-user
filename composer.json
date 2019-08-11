@@ -13,7 +13,6 @@
         "php": ">= 5.3.0",
         "ircmaxell/password-compat": "^1.0",
         "maniple/maniple": "*",
-        "maniple/maniple-user": "*",
         "xemlock/zend1-composer-installer": "^0.1.0"
     },
     "require-dev": {

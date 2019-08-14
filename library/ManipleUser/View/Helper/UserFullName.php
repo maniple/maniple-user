@@ -4,7 +4,6 @@
  * @property Zend_View_Abstract $view
  */
 class ManipleUser_View_Helper_UserFullName extends Zend_View_Helper_Abstract
-    implements Zefram_Twig_SafeInterface
 {
     /**
      * @var array
@@ -103,10 +102,5 @@ class ManipleUser_View_Helper_UserFullName extends Zend_View_Helper_Abstract
             )
         );
         return $this;
-    }
-
-    public function getSafe()
-    {
-        return array('html');
     }
 }

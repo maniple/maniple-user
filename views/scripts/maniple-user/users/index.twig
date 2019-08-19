@@ -55,7 +55,9 @@
     <tbody>
       {% for user in users %}
       <tr>
-        <td>{{ userFullName(user) }}</td>
+        <td>
+          <div data-user-id="{{ user.id }}">{{ userFullName(user) }}</div>
+        </td>
         <td>{{ user.email }}</td>
         <td>
           {% for role in user.roles %}

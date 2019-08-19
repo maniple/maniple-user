@@ -59,16 +59,14 @@ class ManipleUser_UserSettings_Adapter_DbTable implements ManipleUser_UserSettin
 
         if (!isset($settings[$name])) {
             $settings[$name] = $this->_getUserSettingsTable()->createRow(array(
-                'user_id'   => (int) $userId,
-                'name'      => (string) $name,
-                'value'     => $value,
-                'saved_at'  => time(),
+                'user_id' => (int) $userId,
+                'name'    => (string) $name,
+                'value'   => $value,
             ));
 
         } elseif ($settings[$name]->getValue() !== $value) {
             $settings[$name]->setFromArray(array(
-                'value'     => $value,
-                'saved_at'  => time(),
+                'value' => $value,
             ));
         }
 

@@ -1,4 +1,6 @@
-#region CONVERT TO CHARACTER SET utf8mb4
+-- region CONVERT TO CHARACTER SET utf8mb4
+-- Convert all indexed VARCHAR(255) columns to VARCHAR(191) to avoid:
+-- Error #1071 - Specified key was too long; max key length is 767 bytes
 ALTER TABLE roles CHANGE name name VARCHAR(191)
     CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
 ALTER TABLE roles CHANGE description description VARCHAR(191)
@@ -51,7 +53,7 @@ ALTER TABLE users CHANGE middle_name middle_name VARCHAR(191)
 
 ALTER TABLE users CONVERT TO
     CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-#endregion
+-- endregion
 
 ALTER TABLE users ADD COLUMN is_locked TINYINT(1) NOT NULL DEFAULT 0 AFTER is_active;
 

@@ -12,8 +12,10 @@ class ManipleUser_UserSettings_Service
      */
     protected $_adapter;
 
-    public function __construct(Maniple_Security_ContextInterface $security, ManipleUser_UserSettings_Adapter_Interface $adapter)
-    {
+    public function __construct(
+        Maniple_Security_ContextInterface $security,
+        ManipleUser_UserSettings_Adapter_Interface $adapter
+    ) {
         $this->_securityContext = $security;
         $this->_adapter = $adapter;
     }
@@ -76,7 +78,7 @@ class ManipleUser_UserSettings_Service
         if ($user === null) {
             $userId = $this->_securityContext->getIdentity();
             if (empty($userId)) {
-                throw new Exception('No user is authenticated');
+                throw new RuntimeException('No user is authenticated');
             }
         } elseif ($user instanceof ManipleUser_Model_UserInterface) {
             $userId = $user->getId();

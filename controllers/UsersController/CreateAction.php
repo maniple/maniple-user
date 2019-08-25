@@ -53,8 +53,6 @@ class ManipleUser_UsersController_CreateAction
         $password = $this->_passwordService->generatePassword();
 
         $user = $this->_form->populateUser(new ManipleUser_Entity_User());
-
-        $user->setUsername($user->getEmail());
         $user->setActive(true);
         $user->setPassword($this->_passwordService->temporaryPasswordHash($password));
         $user->setCreatedAt(time());

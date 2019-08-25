@@ -8,14 +8,21 @@ class ManipleUser_Form_Factory_User
     protected $_userManager;
 
     /**
+     * @var ManipleUser_UsersService
+     */
+    protected $_usersService;
+
+    /**
      * @var ManipleUser_Model_DbTable_Roles
      */
     protected $_rolesTable;
 
     public function __construct(
+        ManipleUser_UsersService $usersService,
         ManipleUser_Model_UserMapperInterface $userManager,
         ManipleUser_Model_DbTable_Roles $rolesTable
     ) {
+        $this->_usersService = $usersService;
         $this->_userManager = $userManager;
         $this->_rolesTable = $rolesTable;
     }
@@ -26,6 +33,11 @@ class ManipleUser_Form_Factory_User
      */
     public function createForm(array $options = array())
     {
-        return new ManipleUser_Form_User($this->_userManager, $this->_rolesTable, $options);
+        return new ManipleUser_Form_User(
+            $this->_usersService,
+            $this->_userManager,
+            $this->_rolesTable,
+            $options
+        );
     }
 }

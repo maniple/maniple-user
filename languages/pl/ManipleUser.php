@@ -28,6 +28,7 @@
 
     'Email address mismatch' => 'Adresy e-mail różnią się od siebie',
     'This email address is already in use' => 'Ten adres e-mail jest już używany',
+    'This username is already in use' => 'Ta nazwa użytkownika jest już używana',
 
     'Submit' => 'Prześlij',
 

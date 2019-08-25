@@ -50,6 +50,7 @@
     'ManipleUser_Form_Factory_User' => array(
         'class' => 'ManipleUser_Form_Factory_User',
         'args' => array(
+            'resource:ManipleUser_UsersService',
             'resource:user.model.userMapper',
             'resource:ManipleUser_Model_DbTable_Roles',
         ),

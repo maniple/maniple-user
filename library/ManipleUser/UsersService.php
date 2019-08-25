@@ -15,6 +15,12 @@ class ManipleUser_UsersService
     protected $_securityContext;
 
     /**
+     * @Inject('user.model.userMapper')
+     * @var ManipleUser_Model_UserMapperInterface
+     */
+    protected $_userRepository;
+
+    /**
      * Options:
      * - string query
      * - string|array sort
@@ -87,5 +93,11 @@ class ManipleUser_UsersService
         return $paginator;
     }
 
-
+    /**
+     * @return ManipleUser_Validate_Username
+     */
+    public function getUsernameValidator()
+    {
+        return new ManipleUser_Validate_Username($this->_userRepository);
+    }
 }

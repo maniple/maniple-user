@@ -4,7 +4,7 @@ class ManipleUser_Form_Registration extends Zefram_Form
 {
     const className = __CLASS__;
 
-    public function __construct(ManipleUser_Model_UserMapperInterface $userManager, array $options = array())
+    public function __construct(ManipleUser_Model_UserMapperInterface $userRepository, array $options = array())
     {
         $elements = array(
             'first_name' => array(
@@ -42,7 +42,7 @@ class ManipleUser_Form_Registration extends Zefram_Form
                         array('StringLength', true, array('max' => 128)),
                         array('EmailAddress', true),
                         array(new ManipleUser_Validate_UserNotExists(array(
-                            'userRepository' => $userManager,
+                            'userRepository' => $userRepository,
                             'matchBy' => ManipleUser_Validate_User::MATCH_EMAIL,
                             'messages' => array(
                                 ManipleUser_Validate_User::USER_EXISTS => 'This email address is already in use',

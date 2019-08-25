@@ -48,6 +48,7 @@
     <tr>
       <th>{{ translate('Full name') }}</th>
       <th>{{ translate('Username') }}</th>
+      <th>{{ translate('Email') }}</th>
       <th>{{ translate('Roles') }}</th>
       <th></th>
     </tr>
@@ -58,6 +59,7 @@
         <td>
           <div data-user-id="{{ user.id }}">{{ userFullName(user) }}</div>
         </td>
+        <td>{{ user.username }}</td>
         <td>{{ user.email }}</td>
         <td>
           {% for role in user.roles %}

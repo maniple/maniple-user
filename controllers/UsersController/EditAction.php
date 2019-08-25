@@ -58,7 +58,6 @@ class ManipleUser_UsersController_EditAction
     protected function _process()
     {
         $user = $this->_form->populateUser($this->_form->getUser());
-        $user->setUsername($user->getEmail());
 
         $this->_db->beginTransaction();
         try {

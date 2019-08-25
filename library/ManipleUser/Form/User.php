@@ -10,15 +10,28 @@ class ManipleUser_Form_User extends Zefram_Form
     protected $_user;
 
     /**
+     * @var ManipleUser_Model_UserMapperInterface
+     */
+    protected $_userRepository;
+
+    /**
+     * @var ManipleUser_UsersService
+     */
+    protected $_usersService;
+
+    /**
      * @var Zend_Db_Adapter_Abstract
      */
     protected $_rolesTable;
 
     public function __construct(
-        ManipleUser_Model_UserMapperInterface $userManager,
+        ManipleUser_UsersService $usersService,
+        ManipleUser_Model_UserMapperInterface $userRepository,
         ManipleUser_Model_DbTable_Roles $rolesTable,
         array $options = array()
     ) {
+        $this->_usersService = $usersService;
+        $this->_userRepository = $userRepository;
         $this->_rolesTable = $rolesTable;
 
         $elements = array(
@@ -57,7 +70,7 @@ class ManipleUser_Form_User extends Zefram_Form
                         array('StringLength', true, array('max' => 128)),
                         array('EmailAddress', true),
                         array(new ManipleUser_Validate_UserNotExists(array(
-                            'userRepository' => $userManager,
+                            'userRepository' => $userRepository,
                             'matchBy' => ManipleUser_Validate_User::MATCH_EMAIL,
                             'messages' => array(
                                 ManipleUser_Validate_User::USER_EXISTS => 'This email address is already in use',
@@ -65,6 +78,16 @@ class ManipleUser_Form_User extends Zefram_Form
                         )), true),
                     ),
                 ),
+            ),
+            'username' => array(
+                'type' => 'text',
+                'options' => array(
+                    'label' => 'Username',
+                    'required' => true,
+                    'validators' => array(
+                        array($this->_usersService->getUsernameValidator(), true),
+                    ),
+                )
             ),
             'role_id' =>
                 isset($options['user'])
@@ -107,6 +130,10 @@ class ManipleUser_Form_User extends Zefram_Form
             ),
         );
 
+        if (empty($options['user'])) {
+            unset($elements['username']);
+        }
+
         $options['elements'] = array_merge(
             isset($options['elements']) ? (array) $options['elements'] : array(),
             $elements
@@ -125,6 +152,12 @@ class ManipleUser_Form_User extends Zefram_Form
         $user->setFirstName($this->getValue('first_name'));
         $user->setLastName($this->getValue('last_name'));
 
+        $username = $this->getElement('username')
+            ? $this->getValue('username')
+            : $this->getValue('email');
+
+        $user->setUsername($username);
+
         return $user;
     }
 
@@ -136,6 +169,7 @@ class ManipleUser_Form_User extends Zefram_Form
     {
         $this->setDefaults(array(
             'email'      => $user->getEmail(),
+            'username'   => $user->getUsername(),
             'first_name' => $user->getFirstName(),
             'last_name'  => $user->getLastName(),
             'role_id'    => array_column(
@@ -156,9 +190,13 @@ class ManipleUser_Form_User extends Zefram_Form
         $this->_user = $user;
         $this->setDefaultsFromUser($user);
 
-        /** @var ManipleUser_Validate_UserNotExists $userNotExistsValidator */
-        $userNotExistsValidator = $this->getElement('email')->getValidator('UserNotExists');
-        $userNotExistsValidator->setExclude($user->getEmail());
+        /** @var ManipleUser_Validate_UserNotExists $emailNotExistsValidator */
+        $emailNotExistsValidator = $this->getElement('email')->getValidator('UserNotExists');
+        $emailNotExistsValidator->setExclude($user->getEmail());
+
+        /** @var ManipleUser_Validate_Username $usernameValidator */
+        $usernameValidator = $this->getElement('username')->getValidator('Username');
+        $usernameValidator->setUser($user);
 
         return $this;
     }

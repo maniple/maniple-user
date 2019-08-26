@@ -2,33 +2,49 @@
 
 /**
  * @property Zend_Controller_Request_Http $_request
+ * @property ManipleUser_Form_Login $_form
  * @method string getContinueParam()
  * @method string getContinueAfterLogin(string $continue = null)
- * @method ManipleUser_Service_Security getSecurityContext()
- * @method ManipleUser_Model_UserManagerInterface getUserManager()
  */
 class ManipleUser_AuthController_LoginAction
     extends Maniple_Controller_Action_StandaloneForm
 {
+    protected $_actionControllerClass = ManipleUser_AuthController::className;
+
+    protected $_ajaxFormHtml = true;
+
     /**
      * @Inject
      * @var Zefram_Db
      */
     protected $_db;
 
-    protected $_ajaxFormHtml = true;
+    /**
+     * @Inject('user.sessionManager')
+     * @var Maniple_Security_ContextInterface
+     */
+    protected $_securityContext;
 
-    protected $_user;
+    /**
+     * @Inject('user.model.userMapper')
+     * @var ManipleUser_Model_UserMapperInterface
+     */
+    protected $_userRepository;
 
     /**
      * @Inject
-     * @var ManipleUser_PasswordService
+     * @var ManipleUser_Service_Password
      */
     protected $_passwordService;
 
-    protected function _prepare() // {{{
+    /**
+     * @var ManipleUser_Model_UserInterface
+     */
+    protected $_user;
+
+    protected function _prepare()
     {
-        if ($this->getSecurityContext()->isAuthenticated()) {
+        if ($this->_securityContext->isAuthenticated()) {
             $continue = $this->getContinueAfterLogin($this->getContinueParam());
 
             if ($this->_request->isXmlHttpRequest()) {
@@ -48,9 +64,9 @@ class ManipleUser_AuthController_LoginAction
         // boolean auth_required value is set only via Auth plugin
         $this->view->auth_required = true === $this->getParam('auth_required');
         $this->view->is_ajax = $this->_request->isXmlHttpRequest();
-    } // }}}
+    }
 
-    protected function _populate() // {{{
+    protected function _populate()
     {
         // form is not submitted, set continue value
         $continue = $this->getContinueParam();
@@ -58,9 +74,9 @@ class ManipleUser_AuthController_LoginAction
 
         // set cookie
         setcookie('cookie_check', 1, 0, $this->view->baseUrl('/'));
-    } // }}}
+    }
 
-    protected function _validate(array $data) // {{{
+    protected function _validate(array $data)
     {
         //if (empty($_COOKIE['cookie-check'])) {
         //    $this->view->message = 'Cookies are required to access this site. Please enable them and try again.';
@@ -83,8 +99,7 @@ class ManipleUser_AuthController_LoginAction
         $username = $this->_form->getValue('username');
         $password = $this->_form->getValue('password');
 
-        $userRepository = $this->getUserManager();
-        $user = $userRepository->getUserByUsernameOrEmail($username);
+        $user = $this->_userRepository->getUserByUsernameOrEmail($username);
 
         if ($user && $user->isActive() && $this->_passwordService->verify($password, $user)) {
             $this->_user = $user;
@@ -96,9 +111,9 @@ class ManipleUser_AuthController_LoginAction
         );
         $this->_form->markAsError();
         return false;
-    } // }}}
+    }
 
-    protected function _process() // {{{
+    protected function _process()
     {
         $user = $this->_user;
 
@@ -107,7 +122,7 @@ class ManipleUser_AuthController_LoginAction
             'user_id = ?' => (int) $user->getId(),
         ));
 
-        $this->getSecurityContext()->getUserStorage()->setUser($user);
+        $this->_securityContext->getUserStorage()->setUser($user);
 
         $continue = $this->getContinueAfterLogin($this->_form->getElement('continue')->getValue());
 
@@ -121,5 +136,5 @@ class ManipleUser_AuthController_LoginAction
         $this->_helper->redirector->gotoUrl($continue);
 
         return false;
-    } // }}}
+    }
 }

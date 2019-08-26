@@ -8,6 +8,8 @@
 class ManipleUser_UsersController_EditAction
     extends Maniple_Controller_Action_StandaloneForm
 {
+    protected $_actionControllerClass = ManipleUser_UsersController::className;
+
     /**
      * @Inject
      * @var Zefram_Db
@@ -21,10 +23,10 @@ class ManipleUser_UsersController_EditAction
     protected $_userFormFactory;
 
     /**
-     * @Inject('user.model.userMapper')
-     * @var ManipleUser_Model_UserMapperInterface
+     * @Inject
+     * @var ManipleUser_Service_UserManagerInterface
      */
-    protected $_userRepository;
+    protected $_userManager;
 
     /**
      * @Inject('user.sessionManager')
@@ -40,7 +42,7 @@ class ManipleUser_UsersController_EditAction
         }
 
         /** @var ManipleUser_Model_UserInterface $user */
-        $user = $this->_userRepository->getUser((int) $this->getSingleParam('user_id'));
+        $user = $this->_userManager->getUser((int) $this->getSingleParam('user_id'));
         if (empty($user)) {
             throw new Maniple_Controller_Exception_NotFound('User not found');
         }
@@ -62,7 +64,7 @@ class ManipleUser_UsersController_EditAction
         $this->_db->beginTransaction();
         try {
             /** @var ManipleUser_Model_UserInterface $user */
-            $user = $this->_userRepository->saveUser($user);
+            $user = $this->_userManager->saveUser($user);
             $roleIds = $this->_form->getValue('role_id');
 
             /** @var ManipleUser_Model_DbTable_UserRoles $userRolesTable */

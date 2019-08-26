@@ -43,7 +43,6 @@ CREATE TABLE users (
 
     username        VARCHAR(255) NOT NULL,
 
-                    -- salt.SHA-256(salt + password)
     password        VARCHAR(128) NOT NULL,
 
     email           VARCHAR(255) NOT NULL,

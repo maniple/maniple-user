@@ -1,6 +1,6 @@
 <?php
 
-class ManipleUser_PasswordService
+class ManipleUser_Service_Password
 {
     const MIN_LENGTH = 6;
 

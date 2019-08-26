@@ -6,6 +6,14 @@
  */
 class ManipleUser_RegistrationController_CreateAction extends Maniple_Controller_Action_StandaloneForm
 {
+    protected $_actionControllerClass = ManipleUser_RegistrationController::className;
+
+    /**
+     * @Inject('user.sessionManager')
+     * @var Maniple_Security_ContextInterface
+     */
+    protected $_securityContext;
+
     /**
      * @Inject('user.model.userMapper')
      * @var ManipleUser_Model_UserMapperInterface
@@ -20,13 +28,13 @@ class ManipleUser_RegistrationController_CreateAction extends Maniple_Controller
 
     /**
      * @Inject
-     * @var ManipleUser_Signup_SignupManager
+     * @var ManipleUser_Service_Signup
      */
     protected $_signupManager;
 
     protected function _prepare()
     {
-        if ($this->getSecurityContext()->isAuthenticated()) {
+        if ($this->_securityContext->isAuthenticated()) {
             $this->_helper->redirector->gotoUrl('/');
             return;
         }

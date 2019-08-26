@@ -8,6 +8,10 @@ interface ManipleUser_Model_UserMapperInterface
 
     public function getUserByEmail($email);
 
+    /**
+     * @param string $usernameOrEmail
+     * @return ManipleUser_Model_UserInterface|null
+     */
     public function getUserByUsernameOrEmail($usernameOrEmail);
 
     public function getUsers(array $ids = null);

@@ -6,7 +6,7 @@ class ManipleUser_Validate_PasswordVerify extends Zend_Validate_Abstract
     const INVALID    = 'passwordVerifyInvalid';
 
     /**
-     * @var ManipleUser_PasswordService
+     * @var ManipleUser_Service_Password
      */
     protected $_passwordService;
 
@@ -21,10 +21,10 @@ class ManipleUser_Validate_PasswordVerify extends Zend_Validate_Abstract
     );
 
     /**
-     * @param ManipleUser_PasswordService $passwordService
+     * @param ManipleUser_Service_Password $passwordService
      * @param string $hash
      */
-    public function __construct(ManipleUser_PasswordService $passwordService, $hash)
+    public function __construct(ManipleUser_Service_Password $passwordService, $hash)
     {
         $this->_passwordService = $passwordService;
         $this->_hash = (string) $hash;

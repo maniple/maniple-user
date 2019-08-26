@@ -8,6 +8,8 @@
 class ManipleUser_UsersController_CreateAction
     extends Maniple_Controller_Action_StandaloneForm
 {
+    protected $_actionControllerClass = ManipleUser_UsersController::className;
+
     /**
      * @Inject
      * @var Zefram_Db
@@ -21,14 +23,14 @@ class ManipleUser_UsersController_CreateAction
     protected $_userFormFactory;
 
     /**
-     * @Inject('user.model.userMapper')
-     * @var ManipleUser_Model_UserMapperInterface
+     * @Inject('user.userManager')
+     * @var ManipleUser_Service_UserManagerInterface
      */
-    protected $_userRepository;
+    protected $_userManager;
 
     /**
      * @Inject
-     * @var ManipleUser_PasswordService
+     * @var ManipleUser_Service_Password
      */
     protected $_passwordService;
 
@@ -60,7 +62,7 @@ class ManipleUser_UsersController_CreateAction
         $this->_db->beginTransaction();
         try {
             /** @var ManipleUser_Model_UserInterface $user */
-            $user = $this->_userRepository->saveUser($user);
+            $user = $this->_userManager->saveUser($user);
             $roleId = $this->_form->getValue('role_id');
 
             if ($roleId) {

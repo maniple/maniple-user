@@ -1,18 +1,21 @@
 <?php
 
 /**
- * Zend_Db_Table based user repository.
- *
- * @version 2015-03-30
- * @uses    Zend_Db_Table
- * @uses    Zefram_Stdlib
+ * Service for managing users
  */
-class ManipleUser_Model_UserManager implements ManipleUser_Model_UserManagerInterface
+class ManipleUser_Service_UserManager implements ManipleUser_Service_UserManagerInterface
 {
     /**
+     * @Inject('user.model.userMapper')
      * @var ManipleUser_Model_UserMapperInterface
      */
     protected $_userMapper;
+
+    /**
+     * @Inject
+     * @var ManipleUser_Service_Username
+     */
+    protected $_usernameService;
 
     /**
      * @var Zend_Cache_Core
@@ -46,31 +49,9 @@ class ManipleUser_Model_UserManager implements ManipleUser_Model_UserManagerInte
     }
 
     /**
-     * @param ManipleUser_Model_UserMapperInterface $userMapper
-     * @return $this
-     */
-    public function setUserMapper(ManipleUser_Model_UserMapperInterface $userMapper)
-    {
-        $this->_userMapper = $userMapper;
-        return $this;
-    }
-
-    /**
-     * @return ManipleUser_Model_UserMapperInterface
-     * @throws Exception
-     */
-    public function getUserMapper()
-    {
-        if (!$this->_userMapper) {
-            throw new Exception('UserMapper property is not configured');
-        }
-        return $this->_userMapper;
-    }
-
-    /**
      * Currently unused.
      * @param  Zend_Cache_Core $cache
-     * @return ManipleUser_Model_UserManager
+     * @return ManipleUser_Service_UserManager
      */
     public function setCache(Zend_Cache_Core $cache = null)
     {
@@ -84,7 +65,7 @@ class ManipleUser_Model_UserManager implements ManipleUser_Model_UserManagerInte
      */
     public function getUser($userId)
     {
-        return $this->getUserMapper()->getUser($userId);
+        return $this->_userMapper->getUser($userId);
     }
 
     /**
@@ -93,7 +74,7 @@ class ManipleUser_Model_UserManager implements ManipleUser_Model_UserManagerInte
      */
     public function getUserByUsername($username)
     {
-        return $this->getUserMapper()->getUserByUsername($username);
+        return $this->_userMapper->getUserByUsername($username);
     }
 
     /**
@@ -102,7 +83,7 @@ class ManipleUser_Model_UserManager implements ManipleUser_Model_UserManagerInte
      */
     public function getUserByEmail($email)
     {
-        return $this->getUserMapper()->getUserByEmail($email);
+        return $this->_userMapper->getUserByEmail($email);
     }
 
     /**
@@ -111,7 +92,7 @@ class ManipleUser_Model_UserManager implements ManipleUser_Model_UserManagerInte
      */
     public function getUserByUsernameOrEmail($usernameOrEmail)
     {
-        return $this->getUserMapper()->getUserByUsernameOrEmail($usernameOrEmail);
+        return $this->_userMapper->getUserByUsernameOrEmail($usernameOrEmail);
     }
 
     /**
@@ -120,7 +101,7 @@ class ManipleUser_Model_UserManager implements ManipleUser_Model_UserManagerInte
      */
     public function getUsers(array $userIds = null)
     {
-        return $this->getUserMapper()->getUsers($userIds);
+        return $this->_userMapper->getUsers($userIds);
     }
 
     /**
@@ -128,11 +109,19 @@ class ManipleUser_Model_UserManager implements ManipleUser_Model_UserManagerInte
      *
      * @param  ManipleUser_Model_UserInterface $user
      * @return ManipleUser_Model_UserInterface
-     * @throws Exception
      */
     public function saveUser(ManipleUser_Model_UserInterface $user)
     {
-        return $this->getUserMapper()->saveUser($user);
+        if (!preg_match('/^[_0-9A-Za-z]+$/', $user->getUsername())) {
+            $username = $this->_usernameService->generateUsername(array(
+                'email'      => $user->getEmail(),
+                'first_name' => $user->getFirstName(),
+                'last_name'  => $user->getLastName(),
+            ));
+            $user->setUsername($username);
+        }
+
+        return $this->_userMapper->saveUser($user);
     }
 
     /**
@@ -142,35 +131,6 @@ class ManipleUser_Model_UserManager implements ManipleUser_Model_UserManagerInte
      */
     public function createUser(array $data = null)
     {
-        return $this->getUserMapper()->createUser($data);
-    }
-
-    public function validateUser(ManipleUser_Model_UserInterface $user)
-    {
-        // TODO not sure if this should be here
-        return true;
-    }
-
-    /**
-     * @TODO this should not be in repository, but in service
-     * @param string $password
-     * @return string
-     * @deprecated Use {@link ManipleUser_PasswordService::passwordHash()}
-     */
-    public function getPasswordHash($password)
-    {
-        return password_hash($password, PASSWORD_BCRYPT);
-    }
-
-    /**
-     * @TODO this should not be in repository, but in service
-     * @param string $password
-     * @param string $hash
-     * @return bool
-     * @deprecated Use {@link ManipleUser_PasswordService::verify()}
-     */
-    public function verifyPasswordHash($password, $hash)
-    {
-        return password_verify($password, $hash);
+        return $this->_userMapper->createUser($data);
     }
 }

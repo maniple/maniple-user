@@ -20,7 +20,7 @@ class ManipleUser_Controller_Action extends Maniple_Controller_Action
     }
 
     /**
-     * @return ManipleUser_Model_UserManager
+     * @return ManipleUser_Service_UserManager
      */
     public function getUserManager()
     {

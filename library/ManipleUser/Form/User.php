@@ -27,6 +27,7 @@ class ManipleUser_Form_User extends Zefram_Form
     public function __construct(
         ManipleUser_UsersService $usersService,
         ManipleUser_Model_UserMapperInterface $userRepository,
+        ManipleUser_Service_Username $usernameService,
         ManipleUser_Model_DbTable_Roles $rolesTable,
         array $options = array()
     ) {
@@ -61,6 +62,16 @@ class ManipleUser_Form_User extends Zefram_Form
                     ),
                 ),
             ),
+            'username' => array(
+                'type' => 'text',
+                'options' => array(
+                    'label' => 'Username',
+                    'required' => true,
+                    'validators' => array(
+                        array($usernameService->getUsernameValidator(), true),
+                    ),
+                )
+            ),
             'email' => array(
                 'type' => 'text',
                 'options' => array(
@@ -78,16 +89,6 @@ class ManipleUser_Form_User extends Zefram_Form
                         )), true),
                     ),
                 ),
-            ),
-            'username' => array(
-                'type' => 'text',
-                'options' => array(
-                    'label' => 'Username',
-                    'required' => true,
-                    'validators' => array(
-                        array($this->_usersService->getUsernameValidator(), true),
-                    ),
-                )
             ),
             'role_id' =>
                 isset($options['user'])
@@ -152,10 +153,7 @@ class ManipleUser_Form_User extends Zefram_Form
         $user->setFirstName($this->getValue('first_name'));
         $user->setLastName($this->getValue('last_name'));
 
-        $username = $this->getElement('username')
-            ? $this->getValue('username')
-            : $this->getValue('email');
-
+        $username = $this->getElement('username') ? $this->getValue('username') : null;
         $user->setUsername($username);
 
         return $user;
@@ -195,7 +193,7 @@ class ManipleUser_Form_User extends Zefram_Form
         $emailNotExistsValidator->setExclude($user->getEmail());
 
         /** @var ManipleUser_Validate_Username $usernameValidator */
-        $usernameValidator = $this->getElement('username')->getValidator('Username');
+        $usernameValidator = $this->getElement('username')->getValidator(ManipleUser_Validate_Username::className);
         $usernameValidator->setUser($user);
 
         return $this;

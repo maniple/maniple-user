@@ -1,6 +1,6 @@
 <?php
 
-class ManipleUser_Signup_SignupManager
+class ManipleUser_Service_Signup
 {
     const className = __CLASS__;
 
@@ -112,6 +112,7 @@ class ManipleUser_Signup_SignupManager
      *
      * @param string $token
      * @return ManipleUser_Model_UserInterface
+     * @throws Zend_Json_Exception
      */
     public function createUser($token)
     {

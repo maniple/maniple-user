@@ -8,11 +8,11 @@ class ManipleUser_Form_Password extends Zefram_Form
     protected $_user;
 
     /**
-     * @param ManipleUser_PasswordService $passwordService
+     * @param ManipleUser_Service_Password $passwordService
      * @param ManipleUser_Model_UserInterface $user
      */
     public function __construct(
-        ManipleUser_PasswordService $passwordService,
+        ManipleUser_Service_Password $passwordService,
         ManipleUser_Model_UserInterface $user
     ) {
         $elements = array();

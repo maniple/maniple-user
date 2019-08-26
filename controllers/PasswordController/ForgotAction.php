@@ -2,10 +2,13 @@
 
 /**
  * @property Zend_Controller_Request_Http $_request
+ * @method Zend_Session_Namespace getSessionNamespace(string $name)
  */
 class ManipleUser_PasswordController_ForgotAction
     extends Maniple_Controller_Action_StandaloneForm
 {
+    protected $_actionControllerClass = ManipleUser_PasswordController::className;
+
     /**
      * @Inject('user.model.userMapper')
      * @var ManipleUser_Model_UserMapperInterface
@@ -13,22 +16,27 @@ class ManipleUser_PasswordController_ForgotAction
     protected $_userRepository;
 
     /**
-     * @Inject('Zefram_Db')
+     * @Inject
      * @var Zefram_Db
      */
     protected $_db;
 
+    /**
+     * @Inject('user.sessionManager')
+     * @var Maniple_Security_ContextInterface
+     */
+    protected $_securityContext;
+
     protected function _prepare()
     {
-        $security = $this->getSecurity();
-
-        if ($security->isAuthenticated()) {
+        if ($this->_securityContext->isAuthenticated()) {
             $this->_helper->flashMessenger->addErrorMessage(
                 $this->view->translate(
                     'You cannot request resetting your password while being a logged in user.'
                 )
             );
-            return $this->_helper->redirector->gotoUrlAndExit('/');
+            $this->_helper->redirector->gotoUrlAndExit('/');
+            return;
         }
 
         $this->_form = new ManipleUser_Form_PasswordForgot($this->_userRepository);

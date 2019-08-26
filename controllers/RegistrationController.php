@@ -2,6 +2,8 @@
 
 class ManipleUser_RegistrationController extends ManipleUser_Controller_Action
 {
+    const className = __CLASS__;
+
     /**
      * @Inject
      * @var Zefram_Db
@@ -10,7 +12,7 @@ class ManipleUser_RegistrationController extends ManipleUser_Controller_Action
 
     /**
      * @Inject
-     * @var ManipleUser_Signup_SignupManager
+     * @var ManipleUser_Service_Signup
      */
     protected $_signupManager;
 

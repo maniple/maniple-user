@@ -92,12 +92,4 @@ class ManipleUser_UsersService
 
         return $paginator;
     }
-
-    /**
-     * @return ManipleUser_Validate_Username
-     */
-    public function getUsernameValidator()
-    {
-        return new ManipleUser_Validate_Username($this->_userRepository);
-    }
 }

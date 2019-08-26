@@ -6,37 +6,45 @@
 class ManipleUser_PasswordController_UpdateAction
     extends Maniple_Controller_Action_StandaloneForm
 {
+    protected $_actionControllerClass = ManipleUser_PasswordController::className;
+
     protected $_ajaxFormHtml = true;
 
     /**
+     * @Inject('user.sessionManager')
+     * @var Maniple_Security_ContextInterface
+     */
+    protected $_securityContext;
+
+    /**
      * @Inject
-     * @var ManipleUser_PasswordService
+     * @var ManipleUser_Service_UserManager
+     */
+    protected $_userManager;
+
+    /**
+     * @Inject
+     * @var ManipleUser_Service_Password
      */
     protected $_passwordService;
 
     /**
-     * @return ManipleUser_Model_UserManager
+     * @return void
+     * @throws Maniple_Controller_Exception
      */
-    public function getUserManager()
-    {
-        /** @var ManipleUser_Model_UserManager $userManager */
-        $userManager = $this->getResource('user.userManager');
-        return $userManager;
-    }
-
     protected function _prepare()
     {
-        if (!$this->getSecurity()->isAuthenticated()) {
-            throw new Exception('Musisz być zalogowany aby zmienić hasło');
+        if (!$this->_securityContext->isAuthenticated()) {
+            throw new Maniple_Controller_Exception_AuthenticationRequired($this->_request);
         }
 
-        $user = $this->getUserManager()->getUser(
-            $this->getSecurity()->getUser()->getId()
+        $user = $this->_userManager->getUser(
+            $this->_securityContext->getUser()->getId()
         );
 
         if (empty($user)) {
             // unlikely to happen if user is authenticated
-            throw new Exception('User was not found');
+            throw new Maniple_Controller_Exception_NotFound('User was not found');
         }
 
         $this->_form = new ManipleUser_Form_Password($this->_passwordService, $user);
@@ -44,7 +52,7 @@ class ManipleUser_PasswordController_UpdateAction
 
     protected function _process()
     {
-        $userManager = $this->getUserManager();
+        $userManager = $this->_userManager;
         $password = $this->_passwordService->passwordHash($this->_form->getValue('password'));
 
         $user = $this->_form->getUser();

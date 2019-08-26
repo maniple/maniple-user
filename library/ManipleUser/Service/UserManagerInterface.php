@@ -1,12 +1,12 @@
 <?php
 
-interface ManipleUser_Model_UserManagerInterface
+interface ManipleUser_Service_UserManagerInterface
 {
     /**
      * @param  int $userId
      * @return ManipleUser_Model_UserInterface|null
      */
-    public function getUser($id);
+    public function getUser($userId);
 
     /**
      * @param  string $username
@@ -32,6 +32,10 @@ interface ManipleUser_Model_UserManagerInterface
      */
     public function getUsers(array $ids = null);
 
+    /**
+     * @param array $data
+     * @return ManipleUser_Model_UserInterface
+     */
     public function createUser(array $data = null);
 
     /**
@@ -39,7 +43,6 @@ interface ManipleUser_Model_UserManagerInterface
      *
      * @param  ManipleUser_Model_UserInterface $user
      * @return ManipleUser_Model_UserInterface
-     * @throws Exception
      */
     public function saveUser(ManipleUser_Model_UserInterface $user);
 }

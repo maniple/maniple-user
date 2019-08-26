@@ -1,24 +1,26 @@
 <?php return array(
-    'user.model.userMapper' => array(
+    'ManipleUser_Model_UserMapper' => array(
         'class' => 'ManipleUser_Model_UserMapper',
-        'args' => array(
-            'db' => 'resource:Zefram_Db',
-        ),
     ),
+    'ManipleUser_Model_UserMapperInterface' => 'resource:ManipleUser_Model_UserMapper',
+    'user.model.userMapper' => 'resource:ManipleUser_Model_UserMapperInterface',
 
     'user.sessionManager' => array(
         'callback' => 'ManipleUser_Service_Security::factory',
     ),
 
-    'user.userManager' => array(
-        'class' => 'ManipleUser_Model_UserManager',
+    'ManipleUser_Service_UserManager' => array(
+        'class' => 'ManipleUser_Service_UserManager',
         'options' => array(
             'userMapper' => 'resource:user.model.userMapper',
         ),
     ),
+    'ManipleUser_Service_UserManagerInterface' => 'resource:ManipleUser_Service_UserManager',
+    'user.userManager' => 'resource:ManipleUser_Service_UserManagerInterface',
 
-    'ManipleUser_Signup_SignupManager' => array(
-        'class' => 'ManipleUser_Signup_SignupManager',
+
+    'ManipleUser_Service_Signup' => array(
+        'class' => 'ManipleUser_Service_Signup',
         'args' => array(
             'resource:SharedEventManager',
         ),
@@ -43,17 +45,16 @@
         'class' => 'ManipleUser_UsersService',
     ),
 
-    'ManipleUser_PasswordService' => array(
-        'class' => 'ManipleUser_PasswordService',
+    'ManipleUser_Service_Password' => array(
+        'class' => 'ManipleUser_Service_Password',
+    ),
+
+    'ManipleUser_Service_Username' => array(
+        'class' => 'ManipleUser_Service_Username',
     ),
 
     'ManipleUser_Form_Factory_User' => array(
         'class' => 'ManipleUser_Form_Factory_User',
-        'args' => array(
-            'resource:ManipleUser_UsersService',
-            'resource:user.model.userMapper',
-            'resource:ManipleUser_Model_DbTable_Roles',
-        ),
     ),
 
     'ManipleUser_Model_DbTable_Roles' => array(

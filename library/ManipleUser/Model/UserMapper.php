@@ -1,21 +1,20 @@
 <?php
 
+/**
+ * User repository
+ */
 class ManipleUser_Model_UserMapper implements ManipleUser_Model_UserMapperInterface
 {
-    /**
-     * @var Zefram_Db
-     */
-    protected $_db;
-
     /**
      * @var string
      */
     protected $_userClass = ManipleUser_Entity_User::className;
 
-    public function __construct(Zefram_Db $db)
-    {
-        $this->_db = $db;
-    }
+    /**
+     * @Inject
+     * @var Zefram_Db
+     */
+    protected $_db;
 
     /**
      * @param  string $userClass
@@ -87,7 +86,7 @@ class ManipleUser_Model_UserMapper implements ManipleUser_Model_UserMapperInterf
     }
 
     /**
-     * @param  array $userIds
+     * @param  int[] $userIds
      * @return ManipleUser_Model_UserInterface[]
      */
     public function getUsers(array $userIds = null)
@@ -189,7 +188,9 @@ class ManipleUser_Model_UserMapper implements ManipleUser_Model_UserMapperInterf
      */
     protected function _getUsersTable()
     {
-        return $this->_db->getTableFactory()->getTable(ManipleUser_Model_DbTable_Users::className);
+        /** @var ManipleUser_Model_DbTable_Users $usersTable */
+        $usersTable = $this->_db->getTable(ManipleUser_Model_DbTable_Users::className);
+        return $usersTable;
     }
 
     /**

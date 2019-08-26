@@ -5,7 +5,9 @@
  */
 class ManipleUser_AuthController extends ManipleUser_Controller_Action
 {
-    public function getContinueParam() // {{{
+    const className = __CLASS__;
+
+    public function getContinueParam()
     {
         $continue = trim($this->getScalarParam('continue'));
 
@@ -23,7 +25,7 @@ class ManipleUser_AuthController extends ManipleUser_Controller_Action
         }
 
         return $continue;
-    } // }}}
+    }
 
     /**
      * @param string $continue
@@ -49,7 +51,7 @@ class ManipleUser_AuthController extends ManipleUser_Controller_Action
         $this->forward('login');
     }
 
-    public function logoutAction() // {{{
+    public function logoutAction()
     {
         $security = $this->getSecurity();
 
@@ -61,9 +63,9 @@ class ManipleUser_AuthController extends ManipleUser_Controller_Action
         }
 
         $this->redirect(empty($returnUrl) ? '/' : $returnUrl);
-    } // }}}
+    }
 
-    public function impersonateAction() // {{{
+    public function impersonateAction()
     {
         $user_id = $this->getScalarParam('user_id', 0);
         $user = $this->getUserManager()->getUser($user_id);
@@ -85,17 +87,17 @@ class ManipleUser_AuthController extends ManipleUser_Controller_Action
 
         $security->getUserStorage()->set('returnUrl', $returnUrl);
         $this->redirect($this->getContinueAfterLogin());
-    } // }}}
+    }
 
     /**
      * @version 2013-07-02
      */
-    public function passwordResetCompleteAction() // {{{
+    public function passwordResetCompleteAction()
     {
         $sessionNamespace = new Zend_Session_Namespace('password-reset');
         $this->view->complete = $sessionNamespace->complete;
         $sessionNamespace->unsetAll();
-    } // }}}
+    }
 
     /**
      * Notification after successful sending of an email with password reset
@@ -103,10 +105,10 @@ class ManipleUser_AuthController extends ManipleUser_Controller_Action
      *
      * @version 2013-07-02
      */
-    public function forgotPasswordCompleteAction() // {{{
+    public function forgotPasswordCompleteAction()
     {
         $sessionNamespace = new Zend_Session_Namespace('forgot-password');
         $this->view->complete = $sessionNamespace->complete;
         $sessionNamespace->unsetAll();
-    } // }}}
+    }
 }

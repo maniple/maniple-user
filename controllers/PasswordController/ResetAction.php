@@ -2,41 +2,61 @@
 
 /**
  * @property ManipleUser_Form_PasswordReset $_form
+ * @method Zend_Session_Namespace getSessionNamespace(string $name)
  */
 class ManipleUser_PasswordController_ResetAction
     extends Maniple_Controller_Action_StandaloneForm
 {
+    protected $_actionControllerClass = ManipleUser_PasswordController::className;
+
     protected $_ajaxViewScript = '_forms/password.twig';
 
     protected $_ajaxFormHtml = true;
 
+    /**
+     * @var Zefram_Db_Table_Row
+     */
     protected $_reset;
 
+    /**
+     * @var ManipleUser_Model_UserInterface
+     */
     protected $_user;
 
     /**
+     * @Inject('user.sessionManager')
+     * @var Maniple_Security_ContextInterface
+     */
+    protected $_securityContext;
+
+    /**
      * @Inject
-     * @var ManipleUser_PasswordService
+     * @var ManipleUser_Service_UserManager
+     */
+    protected $_userManager;
+
+    /**
+     * @Inject
+     * @var ManipleUser_Service_Password
      */
     protected $_passwordService;
 
     /**
-     * @Inject('Zefram_Db')
+     * @Inject
      * @var Zefram_Db
      */
     protected $_db;
 
     protected function _prepare()
     {
-        $security = $this->getSecurity();
-
-        if ($security->isAuthenticated()) {
+        if ($this->_securityContext->isAuthenticated()) {
             $this->_helper->flashMessenger->addErrorMessage(
                 $this->view->translate(
                     'You cannot request resetting your password while being a logged in user.'
                 )
             );
-            return $this->_helper->redirector->gotoUrlAndExit('/');
+            $this->_helper->redirector->gotoUrlAndExit('/');
+            return;
         }
 
         $reset = $this->_db->getTable(ManipleUser_Model_DbTable_PasswordResets::className)->fetchRow(array('reset_id = ?' => (string) $this->getScalarParam('reset_id')));
@@ -45,7 +65,7 @@ class ManipleUser_PasswordController_ResetAction
             throw new Exception($this->view->translate('Invalid password reset token'));
         }
 
-        $user = $this->getUserManager()->getUser($reset->user_id);
+        $user = $this->_userManager->getUser($reset->user_id);
         if (empty($user)) {
             throw new Exception($this->view->translate('Corrupted password reset token'));
         }
@@ -68,7 +88,7 @@ class ManipleUser_PasswordController_ResetAction
         $user = $this->_form->getUser();
         $user->setPassword($password);
 
-        $this->getUserManager()->saveUser($user);
+        $this->_userManager->saveUser($user);
 
         $this->_db->getTable(ManipleUser_Model_DbTable_PasswordResets::className)->delete(array(
             'user_id = ?' => (int) $user->getId(),

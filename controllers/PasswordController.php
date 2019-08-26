@@ -3,6 +3,8 @@
 // controller with password reset/recovery
 class ManipleUser_PasswordController extends ManipleUser_Controller_Action
 {
+    const className = __CLASS__;
+
     public function getSessionNamespace($name)
     {
         return new Zend_Session_Namespace('user.password.' . $name);

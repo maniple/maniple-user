@@ -2,9 +2,17 @@
 
 class ManipleUser_Validate_Username extends Zefram_Validate
 {
+    const className = __CLASS__;
+
     public function __construct(ManipleUser_Model_UserMapperInterface $userRepository)
     {
         parent::__construct(array(
+            array('Regex', true, array(
+                'pattern' => '/^[_0-9A-Za-z]+$/',
+                'messages' => array(
+                    Zend_Validate_Regex::NOT_MATCH => 'Username may contain only letters, digits and underscores',
+                ),
+            )),
             array(
                 new ManipleUser_Validate_UserNotExists(array(
                     'userRepository' => $userRepository,

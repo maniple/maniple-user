@@ -1,6 +1,6 @@
 <?php
 
-class ManipleUser_Plugin_LogExtras extends Zend_Controller_Plugin_Abstract
+class ManipleUser_Controller_Plugin_LogExtras extends Zend_Controller_Plugin_Abstract
 {
     /**
      * @var Zefram_Log
@@ -48,9 +48,17 @@ class ManipleUser_Plugin_LogExtras extends Zend_Controller_Plugin_Abstract
         if ($security->isAuthenticated()) {
             $user     = $security->getUser();
             $uid      = $user->getId();
-            $username = method_exists($user, 'getUsername') ? $user->getUsername() : '-';
+            $username = method_exists($user, 'getUsername') ? $user->getUsername() : null;
         } else {
-            $uid      = '-';
+            $uid      = null;
+            $username = null;
+        }
+
+        if (!strlen($uid)) {
+            $uid = '-';
+        }
+
+        if (!strlen($username)) {
             $username = '-';
         }
 

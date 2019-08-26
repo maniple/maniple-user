@@ -3,29 +3,28 @@
 class ManipleUser_Form_Factory_User
 {
     /**
+     * @Inject
      * @var ManipleUser_Model_UserMapperInterface
      */
-    protected $_userManager;
+    protected $_userRepository;
 
     /**
+     * @Inject
      * @var ManipleUser_UsersService
      */
     protected $_usersService;
 
     /**
+     * @Inject
+     * @var ManipleUser_Service_Username
+     */
+    protected $_usernameService;
+
+    /**
+     * @Inject
      * @var ManipleUser_Model_DbTable_Roles
      */
     protected $_rolesTable;
-
-    public function __construct(
-        ManipleUser_UsersService $usersService,
-        ManipleUser_Model_UserMapperInterface $userManager,
-        ManipleUser_Model_DbTable_Roles $rolesTable
-    ) {
-        $this->_usersService = $usersService;
-        $this->_userManager = $userManager;
-        $this->_rolesTable = $rolesTable;
-    }
 
     /**
      * @param array $options OPTIONAL
@@ -35,7 +34,8 @@ class ManipleUser_Form_Factory_User
     {
         return new ManipleUser_Form_User(
             $this->_usersService,
-            $this->_userManager,
+            $this->_userRepository,
+            $this->_usernameService,
             $this->_rolesTable,
             $options
         );

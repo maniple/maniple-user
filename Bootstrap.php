@@ -9,12 +9,12 @@ class ManipleUser_Bootstrap extends Maniple_Application_Module_Bootstrap
 
     public function getResourcesConfig()
     {
-        return require dirname(__FILE__) . '/configs/resources.config.php';
+        return require __DIR__ . '/configs/resources.config.php';
     }
 
     public function getRoutesConfig()
     {
-        return require dirname(__FILE__) . '/configs/routes.config.php';
+        return require __DIR__ . '/configs/routes.config.php';
     }
 
     public function getTranslationsConfig()
@@ -29,9 +29,9 @@ class ManipleUser_Bootstrap extends Maniple_Application_Module_Bootstrap
     public function getViewConfig()
     {
         return array(
-            'scriptPaths' => dirname(__FILE__) . '/views/scripts',
+            'scriptPaths' => __DIR__ . '/views/scripts',
             'helperPaths' => array(
-                'ManipleUser_View_Helper_' => dirname(__FILE__) . '/library/ManipleUser/View/Helper/',
+                'ManipleUser_View_Helper_' => __DIR__ . '/library/ManipleUser/View/Helper/',
             ),
         );
     }
@@ -44,10 +44,7 @@ class ManipleUser_Bootstrap extends Maniple_Application_Module_Bootstrap
         $viewRenderer->setViewSuffix('twig', 'maniple-user');
     }
 
-    /**
-     * Register controller plugins
-     */
-    protected function _initPlugins()
+    protected function _initControllerPlugins()
     {
         /** @var Zend_Application_Bootstrap_BootstrapAbstract $bootstrap */
         $bootstrap = $this->getApplication();
@@ -60,7 +57,7 @@ class ManipleUser_Bootstrap extends Maniple_Application_Module_Bootstrap
 
             /** @var Zend_Controller_Front $front */
             $front = $bootstrap->getResource('FrontController');
-            $front->registerPlugin(new ManipleUser_Plugin_LogExtras($log, $front));
+            $front->registerPlugin(new ManipleUser_Controller_Plugin_LogExtras($log, $front));
         }
 
         // if nothing is returned, resource is not added to the container
@@ -75,21 +72,5 @@ class ManipleUser_Bootstrap extends Maniple_Application_Module_Bootstrap
         if ($config) {
             $config->addPath(__DIR__ . '/library/Entity');
         }
-    }
-
-    protected function _initSettingsManager()
-    {
-        $this->getApplication()->bootstrap('maniple');
-
-        /** @var Zend_EventManager_SharedEventManager $sharedEventManager */
-        $sharedEventManager = $this->getResource('SharedEventManager');
-        $sharedEventManager->attach(
-            ManipleCore_Settings_SettingsManager::className,
-            'init',
-            function (Zend_EventManager_Event $event) {
-                /** @var ManipleCore_Settings_SettingsManager $settingsManager */
-                $settingsManager = $event->getTarget();
-            }
-        );
     }
 }

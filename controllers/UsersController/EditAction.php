@@ -72,11 +72,15 @@ class ManipleUser_UsersController_EditAction
             $userRolesTable->delete(array(
                 'user_id = ?' => (int) $user->getId(),
             ));
-            foreach ($roleIds as $roleId) {
-                $userRolesTable->createRow(array(
-                    'user_id' => $user->getId(),
-                    'role_id' => $roleId,
-                ))->save();
+
+            // role_id is null if no option is selected
+            if (is_array($roleIds)) {
+                foreach ($roleIds as $roleId) {
+                    $userRolesTable->createRow(array(
+                        'user_id' => $user->getId(),
+                        'role_id' => $roleId,
+                    ))->save();
+                }
             }
 
             $this->_db->commit();

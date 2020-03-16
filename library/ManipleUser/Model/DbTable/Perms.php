@@ -8,7 +8,7 @@ class ManipleUser_Model_DbTable_Perms extends Zefram_Db_Table
 
     /**
      * @param int $userId
-     * @return Zefram_Db_Table_Rowset
+     * @return Zefram_Db_Table_Rowset|Zefram_Db_Table_Row[]
      */
     public function fetchPermsByUserId($userId)
     {

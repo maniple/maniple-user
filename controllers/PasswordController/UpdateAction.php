@@ -47,6 +47,7 @@ class ManipleUser_PasswordController_UpdateAction
             throw new Maniple_Controller_Exception_NotFound('User was not found');
         }
 
+        $this->_ajaxFormHtml = $this->getScalarParam('ajaxFormHtml', $this->_ajaxFormHtml);
         $this->_form = new ManipleUser_Form_Password($this->_passwordService, $user);
     }
 
@@ -60,17 +61,20 @@ class ManipleUser_PasswordController_UpdateAction
 
         $userManager->saveUser($user);
 
+        $successMessage = $this->view->translate('Your password has been changed');
+
         if ($this->isAjax()) {
-            $this->view->success = $this->view->translate('Your password has been changed');
-            $this->_helper->json(array(
-                'data' => array(
-                    'html' => $this->renderForm()
-                ),
-            ));
+            $this->view->success = $successMessage;
+
+            $ajaxResponse = $this->getAjaxResponse();
+            $ajaxResponse->setSuccess($successMessage);
+            $ajaxResponse->setData($this->_ajaxFormHtml ? $this->renderForm() : null);
+            $ajaxResponse->sendAndExit();
+
             return false;
         }
 
-        $this->_helper->flashMessenger->addSuccessMessage($this->view->translate('Your password has been changed'));
+        $this->_helper->flashMessenger->addSuccessMessage($successMessage);
 
         $config = $this->getResource('modules')->offsetGet('maniple-user')->getOptions();
         $continue = isset($config['afterLoginRoute'])

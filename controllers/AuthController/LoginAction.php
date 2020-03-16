@@ -59,11 +59,27 @@ class ManipleUser_AuthController_LoginAction
             }
         }
 
-        $this->_form = new ManipleUser_Form_Login();
+        $this->_form = $this->_createLoginForm();
 
         // boolean auth_required value is set only via Auth plugin
         $this->view->auth_required = true === $this->getParam('auth_required');
         $this->view->is_ajax = $this->_request->isXmlHttpRequest();
+    }
+
+    /**
+     * @return Zend_Form
+     */
+    protected function _createLoginForm()
+    {
+        /** @var ManipleUser_Bootstrap $module */
+        $module = $this->getResource('modules')->offsetGet('maniple-user');
+        $loginFormClass = $module->getOption('loginFormClass');
+
+        if (!$loginFormClass) {
+            $loginFormClass = ManipleUser_Form_Login::className;
+        }
+
+        return new $loginFormClass;
     }
 
     protected function _populate()

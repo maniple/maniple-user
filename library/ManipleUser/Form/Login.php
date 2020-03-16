@@ -2,6 +2,8 @@
 
 class ManipleUser_Form_Login extends Zend_Form
 {
+    const className = __CLASS__;
+
     public function __construct()
     {
         $elements = array(

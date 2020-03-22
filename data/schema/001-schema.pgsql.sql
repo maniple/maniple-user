@@ -15,7 +15,7 @@ CREATE UNIQUE INDEX roles_name_key ON roles (LOWER(name));
 
 CREATE TABLE perms (
 
-    perm_id         INTEGER PRIMARY KEY AUTO_INCREMENT,
+    perm_id         SERIAL PRIMARY KEY,
 
     -- permission key for internal identification
     perm_key        VARCHAR(255) NOT NULL UNIQUE,

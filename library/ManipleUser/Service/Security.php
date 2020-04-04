@@ -105,17 +105,7 @@ class ManipleUser_Service_Security extends Maniple_Security_ContextAbstract
      */
     public static function factory($serviceLocator)
     {
-        $config = $serviceLocator['config'];
-
-        if (is_array($config)) {
-            $options = isset($config['mod_user']['security']) ? $config['mod_user']['security'] : null;
-        } else {
-            $options = isset($config->{'mod_user'}->{'security'}) ? $config->{'mod_user'}->{'security'} : null;
-        }
-        if (is_object($options) && method_exists($options, 'toArray')) {
-            $options = $options->toArray();
-        }
-        $options = (array) $options;
+        $options = (array) $serviceLocator['ManipleUser_Bootstrap']->getOption('security');
         $options['dbAdapter'] = $serviceLocator['Zefram_Db'];
 
         return new self($options);

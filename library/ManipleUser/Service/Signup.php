@@ -38,6 +38,14 @@ class ManipleUser_Service_Signup
      */
     protected $_events;
 
+    /**
+     * @var array
+     */
+    protected $_options = array(
+        'emailVerification' => true,
+        'formClass'         => ManipleUser_Form_Registration::className,
+    );
+
     public function __construct(Zend_EventManager_SharedEventManager $sharedEventManager)
     {
         $this->_events = new Zend_EventManager_EventManager();
@@ -51,18 +59,65 @@ class ManipleUser_Service_Signup
     }
 
     /**
+     * @param string $key
+     * @param mixed $value
+     * @return $this
+     */
+    public function setOption($key, $value)
+    {
+        if (!array_key_exists($key, $this->_options)) {
+            throw new InvalidArgumentException(sprintf("Unrecognized option '%s'", $key));
+        }
+        $this->_options[$key] = $value;
+        return $this;
+    }
+
+    /**
+     * @param array $options
+     * @return $this
+     */
+    public function setOptions(array $options)
+    {
+        foreach ($options as $key => $value) {
+            $this->setOption($key, $value);
+        }
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->_options;
+    }
+
+    /**
+     * @param string $key
+     * @return mixed
+     */
+    public function getOption($key)
+    {
+        return isset($this->_options[$key]) ? $this->_options[$key] : null;
+    }
+
+    /**
      * @return Zend_Form
      */
     public function createSignupForm()
     {
-        if ($this->_config instanceof Zend_Config) {
-            $formClass = isset($this->_config->{'mod_user'}->{'registration'}->{'formClass'})
-                ? $this->_config->{'mod_user'}->{'registration'}->{'formClass'}
-                : null;
-        } else {
-            $formClass = isset($this->_config['mod_user']['registration']['formClass'])
-                ? $this->_config['mod_user']['registration']['formClass']
-                : null;
+        $formClass = $this->getOption('formClass');
+
+        if (!$formClass) {
+            if ($this->_config instanceof Zend_Config) {
+                $formClass = isset($this->_config->{'mod_user'}->{'registration'}->{'formClass'})
+                    ? $this->_config->{'mod_user'}->{'registration'}->{'formClass'}
+                    : null;
+            } else {
+                $formClass = isset($this->_config['mod_user']['registration']['formClass'])
+                    ? $this->_config['mod_user']['registration']['formClass']
+                    : null;
+            }
         }
 
         if (!$formClass) {
@@ -188,5 +243,18 @@ class ManipleUser_Service_Signup
         $this->_events->trigger('createUser', $user, array('data' => $data));
 
         return $user;
+    }
+
+    /**
+     * @param Maniple_Di_Container $container
+     * @return ManipleUser_Service_Signup
+     */
+    public static function factory(Maniple_Di_Container $container)
+    {
+        /** @var ManipleUser_Service_Signup $service */
+        $service = $container->getInjector()->newInstance(self::className);
+        $service->setOptions($container['ManipleUser_Bootstrap']->getOption('signup'));
+
+        return $service;
     }
 }

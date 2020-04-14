@@ -20,10 +20,7 @@
 
 
     'ManipleUser_Service_Signup' => array(
-        'class' => 'ManipleUser_Service_Signup',
-        'args' => array(
-            'resource:SharedEventManager',
-        ),
+        'callback' => 'ManipleUser_Service_Signup::factory',
     ),
 
     'ManipleUser.UserSettings' => array(

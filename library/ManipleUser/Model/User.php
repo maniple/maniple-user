@@ -124,22 +124,4 @@ class ManipleUser_Model_User extends Zefram_Db_Table_Row implements ManipleUser_
         $this->created_at = (int) $createdAt;
         return $this;
     }
-
-    /**
-     * @return string
-     */
-    public function getSignupIp()
-    {
-        return $this->signup_ip;
-    }
-
-    /**
-     * @param string $signupIp
-     * @return $this
-     */
-    public function setSignupIp($signupIp)
-    {
-        $this->signup_ip = (string) $signupIp;
-        return $this;
-    }
 }

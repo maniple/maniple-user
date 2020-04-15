@@ -148,7 +148,7 @@ class ManipleUser_Service_Signup
         $data['email'] = $email;
         $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
 
-        $reg = $this->_db->getTable(ManipleUser_Model_DbTable_Registrations::className)->createRow(array(
+        $reg = $this->_db->getTable(ManipleUser_Model_DbTable_Signups::className)->createRow(array(
             'reg_id'     => Zefram_Random::getString(64, Zefram_Random::BASE64URL),
             'created_at' => time(),
             'expires_at' => null, // TODO registration.lifetime setting
@@ -171,7 +171,10 @@ class ManipleUser_Service_Signup
      */
     public function createUser($token)
     {
-        $reg = $this->_db->getTable(ManipleUser_Model_DbTable_Registrations::className)->fetchRow(array(
+        /** @var ManipleUser_Model_DbTable_Signups $signupsTable */
+        $signupsTable = $this->_db->getTable(ManipleUser_Model_DbTable_Signups::className);
+
+        $reg = $signupsTable->fetchRow(array(
             'reg_id = ?' => (string) $token,
             'status = ?' => 'PENDING',
         ));
@@ -210,8 +213,8 @@ class ManipleUser_Service_Signup
         $reg->status = 'CONFIRMED';
         $reg->save();
 
-        // Invalidate all other PENDING registrations for this user
-        $this->_db->getTable(ManipleUser_Model_DbTable_Registrations::className)->update(
+        // Invalidate all other PENDING sigunps for this user
+        $this->_db->getTable(ManipleUser_Model_DbTable_Signups::className)->update(
             array('status' => 'INVALIDATED'),
             array(
                 'email = ?' => (string) $reg->email,
@@ -225,8 +228,6 @@ class ManipleUser_Service_Signup
         if (empty($data['username'])) {
             $data['username'] = $reg->email;
         }
-
-        $data['signup_ip'] = $reg->ip_addr;
 
         foreach ($data as $key => $value) {
             $method = 'set' . $filter->filter($key);
@@ -253,7 +254,7 @@ class ManipleUser_Service_Signup
     {
         /** @var ManipleUser_Service_Signup $service */
         $service = $container->getInjector()->newInstance(self::className);
-        $service->setOptions($container['ManipleUser_Bootstrap']->getOption('signup'));
+        $service->setOptions($container[ManipleUser_Bootstrap::className]->getOption('signup'));
 
         return $service;
     }

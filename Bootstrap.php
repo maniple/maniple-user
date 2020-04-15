@@ -2,6 +2,8 @@
 
 class ManipleUser_Bootstrap extends Maniple_Application_Module_Bootstrap
 {
+    const className = __CLASS__;
+
     public function getModuleDependencies()
     {
         return array();

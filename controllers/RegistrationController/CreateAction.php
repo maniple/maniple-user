@@ -35,7 +35,12 @@ class ManipleUser_RegistrationController_CreateAction extends Maniple_Controller
     protected function _prepare()
     {
         if ($this->_securityContext->isAuthenticated()) {
-            $this->_helper->redirector->gotoUrl('/');
+            // Redirect to login page for proper after-login redirection
+            $queryString = ltrim($this->_request->getServer('QUERY_STRING'), '?');
+            if (strlen($queryString)) {
+                $queryString  = '?' . $queryString;
+            }
+            $this->_helper->redirector->gotoUrl($this->view->url('user.auth.login') . $queryString);
             return;
         }
 

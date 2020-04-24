@@ -38,7 +38,7 @@ class ManipleUser_AuthController extends ManipleUser_Controller_Action
             $continue = null;
         }
         if (empty($continue)) {
-            $config = $this->getResource('modules')->offsetGet('maniple-user')->getOptions();
+            $config = $this->getResource(ManipleUser_Bootstrap::className)->getOptions();
             $continue = isset($config['loginRedirectRoute'])
                 ? $this->view->url($config['loginRedirectRoute'])
                 : (

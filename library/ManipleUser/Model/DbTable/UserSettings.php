@@ -1,8 +1,11 @@
 <?php
 
 /**
- * @method ManipleUser_Model_UserSetting findRow(mixed $id)
  * @method ManipleUser_Model_UserSetting createRow(array $data = array(), string $defaultSource = null)
+ * @method ManipleUser_Model_UserSetting|null fetchRow(string|array|Zend_Db_Table_Select $where = null, string|array $order = null, int $offset = null)
+ * @method ManipleUser_Model_UserSetting|null findRow(mixed $id)
+ * @method Zend_Db_Table_Rowset|ManipleUser_Model_UserSetting[] find(mixed $key, mixed ...$keys)
+ * @method Zend_Db_Table_Rowset|ManipleUser_Model_UserSetting[] fetchAll(string|array|Zend_Db_Table_Select $where = null, string|array $order = null, int $count = null, int $offset = null)
  */
 class ManipleUser_Model_DbTable_UserSettings extends Zefram_Db_Table
 {

@@ -3,6 +3,7 @@
 /**
  * @property ManipleUser_Form_PasswordReset $_form
  * @method Zend_Session_Namespace getSessionNamespace(string $name)
+ * @method string getLocalizedScriptPath(string $name)
  */
 class ManipleUser_PasswordController_ResetAction
     extends Maniple_Controller_Action_StandaloneForm
@@ -113,8 +114,9 @@ class ManipleUser_PasswordController_ResetAction
 
         $this->view->user = $user;
         $this->view->message = $message;
+        $this->view->name = ManipleUser_Filter_FriendlyName::filterStatic($user);
 
-        $message->setBodyHtml($this->view->render('maniple-user/password/password-reset-mail.twig'));
+        $message->setBodyHtml($this->view->render($this->getLocalizedScriptPath('maniple-user/password/password-reset-mail.twig')));
         $message->send();
 
         exit;

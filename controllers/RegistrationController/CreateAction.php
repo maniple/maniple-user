@@ -3,6 +3,7 @@
 /**
  * @property Zend_Controller_Request_Http $_request
  * @method Zend_Session_Namespace getSessionNamespace()
+ * @method string getLocalizedScriptPath(string $name)
  */
 class ManipleUser_RegistrationController_CreateAction extends Maniple_Controller_Action_StandaloneForm
 {
@@ -32,6 +33,12 @@ class ManipleUser_RegistrationController_CreateAction extends Maniple_Controller
      */
     protected $_signupManager;
 
+    /**
+     * @Inject('Translate')
+     * @var Zend_Translate
+     */
+    protected $_translate;
+
     protected function _prepare()
     {
         if ($this->_securityContext->isAuthenticated()) {
@@ -60,7 +67,7 @@ class ManipleUser_RegistrationController_CreateAction extends Maniple_Controller
         $this->_form = $this->_signupManager->createSignupForm();
         $this->_form->setView($this->view);
 
-        $this->view->form_template = 'maniple-user/forms/registration';
+        $this->view->form_template = $this->getLocalizedScriptPath('maniple-user/forms/registration');
     }
 
     protected function _process()
@@ -99,7 +106,7 @@ class ManipleUser_RegistrationController_CreateAction extends Maniple_Controller
                 $sessionNamespace->{$key} = $value;
             }
 
-            $url = $this->view->url('user.registration.complete');
+            $url = $this->view->url('maniple-user.signup.complete');
             header('Location: ' . $url);
             header('Connection: close');
             header('Content-Length: 0');
@@ -116,17 +123,20 @@ class ManipleUser_RegistrationController_CreateAction extends Maniple_Controller
         $message->setSubject($this->view->translate('Confirm your email address'));
         $message->addTo($reg->email);
 
-        $name = isset($data['username']) ? $data['username'] : $data['email'];
+        $name = isset($data['first_name']) ? $data['first_name'] : null;
+        if (!$name) {
+            $name = isset($data['username']) ? $data['username'] : $data['email'];
+        }
         if ($name === $data['email']) {
             $name = substr($name, 0, strpos($name, '@'));
         }
 
         $this->view->assign($data);
-        $this->view->url_confirm = $this->view->serverUrl() . $this->view->url('user.registration.confirm', array('reg_id' => $reg->reg_id));
+        $this->view->url_confirm = $this->view->serverUrl() . $this->view->url('maniple-user.signup.confirm', array('reg_id' => $reg->reg_id));
         $this->view->name = $name;
         $this->view->message = $message;
 
-        $message->setBodyHtml($this->view->render('maniple-user/registration/mail/confirm.twig'));
+        $message->setBodyHtml($this->view->render($this->getLocalizedScriptPath('maniple-user/registration/mail/confirm.twig')));
 
         try {
             $message->send();
@@ -140,7 +150,7 @@ class ManipleUser_RegistrationController_CreateAction extends Maniple_Controller
 
             $response = Zefram_Json::encode(array(
                 'status' => 'success',
-                'data' => $this->view->render('maniple-user/registration/complete.twig'),
+                'data' => $this->view->render($this->getLocalizedScriptPath('maniple-user/registration/complete.twig')),
             ));
 
             $this->_helper->json($response);
@@ -153,7 +163,7 @@ class ManipleUser_RegistrationController_CreateAction extends Maniple_Controller
                 $sessionNamespace->{$key} = $value;
             }
 
-            $url = $this->view->url('user.registration.complete');
+            $url = $this->view->url('maniple-user.signup.complete');
             $this->_helper->redirector->gotoUrl($url);
         }
 

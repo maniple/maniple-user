@@ -80,4 +80,12 @@
     'To login, visit <a href="%s">%s</a> and enter the following information:' => 'Aby się zalogować, odwiedź <a href="%s">%s</a> i użyj następujących danych:',
     'Username: <strong>%s</strong>' => 'Login: <strong>%s</strong>',
     'Temporary password: <strong>%s</strong>' => 'Hasło tymczasowe: <strong>%s</strong>',
+
+    // maniple-user/password/forgot.twig
+    'Forgot your password?' => 'Nie pamiętasz hasła?',
+    'To reset your password enter your email address or username used to login to our website.' => 'Aby zresetować hasła podaj swój login albo adres e-mail. Link do strony umożliwiającej zmianę hasła otrzymasz e-mailem.',
+
+    // maniple-user/password/reset.twig
+    'Reset your password' => 'Ustaw nowe hasło',
+    'Enter a new password for your account' => 'Wprowadź nowe hasło do swojego konta',
 );

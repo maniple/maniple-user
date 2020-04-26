@@ -71,6 +71,35 @@ return array(
             'action'     => 'update',
         ),
     ),
+
+    'maniple-user.signup.create' => array(
+        'route'    => 'signup',
+        'defaults' => array(
+            'module'     => 'maniple-user',
+            'controller' => 'registration',
+            'action'     => 'create',
+        ),
+    ),
+    'maniple-user.signup.confirm' => array(
+        'route'    => 'signup/confirm/:reg_id',
+        'defaults' => array(
+            'module'     => 'maniple-user',
+            'controller' => 'registration',
+            'action'     => 'confirm',
+        ),
+        'reqs'     => array(
+            'reg_token' => '^[-_a-zA-Z0-9]+$',
+        ),
+    ),
+    'maniple-user.signup.complete' => array(
+        'route'    => 'signup/complete',
+        'defaults' => array(
+            'module'     => 'maniple-user',
+            'controller' => 'registration',
+            'action'     => 'complete',
+        ),
+    ),
+
     'user.registration.create' => array(
         'route'    => 'register',
         'defaults' => array(
@@ -98,6 +127,7 @@ return array(
             'action'     => 'complete',
         ),
     ),
+
     'maniple-user.users.index' => array(
         'route'    => 'users',
         'defaults' => array(

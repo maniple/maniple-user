@@ -3,6 +3,7 @@
 /**
  * @property Zend_Controller_Request_Http $_request
  * @method Zend_Session_Namespace getSessionNamespace(string $name)
+ * @method string getLocalizedScriptPath(string $name)
  */
 class ManipleUser_PasswordController_ForgotAction
     extends Maniple_Controller_Action_StandaloneForm
@@ -66,8 +67,9 @@ class ManipleUser_PasswordController_ForgotAction
         $this->view->url_password_reset = $this->view->serverUrl() . $this->view->url('user.password.reset', array('reset_id' => $reset->reset_id));
         $this->view->user = $user;
         $this->view->message = $message;
+        $this->view->name = ManipleUser_Filter_FriendlyName::filterStatic($user);
 
-        $message->setBodyHtml($this->view->render('maniple-user/password/password-forgot-mail.twig'));
+        $message->setBodyHtml($this->view->render($this->getLocalizedScriptPath('maniple-user/password/password-forgot-mail.twig')));
         $message->send();
 
         if ($this->_request->isXmlHttpRequest()) {

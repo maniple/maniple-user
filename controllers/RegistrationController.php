@@ -21,7 +21,7 @@ class ManipleUser_RegistrationController extends ManipleUser_Controller_Action
      */
     public function getSessionNamespace() // {{{
     {
-        return new Zend_Session_Namespace('user.registration');    
+        return new Zend_Session_Namespace('user.registration');
     } // }}}
 
     /**
@@ -30,7 +30,7 @@ class ManipleUser_RegistrationController extends ManipleUser_Controller_Action
      *
      * No params are expected.
      */
-    public function completeAction() // {{{
+    public function completeAction()
     {
         // registration complete message is available for a limited amount
         // of time, and within limited number of page hops
@@ -40,7 +40,7 @@ class ManipleUser_RegistrationController extends ManipleUser_Controller_Action
         $this->view->complete   = $sessionNamespace->complete;
         $this->view->expires_at = $sessionNamespace->expires_at;
         $this->view->email      = $sessionNamespace->email;
-    } // }}}
+    }
 
     /**
      * Link to this action is stored in the registration confirmation email
@@ -81,21 +81,16 @@ class ManipleUser_RegistrationController extends ManipleUser_Controller_Action
         $message->setSubject($this->view->translate('Your account has been activated'));
         $message->addTo($user->getEmail());
 
-        $name = $user->getUsername();
-        if ($name === $user->getEmail()) {
-            $name = substr($name, 0, strpos($name, '@'));
-        }
-
         $this->view->assign(array(
             'message' => $message,
             'user' => $user,
-            'name' => $name,
+            'name' => ManipleUser_Filter_FriendlyName::filterStatic($user),
             'site_url' => $this->view->serverUrl() . $this->view->baseUrl('/'),
             'url_forgot_password' => $this->view->serverUrl() . $this->view->url('user.password.forgot'),
         ));
 
         // TODO configurable template root dir
-        $message->setBodyHtml($this->view->render('maniple-user/registration/mail/account-activated.twig'));
+        $message->setBodyHtml($this->view->render($this->getLocalizedScriptPath('maniple-user/registration/mail/account-activated.twig')));
         $message->send();
 
         /*

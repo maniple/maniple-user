@@ -38,7 +38,7 @@ class ManipleUser_UsersController_EditAction
     {
         $this->requireAuthentication();
         if (!$this->_securityContext->isAllowed('manage_users')) {
-            throw new Maniple_Controller_Exception_NotAllowed();
+            throw new Maniple_Controller_Exception_Forbidden();
         }
 
         /** @var ManipleUser_Model_UserInterface $user */

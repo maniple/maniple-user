@@ -44,7 +44,7 @@ class ManipleUser_UsersController_CreateAction
     {
         $this->requireAuthentication();
         if (!$this->_securityContext->isAllowed('manage_users')) {
-            throw new Maniple_Controller_Exception_NotAllowed();
+            throw new Maniple_Controller_Exception_Forbidden();
         }
 
         $this->_form = $this->_userFormFactory->createForm();

@@ -2,7 +2,7 @@
 
 /**
  * @property Zend_Controller_Request_Http $_request
- * @property Zend_View_Abstract|Zefram_View_Interface $view
+ * @property Zend_View_Abstract|Zefram_View_Abstract $view
  */
 class ManipleUser_UsersController extends Maniple_Controller_Action
 {
@@ -24,7 +24,7 @@ class ManipleUser_UsersController extends Maniple_Controller_Action
     {
         $this->requireAuthentication();
         if (!$this->_securityContext->isAllowed('manage_users')) {
-            throw new Maniple_Controller_Exception_NotAllowed();
+            throw new Maniple_Controller_Exception_Forbidden();
         }
 
         $users = $this->_usersService->getUsers(array(
@@ -39,5 +39,12 @@ class ManipleUser_UsersController extends Maniple_Controller_Action
             'users' => $users,
             'returnUrl' => $this->_request->getRequestUri(),
         ));
+    }
+
+    public function requireAuthentication()
+    {
+        if (!$this->_securityContext->isAuthenticated()) {
+            throw new Maniple_Controller_Exception_AuthenticationRequired($this->_request);
+        }
     }
 }

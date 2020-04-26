@@ -1,6 +1,7 @@
 <?php
 
 class ManipleUser_Bootstrap extends Maniple_Application_Module_Bootstrap
+    implements Maniple_Menu_MenuManagerProviderInterface
 {
     const className = __CLASS__;
 
@@ -35,20 +36,22 @@ class ManipleUser_Bootstrap extends Maniple_Application_Module_Bootstrap
             'helperPaths' => array(
                 'ManipleUser_View_Helper_' => __DIR__ . '/library/ManipleUser/View/Helper/',
             ),
+            'scriptPathSpec' => ':module/:controller/:action.:suffix',
+            'suffix' => 'twig',
         );
     }
 
-    protected function _initViewRenderer()
+    public function getMenuManagerConfig()
     {
-        /** @var Zefram_Controller_Action_Helper_ViewRenderer $viewRenderer */
-        $viewRenderer = Zend_Controller_Action_HelperBroker::getStaticHelper('ViewRenderer');
-        $viewRenderer->setViewScriptPathSpec(':module/:controller/:action.:suffix', 'maniple-user');
-        $viewRenderer->setViewSuffix('twig', 'maniple-user');
+        return array(
+            'builders' => array(
+                ManipleUser_Menu_MenuBuilder::className,
+            ),
+        );
     }
 
     protected function _initControllerPlugins()
     {
-        /** @var Zend_Application_Bootstrap_BootstrapAbstract $bootstrap */
         $bootstrap = $this->getApplication();
 
         // If log resource is present, register plugin which adds user-related
@@ -74,5 +77,12 @@ class ManipleUser_Bootstrap extends Maniple_Application_Module_Bootstrap
         if ($config) {
             $config->addPath(__DIR__ . '/library/ManipleUser/Entity');
         }
+    }
+
+    protected function _initViewStyles()
+    {
+        /** @var Zefram_View_Abstract $view */
+        $view = $this->getApplication()->getResource('View');
+        $view->headLink()->appendStylesheet($view->baseUrl('modules/maniple-user/css/style.css'), 'all');
     }
 }

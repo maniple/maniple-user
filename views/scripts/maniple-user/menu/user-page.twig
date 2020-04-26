@@ -1,0 +1,7 @@
+{% set user = userIdentity() %}
+{% if user %}
+<div class="menu-user-page" role="button" data-toggle="dropdown">
+  {{ gravatar(user.email, { default_img: 'mm' }, { class: 'menu-user-page__avatar', alt: '' }) }}
+  <span class="menu-user-page__name" title="{{ userFullName(user) }}">{{ userFullName(user) }}</span>
+</div>
+{% endif %}

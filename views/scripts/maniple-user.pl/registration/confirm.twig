@@ -1,7 +1,7 @@
 {% if error %}
 
 {% if already_registered %}
-<h3>Houston, mamy problem...</h3>
+<h1>Houston, mamy problem...</h1>
 
 <p>Użytkownik o tym adresie e-mail jest już zarejestrowany.</p>
 
@@ -15,7 +15,7 @@ wrócić do <a href="{{ baseUrl('/') }}">strony głównej</a>.</p>
 
 {% else %}
 
-<h3 class="page-title">I co ja robię tu? Uu...</h3>
+<h1 class="page-title">I co ja robię tu? Uu...</h1>
 
 <p>Sytuacja taka jak ta może się zdarzyć, gdy:</p>
 <ul>
@@ -30,7 +30,7 @@ wrócić do <a href="{{ baseUrl('/') }}">strony głównej</a>.</p>
 {% else %}
 
 {% if accepted %}
-<h3 class="page-title">Aktywacja konta</h3>
+<h1 class="page-title">Aktywacja konta</h1>
 
 <p style="margin-bottom:2em">Twoje konto zostało pomyślnie aktywowane. Teraz
 możesz się zalogować korzystając z poniższego formularza.</p>
@@ -38,7 +38,7 @@ możesz się zalogować korzystając z poniższego formularza.</p>
 {% include 'maniple-user/forms/login.twig' %}
 
 {% else %}
-<h3 class="page-title">Potwierdzenie adresu e-mail</h3>
+<h1 class="page-title">Potwierdzenie adresu e-mail</h1>
 
 <p>Adres e-mail (<strong>{{ email }}</strong>) został właśnie
 potwierdzony.</p>

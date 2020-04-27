@@ -83,6 +83,6 @@ class ManipleUser_Bootstrap extends Maniple_Application_Module_Bootstrap
     {
         /** @var Zefram_View_Abstract $view */
         $view = $this->getApplication()->getResource('View');
-        $view->headLink()->appendStylesheet($view->baseUrl('modules/maniple-user/css/style.css'), 'all');
+        $view->headLink()->appendStylesheet($view->baseUrl('assets/maniple-user/css/style.css'), 'all');
     }
 }

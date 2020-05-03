@@ -70,6 +70,11 @@
           <a href="{{ url('maniple-user.users.edit', { user_id: user.id }) }}{% if returnUrl %}?return_url={{ returnUrl | url_encode }}{% endif %}" class="btn-edit" title="{{ translate('Edit') }}">
             <i class="fa fa-pencil"></i>
           </a>
+          {% if userIsAllowed('impersonate') %}
+          <a href="{{ url('user.auth.impersonate', { user_id: user.id }) }}" class="btn-edit" title="{{ translate('Impersonate') }}">
+            <i class="fa fa-id-card"></i>
+          </a>
+          {% endif %}
         </td>
       </tr>
       {% endfor %}

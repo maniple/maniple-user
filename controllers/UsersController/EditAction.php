@@ -51,7 +51,7 @@ class ManipleUser_UsersController_EditAction
         if ($this->_securityContext->isSuperUser($user->getId())
             && !$this->_securityContext->isSuperUser()
         ) {
-            throw new Maniple_Controller_Exception_NotAllowed();
+            throw new Maniple_Controller_Exception_Forbidden();
         }
 
         $this->_form = $this->_userFormFactory->createForm(array('user' => $user));
@@ -76,6 +76,9 @@ class ManipleUser_UsersController_EditAction
             // role_id is null if no option is selected
             if (is_array($roleIds)) {
                 foreach ($roleIds as $roleId) {
+                    if (!$roleId) {
+                        continue;
+                    }
                     $userRolesTable->createRow(array(
                         'user_id' => $user->getId(),
                         'role_id' => $roleId,

@@ -1,9 +1,6 @@
 <?php
 
-/**
- * @property Zend_View_Abstract $view
- */
-class ManipleUser_View_Helper_UserFullName extends Zend_View_Helper_Abstract
+class ManipleUser_View_Helper_UserFullName extends Maniple_View_Helper_Abstract
 {
     /**
      * Options:

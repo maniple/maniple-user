@@ -124,6 +124,7 @@ class ManipleUser_Service_Signup
             $formClass = ManipleUser_Form_Registration::className;
         }
 
+        /** @var Zend_Form $form */
         $form = new $formClass($this->_userRepository);
         $this->_events->trigger('createSignupForm', $form);
 

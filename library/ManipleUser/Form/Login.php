@@ -10,9 +10,9 @@ class ManipleUser_Form_Login extends Zend_Form
             'username' => array(
                 'type' => 'text',
                 'options' => array(
-                    'label' => 'Username or email',
+                    'label'    => 'Username or email',
                     'required' => true,
-                    'filters' => array(
+                    'filters'  => array(
                         'StringToLower',
                     ),
                     'autofocus' => '',
@@ -21,7 +21,7 @@ class ManipleUser_Form_Login extends Zend_Form
             'password' => array(
                 'type' => 'password',
                 'options' => array(
-                    'label' => 'Password',
+                    'label'    => 'Password',
                     'required' => true,
                 ),
             ),
@@ -29,10 +29,11 @@ class ManipleUser_Form_Login extends Zend_Form
                 'type' => 'hidden',
             ),
             '__submit' => array(
-                'type' => 'button',
+                'type'    => 'button',
                 'options' => array(
-                    'type' => 'submit',
+                    'type'  => 'submit',
                     'label' => 'Sign in',
+                    'class' => 'btn btn-primary',
                 ),
             ),
         );

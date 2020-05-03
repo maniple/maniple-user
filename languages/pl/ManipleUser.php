@@ -89,4 +89,7 @@
     // maniple-user/password/reset.twig
     'Reset your password' => 'Ustaw nowe hasło',
     'Enter a new password for your account' => 'Wprowadź nowe hasło do swojego konta',
+
+    // maniple-user/password/update.twig
+    'Update password' => 'Zmiana hasła',
 );

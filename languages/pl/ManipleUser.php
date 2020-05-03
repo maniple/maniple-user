@@ -6,6 +6,7 @@
     'Username or email' => 'Nazwa użytkownika / e-mail',
     'Password' => 'Hasło',
     'Sign in' => 'Zaloguj',
+    'Log out' => 'Wyloguj',
 
     'Current password' => 'Obecne hasło',
     'New password' => 'Nowe hasło',

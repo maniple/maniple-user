@@ -2,6 +2,8 @@
 
 class ManipleUser_UserSettings_Service
 {
+    const className = __CLASS__;
+
     /**
      * @var Maniple_Security_ContextInterface
      */

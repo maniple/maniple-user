@@ -60,8 +60,29 @@ class ManipleUser_Menu_MenuBuilder implements Maniple_Menu_MenuBuilderInterface
             return;
         }
 
-        $menu->addPage(new ManipleUser_Menu_Page_User(array(
-            'pages' => array(
+        $menu->addPage($new = new Maniple_Menu_Page(array(
+            'label'   => 'New',
+            'id'      => 'maniple.secondary.new',
+            'liClass' => 'dropdown',
+            'ulClass' => 'dropdown-menu',
+            'partial' => 'maniple-user/menu/page-create.twig',
+        )));
+
+        if ($this->_securityContext->isAllowed('manage_users')) {
+            $new->addPage(array(
+                'label' => 'User',
+                'route' => 'maniple-user.users.create',
+                'order' => 1000,
+            ));
+        }
+
+        $menu->addPage(new Maniple_Menu_Page(array(
+            'id'      => 'maniple.secondary.user',
+            'liClass' => 'dropdown',
+            'ulClass' => 'dropdown-menu',
+            'partial' => 'maniple-user/menu/user-page.twig',
+            'order'   => 1000,
+            'pages'   => array(
                 array(
                     'label' => 'Change password',
                     'route' => 'user.password.update',
@@ -77,5 +98,22 @@ class ManipleUser_Menu_MenuBuilder implements Maniple_Menu_MenuBuilderInterface
                 ),
             ),
         )));
+    }
+
+    public function postBuildMenu(Maniple_Menu_Menu $menu)
+    {
+        if ($menu->getName() !== 'maniple.secondary') {
+            return;
+        }
+
+        if (($new = $menu->findOneBy('id', 'maniple.secondary.new')) === null) {
+            return;
+        }
+
+        if (empty($new->getPages())) {
+            $new->getParent()->removePage($new);
+            /** @noinspection PhpUnhandledExceptionInspection */
+            $new->setParent(null);
+        }
     }
 }

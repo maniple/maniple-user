@@ -39,6 +39,12 @@ class ManipleUser_Service_Signup
     protected $_events;
 
     /**
+     * @var Zend_Log|null
+     * @Inject('Log')
+     */
+    protected $_log;
+
+    /**
      * @var array
      */
     protected $_options = array(
@@ -160,6 +166,12 @@ class ManipleUser_Service_Signup
         ));
         $reg->save();
 
+        if ($this->_log) {
+            try {
+                $this->_log->debug(sprintf('Created signup record, email=%s', $email));
+            } catch (Exception $e) {}
+        }
+
         return $reg;
     }
 
@@ -192,6 +204,12 @@ class ManipleUser_Service_Signup
                 $reg->status = 'INVALIDATED';
                 $reg->save();
             } catch (Exception $e) {
+            }
+
+            if ($this->_log) {
+                try {
+                    $this->_log->debug(sprintf('Invalidated signup record, user_id=%s, email=%s', $user->getId(), $user->getEmail()));
+                } catch (Exception $e) {}
             }
 
             throw new ManipleUser_Signup_Exception_UserAlreadyRegistered();
@@ -241,6 +259,12 @@ class ManipleUser_Service_Signup
         $user->setCreatedAt(time());
         $user->setId(null); // enforce auto-generation
         $this->_userRepository->saveUser($user);
+
+        if ($this->_log) {
+            try {
+                $this->_log->debug(sprintf('User created, user_id=%s, email=%s', $user->getId(), $user->getEmail()));
+            } catch (Exception $e) {}
+        }
 
         $this->_events->trigger('createUser', $user, array('data' => $data));
 

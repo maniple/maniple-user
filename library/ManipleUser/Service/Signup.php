@@ -279,7 +279,11 @@ class ManipleUser_Service_Signup
     {
         /** @var ManipleUser_Service_Signup $service */
         $service = $container->getInjector()->newInstance(self::className);
-        $service->setOptions($container[ManipleUser_Bootstrap::className]->getOption('signup'));
+
+        $options = $container[ManipleUser_Bootstrap::className]->getOption('signup');
+        if (is_array($options)) {
+            $service->setOptions($options);
+        }
 
         return $service;
     }

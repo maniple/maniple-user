@@ -1,25 +1,28 @@
-<h1>Forgot your password?</h1>
+<ol class="breadcrumb">
+  <li><a href="{{ baseUrl() }}">Start</a></li>
+  <li class="active">{{ translate('Password recovery') }}</li>
+</ol>
+
+<h1>{{ translate('Forgot your password?') }}</h1>
 
 {% if complete %}
 
-    <p>We've sent password reset instructions to your email address.</p>
+    <p>{{ translate('We\'ve sent password reset instructions to your email address.') }}</p>
 
-    <p>If you don't receive the email within a few minutes, please check
-    your mailbox's spam folder and filters.</p>
+    <p>{{ translate('If you don\'t receive the email within a few minutes, please check your mailbox\'s spam folder and filters.') }}</p>
 
 {% else %}
 
-    <div class="alert alert-error alert-danger">
-      Ooops... I don't know what am I doing here
-    </div>
-
-    <p>Such a situation occurs typically when:</p>
+    <p>{{ translate('Looks like one of the following happened:') }}</p>
     <ul>
-      <li>you refresh the password reset confirmation page</li>
-      <li>you visit this page by typing its URL directly into browser</li>
+      <li>{{ translate('you refreshed the password reset confirmation page') }}</li>
+      <li>{{ translate('you visit this page by typing its URL directly into browser') }}</li>
     </ul>
 
-    <p>Either way there is nothing to worry about. You can safely
-       <a href="{{ baseUrl('/') }}">return to main page</a>.</p>
+    <p>{{
+      translate('Either way there is nothing to worry about. You can safely <a href="%url%">return to main page</a>.')
+      | replace({ '%url%': baseUrl('/') })
+      | raw
+    }} </p>
 
 {% endif %}

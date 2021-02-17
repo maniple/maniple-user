@@ -83,6 +83,7 @@
     'Temporary password: <strong>%s</strong>' => 'Hasło tymczasowe: <strong>%s</strong>',
 
     // maniple-user/password/forgot.twig
+    'Password recovery' => 'Odzyskiwanie hasła',
     'Forgot your password?' => 'Nie pamiętasz hasła?',
     'To reset your password enter your email address or username used to login to our website.' => 'Aby zresetować hasła podaj swój login albo adres e-mail. Link do strony umożliwiającej zmianę hasła otrzymasz e-mailem.',
 
@@ -92,4 +93,26 @@
 
     // maniple-user/password/update.twig
     'Update password' => 'Zmiana hasła',
+
+    // maniple-user/auth/login.twig
+    'Sign in to your account' => 'Zaloguj się do swojego konta',
+    'Forgot your username or password?' => 'Nie pamiętasz hasła?',
+    'You can <a href="%url%">create an account</a> if you don\'t have one.' => 'Jeżeli nie masz jeszcze konta, możesz się <a href="%url%">zarejestrować</a>.',
+
+    // maniple-user/password/forgot-complete.twig
+    'We\'ve sent password reset instructions to your email address.' => 'Na adres e-mail powiązany z Twoim kontem wysłana została wiadomość z instrukcją resetowania hasła.',
+    'If you don\'t receive the email within a few minutes, please check your mailbox\'s spam folder and filters.' => 'Jeżeli nie otrzymasz wiadomości w ciągu najbliższych kilku minut, proszę sprawdź zawartość katalogu ze spamem oraz ustawienia filtrów antyspamowych.',
+    'Either way there is nothing to worry about. You can safely <a href="%url%">return to main page</a>.' => 'W każdym razie nie ma się czym przejmować. Możesz spokojnie wrócić do <a href="%url%">strony głównej</a>.',
+    'Looks like one of the following happened:' => 'Wygląda na to, że znalazłeś się w jednej z następujących sytuacji:',
+    'you refreshed the password reset confirmation page' => 'odświeżyłeś stronę z potwierdzeniem wysłania wiadomości z instrukcją resetowania hasła',
+    'you visit this page by typing its URL directly into browser' => 'odwiedziłeś tę stronę wpisując jej adres URL bezpośrednio do paska adresu przeglądarki',
+
+    // maniple-user/password/password-forgot-mail.twig
+    'Dear <strong>%name%</strong>,' => 'Witaj <strong>%name%</strong>,',
+    'We received a password reset request for your account at %url%.' => 'Otrzymaliśmy prośbę o ustawienie nowego hasła dla Twojego konta.',
+    'To reset your password, please visit the URL below:' => 'Aby wprowadzić nowe hasło proszę odwiedzić poniższy adres:',
+    'The above link becomes invalid after a successful login attempt.' => 'Uwaga: Powyższy adres traci ważność w momencie pomyślnego zalogowania przy użyciu
+starego hasła bądź zmiany hasła na nowe.',
+    'If you did not request resetting your password, please disregard this message and your password will remain unchanged.' => 'Jeśli nie prosiłeś(aś) o nowe hasło możesz zignorować tę wiadomość. Twoje hasło nie zostanie zmienione.',
+
 );

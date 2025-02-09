@@ -1,13 +1,145 @@
-<header style="display: block; margin-bottom: 30px;">
-  <ol class="breadcrumb">
+<header style="display: block; margin-bottom: 48px">
+  <ol class="breadcrumb" style="margin-bottom: 32px">
     <li><a href="{{ baseUrl('/') }}">Start</a></li>
     <li class="active">{{ translate('Users') }}</li>
   </ol>
-  <h1 style="display: inline-block; margin: 0 15px 0 0;">{{ translate('Users') }}</h1>
-  <a href="{{ url('maniple-user.users.create') }}{% if returnUrl %}?return_url={{ returnUrl | url_encode }}{% endif %}" class="btn btn-primary" style="vertical-align: top; margin-top: .25em">
-    <i class="fa fa-plus"></i> {{ translate('Add user') }}
-  </a>
+  <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between">
+    <h1 style="margin: 0 16px 0 0;">{{ translate('Users') }}</h1>
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px;">
+      <div style="flex: 1 1 auto; min-width: 0">
+        <input
+          type="text"
+          name="user_search"
+          placeholder="{{ translate('Enter name, email address or username...') }}"
+          aria-label="{{ translate('Search users') }}"
+          class="form-control"
+          style="height: auto; min-width: 280px; padding: 7px 32px 7px 8px; border: 2px solid"
+        />
+      </div>
+      <a href="{{ url('maniple-user.users.create') }}{% if returnUrl %}?return_url={{ returnUrl | url_encode }}{% endif %}" class="btn btn-primary">
+        <i class="fa fa-plus"></i> {{ translate('Add user') }}
+      </a>
+    </div>
+  </div>
 </header>
+
+<style>
+  .tt-hint {
+    color: #999
+  }
+  .tt-menu {
+    width: fit-content;
+    margin-top: 0;
+    padding: 4px 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-top: 0;
+  }
+  .tt-suggestion {
+    padding: 3px 20px;
+    line-height: 24px;
+    cursor: pointer;
+  }
+  .tt-suggestion.tt-cursor, .tt-suggestion:hover {
+    color: #fff;
+    background-color: #0097cf;
+  }
+  .tt-suggestion p {
+    margin: 0;
+  }
+
+  .autocomplete-wrapper {
+    position: relative;
+    width: 100%;
+  }
+  .autocomplete-wrapper > .twitter-typeahead {
+    display: block !important;
+  }
+  .autocomplete-wrapper + .form-control-feedback {
+    display: none;
+  }
+  .autocomplete-indicator {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    display: block;
+    line-height: 18px;
+    font-size: 18px;
+  }
+  .autocomplete-indicator:before {
+    content: '\f002';
+    font-family: 'FontAwesome';
+  }
+  .autocomplete-indicator.loading {
+    animation: fa-spin 2s infinite linear;
+  }
+  .autocomplete-indicator.loading::before {
+    content: '\f1ce';
+  }
+</style>
+<script src="{{ baseUrl('bower_components/typeahead.js/dist/typeahead.jquery.js') }}"></script>
+<script>
+  (function (fn) {
+    typeof require === 'function' ? require(['jquery', 'typeahead.js'], fn) : fn(jQuery);
+  })(function ($) {
+    $(function () {
+      var userSearchInput = $('[name="user_search"]');
+
+      var input = userSearchInput.wrap('<div class="autocomplete-wrapper" />');
+      var indicator = $('<span class="autocomplete-indicator" />').insertAfter(input);
+
+      input.attr('class', userSearchInput.attr('class'));
+      input.attr('placeholder', userSearchInput.attr('placeholder'));
+      input.attr('autocomplete', Math.random());
+
+      input.keydown(function (e) {
+        if (e.keyCode === 13) {
+          return false;
+        }
+      });
+
+      function renderUser(user) {
+        return App.escape(user.first_name + ' ' + user.last_name + (user.email ? ' (' + user.email + ')' : ''));
+      }
+
+      var sourceTimeout;
+      function source(query, _, resolve) {
+        clearTimeout(sourceTimeout);
+        sourceTimeout = setTimeout(function () {
+          indicator.addClass('loading');
+
+          $.get('{{ url('maniple-user.users.search') }}', { query: query })
+            .done(function (result) {
+              resolve(result.items);
+            })
+            .complete(function () {
+              indicator.removeClass('loading');
+            });
+        }, 350);
+      }
+
+      input.typeahead({
+        async: true,
+        minLength: 3
+      }, {
+        source: source,
+        display: renderUser,
+        templates: {
+          suggestion: function (item) {
+            return $('<div/>').html(renderUser(item));
+          }
+        }
+      }).on('typeahead:select', function (event, item) {
+        document.location.href = '{{ urlTemplate('maniple-user.users.edit') }}'.replace(/:user_id/, item.id);
+      });
+    });
+  });
+</script>
+
 
 <main>
   <style>

@@ -65,6 +65,8 @@
     'Username' => 'Nazwa użytkownika',
     'Roles' => 'Role',
     'User' => 'Użytkownik',
+    'Enter name, email address or username...' => 'Wpisz imię, nazwisko lub e-mail...',
+    'Search users' => 'Wyszukaj użytkowników',
 
     // maniple-user/users/create.twig
     'User account has been successfully created' => 'Konto użytkownika zostało utworzone',

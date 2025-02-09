@@ -47,4 +47,31 @@ class ManipleUser_UsersController extends Maniple_Controller_Action
             throw new Maniple_Controller_Exception_AuthenticationRequired($this->_request);
         }
     }
+
+    /**
+     * Data provider for user search widget.
+     */
+    public function searchAction()
+    {
+        $this->requireAuthentication();
+        if (!$this->_securityContext->isAllowed('manage_users')) {
+            throw new Maniple_Controller_Exception_Forbidden();
+        }
+
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+
+        $query = trim($this->getSingleParam('query'));
+        $users = $this->_usersService->getUsers(array('query' => $query));
+        $items = array(
+            'items' => (array) $users->getCurrentItems(),
+            'total' => $users->getTotalItemCount(),
+            'page' => $users->getCurrentPageNumber(),
+            'pageSize' => $users->getItemCountPerPage(),
+        );
+
+        $response = $this->getResponse();
+        $response->setHeader('Content-Type', 'application/json');
+        $response->setBody(Zefram_Json::encode($items));
+    }
 }

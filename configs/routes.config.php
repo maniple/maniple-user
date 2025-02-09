@@ -155,4 +155,12 @@ return array(
             'user_id' => '^\d+',
         ),
     ),
+    'maniple-user.users.search' => array(
+        'route'    => 'users/search',
+        'defaults' => array(
+            'module'     => 'maniple-user',
+            'controller' => 'users',
+            'action'     => 'search',
+        ),
+    ),
 );

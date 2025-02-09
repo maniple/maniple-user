@@ -24,6 +24,8 @@ class ManipleUser_UsersService
      * Options:
      * - string query
      * - string|array sort
+     * - int page
+     * - int pageSize
      * - bool active
      * - bool withRoles
      *
@@ -81,14 +83,18 @@ class ManipleUser_UsersService
             )));
         }
 
-        $paginator = Zend_Paginator::factory($select);
-        $paginator->setCurrentPageNumber(1);
-        $paginator->setItemCountPerPage(25);
-        $paginator->setFilter($filter = new Zend_Filter());
+        $page = isset($options['page']) ? intval($options['page']) : 1;
+        $pageSize = isset($options['pageSize']) ? intval($options['pageSize']) : 25;
+        $filter = new Zend_Filter();
 
         if (!empty($options['withRoles'])) {
             $filter->addFilter(new ManipleUser_Filter_Db_WithRoles($this->_db, $this->_securityContext));
         }
+
+        $paginator = Zend_Paginator::factory($select);
+        $paginator->setCurrentPageNumber($page);
+        $paginator->setItemCountPerPage($pageSize);
+        $paginator->setFilter($filter);
 
         return $paginator;
     }

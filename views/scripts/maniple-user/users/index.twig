@@ -114,7 +114,7 @@
 
           $.get('{{ url('maniple-user.users.search') }}', { query: query })
             .done(function (result) {
-              resolve(result.items);
+              resolve(result.items.slice(0, 5));
             })
             .complete(function () {
               indicator.removeClass('loading');
@@ -126,6 +126,7 @@
         async: true,
         minLength: 3
       }, {
+        limit: Infinity, // https://github.com/twitter/typeahead.js/issues/1232
         source: source,
         display: renderUser,
         templates: {
